@@ -26,15 +26,6 @@ class ConsumerDAO:
             result = cursor.fetchone()
             return result
 
-    def getPartsBySupplierId(self, said):
-        cursor = self.conn.cursor()
-        query = "select pid, pname, pmaterial, pcolor, pprice, qty from parts natural inner join system admin natural inner join supplies where said = %s;"
-        cursor.execute(query, (said,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def getConsumerByUsername(self, consusername):
         cursor = self.conn.cursor()
         query = "select * from consumer where consusername = %s;"
@@ -52,6 +43,42 @@ class ConsumerDAO:
         for row in cursor:
             result.append(row)
         return result
+    
+    def getResourcesByConsumerId(self, consid):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getOrderByConsumerId(self, consid):
+        cursor = self.conn.cursor()
+        query = "select oid, onumber from order natural inner join consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getPayMethodByConsumerId(self, consid):
+       cursor = self.conn.cursor()
+       query = "select pmid, pmname from pay method natural inner join consumer where consid = %s;"
+       cursor.execute(query, (consid,))
+       result = []
+       for row in cursor:
+           result.append(row)
+       return result
+   
+    def getReservationByConsumerId(self, consid):
+       cursor = self.conn.cursor()
+       query = "select resid, restime from reservations natural inner join consumer where consid = %s;"
+       cursor.execute(query, (consid,))
+       result = []
+       for row in cursor:
+           result.append(row)
+       return result
 
     def insert(self, consusername):
         cursor = self.conn.cursor()

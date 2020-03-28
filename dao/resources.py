@@ -87,11 +87,29 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-
-    def getSuppliersByPartId(self, pid):
+    
+    def getSupplierByResourcesId(self, rid):
         cursor = self.conn.cursor()
-        query = "select sid, sname, scity, sphone from parts natural inner join supplier natural inner join supplies where pid = %s;"
-        cursor.execute(query, (pid,))
+        query = "select sid, susername, scompany from supplier natural inner join resources where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getConsumerByResourcesId(self, rid):
+        cursor = self.conn.cursor()
+        query = "select consid, consusername, conspremium from consumer natural inner join resources where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getCompanyByResourcesId(self, rid):
+        cursor = self.conn.cursor()
+        query = "select compid, compname from company natural inner join resources where rid = %s;"
+        cursor.execute(query, (rid,))
         result = []
         for row in cursor:
             result.append(row)

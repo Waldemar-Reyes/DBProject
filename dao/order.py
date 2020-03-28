@@ -26,15 +26,6 @@ class OrderDAO:
             result = cursor.fetchone()
             return result
 
-    def getPartsBySupplierId(self, said):
-        cursor = self.conn.cursor()
-        query = "select pid, pname, pmaterial, pcolor, pprice, qty from parts natural inner join system admin natural inner join supplies where said = %s;"
-        cursor.execute(query, (said,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def getOrderByNumber(self, onumber):
         cursor = self.conn.cursor()
         query = "select * from order where onumber = %s;"
@@ -43,6 +34,33 @@ class OrderDAO:
         for row in cursor:
             result.append(row)
         return result
+    
+    def getSupplierByOrderId(self, oid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join order where oid = %s;"
+        cursor.execute(query, (oid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getConsumerByOrderId(self, oid):
+        cursor = self.conn.cursor()
+        query = "select consid, consusername, conspremium from consumer natural inner join order where oid = %s;"
+        cursor.execute(query, (oid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+   
+    def getReservationByOrderId(self, oid):
+       cursor = self.conn.cursor()
+       query = "select resid, restime from reservations natural inner join order where oid = %s;"
+       cursor.execute(query, (oid,))
+       result = []
+       for row in cursor:
+           result.append(row)
+       return result
 
     def insert(self, onumber):
         cursor = self.conn.cursor()

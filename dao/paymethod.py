@@ -26,19 +26,28 @@ class PayMethodDAO:
             result = cursor.fetchone()
             return result
 
-    def getPartsBySupplierId(self, said):
-        cursor = self.conn.cursor()
-        query = "select pid, pname, pmaterial, pcolor, pprice, qty from parts natural inner join system admin natural inner join supplies where said = %s;"
-        cursor.execute(query, (said,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def getPayMethodByName(self, pmname):
         cursor = self.conn.cursor()
         query = "select * from pay method where pmname = %s;"
         cursor.execute(query, (pmname,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getSupplierByPayMethodId(self, pmid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join pay method where pmid = %s;"
+        cursor.execute(query, (pmid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getConsumerByPayMethodId(self, pmid):
+        cursor = self.conn.cursor()
+        query = "select consid, consusername, conspremium from consumer natural inner join pay method where pmid = %s;"
+        cursor.execute(query, (pmid,))
         result = []
         for row in cursor:
             result.append(row)

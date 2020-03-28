@@ -26,15 +26,6 @@ class UserDAO:
             result = cursor.fetchone()
             return result
 
-    def getPartsBySupplierId(self, said):
-        cursor = self.conn.cursor()
-        query = "select pid, pname, pmaterial, pcolor, pprice, qty from parts natural inner join system admin natural inner join supplies where said = %s;"
-        cursor.execute(query, (said,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def getUserByFirstname(self, ufirstname):
         cursor = self.conn.cursor()
         query = "select * from user where ufirstname = %s;"
@@ -61,6 +52,15 @@ class UserDAO:
         for row in cursor:
             result.append(row)
         return result
+    
+    def getCompanyByUserId(self, uid):
+       cursor = self.conn.cursor()
+       query = "select compid, compname from company natural inner join user where uid = %s;"
+       cursor.execute(query, (uid,))
+       result = []
+       for row in cursor:
+           result.append(row)
+       return result
 
     def insert(self, ufirstname, ulastname):
         cursor = self.conn.cursor()
