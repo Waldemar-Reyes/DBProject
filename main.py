@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, request
-from handler.systemadmin import PartHandler
-from handler.supplier import SupplierHandler
 # from handler.company import CompanyHandler
 # from handler.consumer import ConsumerHandler
 # from handler.order import OrderHandler
 # from handler.paymethod import PayMethodHandler
 # from handler.reservations import ReservationHandler
 # from handler.resources import ResourceHandler
+# from handler.supplier import SupplierHandler
+# from handler.systemadmin import PartHandler
 # from handler.user import UserHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -22,72 +22,6 @@ CORS(app)
 @app.route('/')
 def greeting():
     return 'Greeting message. App running!'
-
-
-@app.route('/PartApp/parts', methods=['GET', 'POST'])
-def getAllParts():
-    if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
-        print("REQUEST: ", request.json)
-        return PartHandler().insertPartJson(request.json)
-    else:
-        if not request.args:
-            return PartHandler().getAllCompany()
-        else:
-            return PartHandler().searchParts(request.args)
-
-
-@app.route('/PartApp/parts/<int:pid>', methods=['GET', 'PUT', 'DELETE'])
-def getPartById(pid):
-    if request.method == 'GET':
-        return PartHandler().getPartById(pid)
-    elif request.method == 'PUT':
-        return PartHandler().updatePart(pid, request.form)
-    elif request.method == 'DELETE':
-        return PartHandler().deletePart(pid)
-    else:
-        return jsonify(Error="Method not allowed."), 405
-
-
-@app.route('/PartApp/parts/<int:pid>/suppliers')
-def getSuppliersByPartId(pid):
-    return PartHandler().getSuppliersByPartId(pid)
-
-
-@app.route('/PartApp/suppliers', methods=['GET', 'POST'])
-def getAllSuppliers():
-    if request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
-    else:
-        if not request.args:
-            return SupplierHandler().getAllSuppliers()
-        else:
-            return SupplierHandler().searchSuppliers(request.args)
-
-
-@app.route('/PartApp/suppliers/<int:sid>',
-           methods=['GET', 'PUT', 'DELETE'])
-def getSupplierById(sid):
-    if request.method == 'GET':
-        return SupplierHandler().getSupplierById(sid)
-    elif request.method == 'PUT':
-        pass
-    elif request.method == 'DELETE':
-        pass
-    else:
-        return jsonify(Error="Method not allowed"), 405
-
-
-@app.route('/PartApp/suppliers/<int:sid>/parts')
-def getPartsBySuplierId(sid):
-    return SupplierHandler().getPartsBySupplierId(sid)
-
-
-@app.route('/PartApp/parts/countbypartid')
-def getCountByPartId():
-    return PartHandler().getCountByPartId()
 
 
 ## Company
@@ -116,11 +50,6 @@ def getCompanyById(compid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/company/<int:compid>/supplier')
-def getSupplierByCompanyId(compid):
-    return jsonify('CompanyHandler().getSupplierByCompanyId(compid)'), 200
-
-
 @app.route('/PartApp/company/<int:compid>/consumer')
 def getConsumerByCompanyId(compid):
     return jsonify('CompanyHandler().getConsumerByCompanyId(compid)'), 200
@@ -129,6 +58,11 @@ def getConsumerByCompanyId(compid):
 @app.route('/PartApp/company/<int:compid>/resources')
 def getResourcesByCompanyId(compid):
     return jsonify('CompanyHandler().getResourcesByCompanyId(compid)'), 200
+
+
+@app.route('/PartApp/company/<int:compid>/supplier')
+def getSupplierByCompanyId(compid):
+    return jsonify('CompanyHandler().getSupplierByCompanyId(compid)'), 200
 
 ## Consumer
 
@@ -310,7 +244,7 @@ def getAllResources():
 
 
 @app.route('/PartApp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
-def getReservationsById(rid):
+def getResourcesById(rid):
     if request.method == 'GET':
         return jsonify('ResourcesHandler().getResourcesById(rid)'), 200
     elif request.method == 'PUT':
