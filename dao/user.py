@@ -53,9 +53,27 @@ class UserDAO:
             result.append(row)
         return result
     
-    def getCompanyByUserId(self, uid):
+    def getSupplierByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join user where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getConsumerByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select consid, consusername, conspremium from consumer natural inner join user where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getSysAdmByUserId(self, uid):
        cursor = self.conn.cursor()
-       query = "select compid, compname from company natural inner join user where uid = %s;"
+       query = "select said, sausername from company natural inner join user where uid = %s;"
        cursor.execute(query, (uid,))
        result = []
        for row in cursor:

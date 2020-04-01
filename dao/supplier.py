@@ -60,33 +60,6 @@ class SupplierDAO:
         for row in cursor:
             result.append(row)
         return result
-    
-    def getOrderBySupplierId(self, sid):
-        cursor = self.conn.cursor()
-        query = "select oid, onumber from order natural inner join supplier where sid = %s;"
-        cursor.execute(query, (sid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getPayMethodBySupplierId(self, sid):
-       cursor = self.conn.cursor()
-       query = "select pmid, pmname from pay method natural inner join supplier where sid = %s;"
-       cursor.execute(query, (sid,))
-       result = []
-       for row in cursor:
-           result.append(row)
-       return result
-   
-    def getReservationBySupplierId(self, sid):
-       cursor = self.conn.cursor()
-       query = "select resid, restime from reservations natural inner join supplier where sid = %s;"
-       cursor.execute(query, (sid,))
-       result = []
-       for row in cursor:
-           result.append(row)
-       return result
 
     def insert(self, susername, scompany):
         cursor = self.conn.cursor()

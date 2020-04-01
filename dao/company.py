@@ -34,33 +34,6 @@ class CompanyDAO:
         for row in cursor:
             result.append(row)
         return result
-    
-    def getConsumerByCompanyId(self, compid):
-        cursor = self.conn.cursor()
-        query = "select consid, consusername, conspremium from consumer natural inner join company where compid = %s;"
-        cursor.execute(query, (compid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getResourcesByCompanyId(self, compid):
-        cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join company where compid = %s;"
-        cursor.execute(query, (compid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
-    def getSupplierByCompanyId(self, compid):
-        cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join company where compid = %s;"
-        cursor.execute(query, (compid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
 
     def insert(self, compname):
         cursor = self.conn.cursor()

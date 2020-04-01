@@ -44,15 +44,6 @@ class ConsumerDAO:
             result.append(row)
         return result
     
-    def getResourcesByConsumerId(self, consid):
-        cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join consumer where consid = %s;"
-        cursor.execute(query, (consid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
     def getOrderByConsumerId(self, consid):
         cursor = self.conn.cursor()
         query = "select oid, onumber from order natural inner join consumer where consid = %s;"

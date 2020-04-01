@@ -87,33 +87,6 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
-    def getSupplierByResourcesId(self, rid):
-        cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join resources where rid = %s;"
-        cursor.execute(query, (rid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getConsumerByResourcesId(self, rid):
-        cursor = self.conn.cursor()
-        query = "select consid, consusername, conspremium from consumer natural inner join resources where rid = %s;"
-        cursor.execute(query, (rid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getCompanyByResourcesId(self, rid):
-        cursor = self.conn.cursor()
-        query = "select compid, compname from company natural inner join resources where rid = %s;"
-        cursor.execute(query, (rid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
 
     def insert(self, rname, rprice, ramount, rlocation):
         cursor = self.conn.cursor()

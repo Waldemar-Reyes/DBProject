@@ -26,15 +26,6 @@ class ReservationsDAO:
             result = cursor.fetchone()
             return result
 
-    def getResourcesBySupplierId(self, sid):
-        cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join supplier where sid = %s;"
-        cursor.execute(query, (sid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def getReservationByTime(self, restime):
         cursor = self.conn.cursor()
         query = "select * from reservation where restime = %s;"
@@ -44,27 +35,9 @@ class ReservationsDAO:
             result.append(row)
         return result
     
-    def getOrderByReservationsId(self, resid):
+    def getResourcesByReservationId(self, resid):
         cursor = self.conn.cursor()
-        query = "select oid, onumber from order natural inner join reservations where resid = %s;"
-        cursor.execute(query, (resid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getSupplierByReservationsId(self, resid):
-        cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join reservations where resid = %s;"
-        cursor.execute(query, (resid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getConsumerByReservationsId(self, resid):
-        cursor = self.conn.cursor()
-        query = "select consid, consusername, conspremium from consumer natural inner join reservations where resid = %s;"
+        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join reservations where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
