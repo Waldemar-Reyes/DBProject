@@ -35,15 +35,6 @@ class CompanyDAO:
             result.append(row)
         return result
     
-    def getSupplierByCompanyId(self, compid):
-        cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join company where compid = %s;"
-        cursor.execute(query, (compid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
     def getConsumerByCompanyId(self, compid):
         cursor = self.conn.cursor()
         query = "select consid, consusername, conspremium from consumer natural inner join company where compid = %s;"
@@ -62,10 +53,33 @@ class CompanyDAO:
             result.append(row)
         return result
 
+    def getSupplierByCompanyId(self, compid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join company where compid = %s;"
+        cursor.execute(query, (compid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def insert(self, compname):
         cursor = self.conn.cursor()
         query = "insert into company(compname) values (%s) returning compid;"
         cursor.execute(query, (compname))
         compid = cursor.fetchone()[0]
+        self.conn.commit()
+        return compid
+
+    def update(self, compid, compname):
+        cursor = self.conn.cursor()
+        query = "update company set compname = %s where compid = %s;"
+        cursor.execute(query, (compname, compid,))
+        self.conn.commit()
+        return compid
+
+    def delete(self, compid):
+        cursor = self.conn.cursor()
+        query = "delete from company where compid = %s;"
+        cursor.execute(query, (compid,))
         self.conn.commit()
         return compid
