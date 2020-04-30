@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from config.dbconfig import pg_config
 import psycopg2
 
@@ -26,10 +25,37 @@ class CompanyDAO:
             result = cursor.fetchone()
             return result
 
-    def getCompanyByUsername(self, compname):
+    def getCompanyByCompname(self, compname):
         cursor = self.conn.cursor()
         query = "select * from company where compname = %s;"
         cursor.execute(query, (compname,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getConsumerByCompanyId(self, compid):
+        cursor = self.conn.cursor()
+        query = "select consid, consusername from consumer natural inner join company where compid = %s;"
+        cursor.execute(query, (compid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getResourcesByCompanyId(self, compid):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join company where compid = %s;"
+        cursor.execute(query, (compid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getSupplierByCompanyId(self, compid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join company where compid = %s;"
+        cursor.execute(query, (compid,))
         result = []
         for row in cursor:
             result.append(row)
@@ -38,7 +64,7 @@ class CompanyDAO:
     def insert(self, compname):
         cursor = self.conn.cursor()
         query = "insert into company(compname) values (%s) returning compid;"
-        cursor.execute(query, (compname))
+        cursor.execute(query, (compname,))
         compid = cursor.fetchone()[0]
         self.conn.commit()
         return compid
