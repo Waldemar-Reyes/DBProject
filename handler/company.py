@@ -1,7 +1,6 @@
 from flask import jsonify
 from dao.company import CompanyDAO
 
-
 class CompanyHandler:
     def build_company_dict(self, row):
         result = {}
@@ -55,21 +54,12 @@ class CompanyHandler:
             company = self.build_company_dict(row)
         return jsonify(Company=company)
 
-    def getCompanyByUsername(self, compname):
-        dao = CompanyDAO()
-        row = dao.getCompanyByUsername(compname)
-        if not row:
-            return jsonify(Error="Company Not Found"), 404
-        else:
-            company = self.build_company_dict(row)
-            return jsonify(Company=company)
-
     def searchCompanies(self, args):
-        compname = args.get("compname")
+        compname = args.get('compname')
         dao = CompanyDAO()
         parts_list = []
         if (len(args) == 1) and compname:
-            company_list = dao.getCompanyByUsername(compname)
+            company_list = dao.getCompanyByCompname(compname)
         else:
             return jsonify(Error="Malformed query string"), 400
         result_list = []
@@ -77,6 +67,15 @@ class CompanyHandler:
             result = self.build_company_dict(row)
             result_list.append(result)
         return jsonify(Company=result_list)
+
+    def getCompanyByCompname(self, compname):
+        dao = CompanyDAO()
+        row = dao.getCompanyByCompname(compname)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+            return jsonify(Company=company)
 
     def getConsumerByCompanyId(self, compid):
         dao = CompanyDAO()
@@ -110,20 +109,6 @@ class CompanyHandler:
             result = self.build_supplier_dict(row)
             result_list.append(result)
         return jsonify(Company=result_list)
-
-    def insertCompany(self, form):
-        print("form: ", form)
-        if len(form) != 1:
-            return jsonify(Error="Malformed post request"), 400
-        else:
-            compname = form['compname']
-            if compname:
-                dao = CompanyDAO()
-                compid = dao.insert(compname)
-                result = self.build_company_attributes(compid, compname)
-                return jsonify(Company=result), 201
-            else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertCompanyJson(self, json):
         compname = json['compname']
