@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-# from handler.company import CompanyHandler
+from handler.company import CompanyHandler
 # from handler.consumer import ConsumerHandler
 # from handler.order import OrderHandler
 # from handler.paymethod import PayMethodHandler
@@ -30,24 +30,40 @@ def greeting():
 def getAllCompany():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return jsonify('CompanyHandler().insertCompanyJson(request.json)'), 201
+        return CompanyHandler().insertCompanyJson(request.json)
     else:
         if not request.args:
-            return jsonify('CompanyHandler().getAllCompany()'), 200
+            return CompanyHandler().getAllCompany()
         else:
-            return jsonify('CompanyHandler().searchCompanies(request.args)'), 200
+            return CompanyHandler().searchCompanies(request.args)
 
 
 @app.route('/PartApp/company/<int:compid>', methods=['GET', 'PUT', 'DELETE'])
 def getCompanyById(compid):
     if request.method == 'GET':
-        return jsonify('CompanyHandler().getCompanyById(compid)'), 200
+        return CompanyHandler().getCompanyById(compid)
     elif request.method == 'PUT':
-        return jsonify('CompanyHandler().updateCompany(compid, request.form)'), 200
+        return CompanyHandler().updateCompany(compid, request.json)
     elif request.method == 'DELETE':
-        return jsonify('CompanyHandler().deleteCompany(compid)'), 200
+        return CompanyHandler().deleteCompany(compid)
     else:
         return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/PartApp/company/<int:compid>/consumer')
+def getConsumerByCompanyId(compid):
+    return CompanyHandler().getConsumerByCompanyId(compid), 200
+
+
+@app.route('/PartApp/company/<int:compid>/resources')
+def getResourcesByCompanyId(compid):
+    return CompanyHandler().getResourcesByCompanyId(compid), 200
+
+
+@app.route('/PartApp/company/<int:compid>/supplier')
+def getSupplierByCompanyId(compid):
+    return CompanyHandler().getSupplierByCompanyId(compid), 200
+
 
 # Consumer
 
