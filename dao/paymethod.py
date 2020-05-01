@@ -73,3 +73,4 @@ class PayMethodDAO:
         cursor.execute(query, (pmid,))
         self.conn.commit()
         return pmid
+    
