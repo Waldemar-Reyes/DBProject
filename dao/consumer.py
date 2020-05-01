@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from config.dbconfig import pg_config
 import psycopg2
 
@@ -35,18 +34,9 @@ class ConsumerDAO:
             result.append(row)
         return result
     
-    def getConsumerByPremium(self, conspremium):
-        cursor = self.conn.cursor()
-        query = "select * from consumer where conspremium = %s;"
-        cursor.execute(query, (conspremium,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
     def getOrderByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select oid, onumber from order natural inner join consumer where consid = %s;"
+        query = "select odid, odnumber from orders natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
@@ -55,7 +45,7 @@ class ConsumerDAO:
     
     def getPayMethodByConsumerId(self, consid):
        cursor = self.conn.cursor()
-       query = "select pmid, pmname from pay method natural inner join consumer where consid = %s;"
+       query = "select pmid, pmname from pay_method  natural inner join consumer where consid = %s;"
        cursor.execute(query, (consid,))
        result = []
        for row in cursor:
@@ -64,17 +54,41 @@ class ConsumerDAO:
    
     def getReservationByConsumerId(self, consid):
        cursor = self.conn.cursor()
-       query = "select resid, restime from reservations natural inner join consumer where consid = %s;"
+       query = "select resid, restime from reservation natural inner join consumer where consid = %s;"
        cursor.execute(query, (consid,))
        result = []
        for row in cursor:
            result.append(row)
        return result
 
+    def getResourcesByConsumerId(self, consid):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def insert(self, consusername):
         cursor = self.conn.cursor()
         query = "insert into consumer(consusername) values (%s) returning consid;"
-        cursor.execute(query, (consusername))
+        cursor.execute(query, (consusername,))
         consid = cursor.fetchone()[0]
         self.conn.commit()
         return consid
+
+    def update(self, consid, consusername):
+        cursor = self.conn.cursor()
+        query = "update consumer set consusername = %s where consid = %s;"
+        cursor.execute(query, (consusername, consid,))
+        self.conn.commit()
+        return consid
+
+    def delete(self, consid):
+        cursor = self.conn.cursor()
+        query = "delete from consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        self.conn.commit()
+        return consid
+
