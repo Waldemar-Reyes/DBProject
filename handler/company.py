@@ -57,7 +57,7 @@ class CompanyHandler:
     def searchCompanies(self, args):
         compname = args.get('compname')
         dao = CompanyDAO()
-        parts_list = []
+        company_list = []
         if (len(args) == 1) and compname:
             company_list = dao.getCompanyByCompname(compname)
         else:
