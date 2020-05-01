@@ -25,7 +25,7 @@ create table supplier(sid serial primary key, susername varchar(20), scompany va
 create table sys_adm(said serial primary key, sausername varchar(20));
 
 -- User table
-create table user(uid serial primary key, ufirstname varchar(20), ulastname varchar(20));
+create table users(uid serial primary key, ufirstname varchar(20), ulastname varchar(20));
 
 
 ---- Supplies table
