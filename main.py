@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
 from handler.company import CompanyHandler
-# from handler.consumer import ConsumerHandler
-# from handler.order import OrderHandler
-# from handler.paymethod import PayMethodHandler
+from handler.consumer import ConsumerHandler
+from handler.order import OrderHandler
+from handler.paymethod import PayMethodHandler
 # from handler.reservations import ReservationHandler
 # from handler.resources import ResourceHandler
 # from handler.supplier import SupplierHandler
@@ -52,17 +52,17 @@ def getCompanyById(compid):
 
 @app.route('/PartApp/company/<int:compid>/consumer')
 def getConsumerByCompanyId(compid):
-    return CompanyHandler().getConsumerByCompanyId(compid), 200
+    return CompanyHandler().getConsumerByCompanyId(compid)
 
 
 @app.route('/PartApp/company/<int:compid>/resources')
 def getResourcesByCompanyId(compid):
-    return CompanyHandler().getResourcesByCompanyId(compid), 200
+    return CompanyHandler().getResourcesByCompanyId(compid)
 
 
 @app.route('/PartApp/company/<int:compid>/supplier')
 def getSupplierByCompanyId(compid):
-    return CompanyHandler().getSupplierByCompanyId(compid), 200
+    return CompanyHandler().getSupplierByCompanyId(compid)
 
 
 # Consumer
@@ -70,40 +70,45 @@ def getSupplierByCompanyId(compid):
 @app.route('/PartApp/consumer', methods=['GET', 'POST'])
 def getAllConsumer():
     if request.method == 'POST':
-        # return print("REQUEST: ", request.json)
-        return jsonify('ConsumerHandler().insertConsumerJson(request.json)'), 201
+        print("REQUEST: ", request.json)
+        return ConsumerHandler().insertConsumerJson(request.json)
     else:
         if not request.args:
-            return jsonify("ConsumerHandler().getAllConsumer()"), 200
+            return ConsumerHandler().getAllConsumer()
         else:
-            return jsonify('ConsumerHandler().searchConsumer(request.args)'), 200
+            return ConsumerHandler().searchConsumer(request.args)
 
 
 @app.route('/PartApp/consumer/<int:consid>', methods=['GET', 'PUT', 'DELETE'])
 def getCConsumerById(consid):
     if request.method == 'GET':
-        return jsonify('ConsumerHandler().getConsumerById(consid)'), 200
+        return ConsumerHandler().getConsumerById(consid)
     elif request.method == 'PUT':
-        return jsonify('ConsumerHandler().updateConsumer(consid, request.form)'), 200
+        return ConsumerHandler().updateConsumer(consid, request.form)
     elif request.method == 'DELETE':
-        return jsonify('ConsumerHandler().deleteConsumer(consid)'), 200
+        return ConsumerHandler().deleteConsumer(consid)
     else:
-        return jsonify('jsonify(Error="Method not allowed."), 405'), 405
+        return jsonify(Error="Method not allowed."), 405
 
 
 @app.route('/PartApp/consumer/<int:consid>/order')
 def getOrderByConsumerId(consid):
-    return jsonify('ConsumerHandler().getOrderByConsumerId(consid)'), 200
+    return ConsumerHandler().getOrderByConsumerId(consid)
 
 
 @app.route('/PartApp/consumer/<int:consid>/paymethod')
 def getPayMethodByConsumerId(consid):
-    return jsonify('ConsumerHandler().getPayMethodByConsumerId(consid)'), 200
+    return ConsumerHandler().getPayMethodByConsumerId(consid)
 
 
 @app.route('/PartApp/consumer/<int:consid>/reservation')
 def getReservationByConsumerId(consid):
-    return jsonify('ConsumerHandler().getReservationByConsumerId(consid)'), 200
+    return ConsumerHandler().getReservationByConsumerId(consid)
+
+
+@app.route('/PartApp/consumer/<int:consid>/resources')
+def getResourcesByConsumerId(consid):
+    return ConsumerHandler().getResourcesByConsumerId(consid)
 
 
 # Order
@@ -111,30 +116,40 @@ def getReservationByConsumerId(consid):
 @app.route('/PartApp/order', methods=['GET', 'POST'])
 def getAllOrder():
     if request.method == 'POST':
-        # return print("REQUEST: ", request.json)
-        return jsonify('OrderHandler().insertOrderJson(request.json)'), 201
+        print("REQUEST: ", request.json)
+        return OrderHandler().insertOrderJson(request.json)
     else:
         if not request.args:
-            return jsonify("OrderHandler().getAllOrder()"), 200
+            return OrderHandler().getAllOrder()
         else:
-            return jsonify('OrderHandler().searchOrder(request.args)'), 200
+            return OrderHandler().searchOrder(request.args)
 
 
-@app.route('/PartApp/order/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
-def getOrderById(oid):
+@app.route('/PartApp/order/<int:odid>', methods=['GET', 'PUT', 'DELETE'])
+def getOrderById(odid):
     if request.method == 'GET':
-        return jsonify('OrderHandler().getOrderById(oid)'), 200
+        return OrderHandler().getOrderById(odid)
     elif request.method == 'PUT':
-        return jsonify('OrderHandler().updateOrder(oid, request.form)'), 200
+        return OrderHandler().updateOrder(odid, request.form)
     elif request.method == 'DELETE':
-        return jsonify('OrderHandler().deleteOrder(oid)'), 200
+        return OrderHandler().deleteOrder(odid)
     else:
-        return jsonify('jsonify(Error="Method not allowed."), 405'), 405
+        return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/order/<int:oid>/resources')
-def getResourcesByOrderId(oid):
-    return jsonify('OrderHandler().getSupplierByResourcesId(oid)'), 200
+@app.route('/PartApp/order/<int:odid>/consumer')
+def getConsumerByOrderId(odid):
+    return OrderHandler().getConsumerByOrderId(odid)
+
+
+@app.route('/PartApp/order/<int:odid>/reservation')
+def getReservationByOrderId(odid):
+    return OrderHandler().getReservationByOrderId(odid)
+
+
+@app.route('/PartApp/order/<int:odid>/supplier')
+def getSupplierByOrderId(odid):
+    return OrderHandler().getSupplierByOrderId(odid)
 
 
 # Payment
@@ -142,30 +157,35 @@ def getResourcesByOrderId(oid):
 @app.route('/PartApp/paymethod', methods=['GET', 'POST'])
 def getAllPayMethod():
     if request.method == 'POST':
-        # return print("REQUEST: ", request.json)
-        return jsonify('PaymethodHandler().insertPaymethodJson(request.json)'), 201
+        print("REQUEST: ", request.json)
+        return PayMethodHandler().insertPayMethodJson(request.json)
     else:
         if not request.args:
-            return jsonify("PaymethodHandler().getAllPaymethod()"), 200
+            return PayMethodHandler().getAllPayMethod()
         else:
-            return jsonify('PaymethodHandler().searchPaymethod(request.args)'), 200
+            return PayMethodHandler().searchPayMethod(request.args)
 
 
 @app.route('/PartApp/paymethod/<int:pmid>', methods=['GET', 'PUT', 'DELETE'])
 def getPayMethodById(pmid):
     if request.method == 'GET':
-        return jsonify('PaymethodHandler().getPayMethodById(oid)'), 200
+        return PayMethodHandler().getPayMethodById(pmid)
     elif request.method == 'PUT':
-        return jsonify('PaymethodHandler().updatePaymethod(oid, request.form)'), 200
+        return PayMethodHandler().updatePayMethod(pmid, request.form)
     elif request.method == 'DELETE':
-        return jsonify('PaymethodHandler().deletePaymethod(oid)'), 200
+        return PayMethodHandler().deletePayMethod(pmid)
     else:
-        return jsonify('jsonify(Error="Method not allowed."), 405'), 405
+        return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/paymethod/<int:pmid>/order')
-def getOrderByPayMethodId(pmid):
-    return jsonify('PaymethodHandler().getOrderByPayMethodId(pmid)'), 200
+@app.route('/PartApp/paymethod/<int:pmid>/consumer')
+def getConsumerByPayMethodId(pmid):
+    return PayMethodHandler().getConsumerByPayMethodId(pmid)
+
+
+@app.route('/PartApp/paymethod/<int:pmid>/supplier')
+def getSupplierByPayMethodId(pmid):
+    return PayMethodHandler().getSupplierByPayMethodId(pmid)
 
 
 # Reservations
