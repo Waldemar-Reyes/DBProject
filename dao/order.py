@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from config.dbconfig import pg_config
 import psycopg2
 
@@ -12,42 +11,74 @@ class OrderDAO:
 
     def getAllOrder(self):
         cursor = self.conn.cursor()
-        query = "select * from order;"
+        query = "select * from orders;"
         cursor.execute(query)
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def getOrderById(self, oid):
+    def getOrderById(self, odid):
             cursor = self.conn.cursor()
-            query = "select * from order where oid = %s;"
-            cursor.execute(query, (oid,))
+            query = "select * from orders where odid = %s;"
+            cursor.execute(query, (odid,))
             result = cursor.fetchone()
             return result
 
-    def getOrderByNumber(self, onumber):
+    def getOrderByNumber(self, odnumber):
         cursor = self.conn.cursor()
-        query = "select * from order where onumber = %s;"
-        cursor.execute(query, (onumber,))
+        query = "select * from orders where odnumber = %s;"
+        cursor.execute(query, (odnumber,))
         result = []
         for row in cursor:
             result.append(row)
         return result
     
-    def getResourcesByOrderId(self, oid):
+    def getConsumerByOrderId(self, odid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join order where oid = %s;"
-        cursor.execute(query, (oid,))
+        query = "select consid, consusername from consumer natural inner join orders where odid = %s;"
+        cursor.execute(query, (odid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+   
+    def getReservationByOrderId(self, odid):
+       cursor = self.conn.cursor()
+       query = "select resid, restime from reservation natural inner join orders where odid = %s;"
+       cursor.execute(query, (odid,))
+       result = []
+       for row in cursor:
+           result.append(row)
+       return result
+
+    def getSupplierByOrderId(self, odid):
+        cursor = self.conn.cursor()
+        query = "select sid, susername, scompany from supplier natural inner join orders where odid = %s;"
+        cursor.execute(query, (odid,))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def insert(self, onumber):
+    def insert(self, odnumber):
         cursor = self.conn.cursor()
-        query = "insert into order(onumber) values (%s) returning oid;"
-        cursor.execute(query, (onumber))
-        oid = cursor.fetchone()[0]
+        query = "insert into orders(odnumber) values (%s) returning odid;"
+        cursor.execute(query, (odnumber,))
+        odid = cursor.fetchone()[0]
         self.conn.commit()
-        return oid
+        return odid
+
+    def update(self, odid, odnumber):
+        cursor = self.conn.cursor()
+        query = "update orders set odnumber = %s where odid = %s;"
+        cursor.execute(query, (odnumber, odid,))
+        self.conn.commit()
+        return odid
+
+    def delete(self, odid):
+        cursor = self.conn.cursor()
+        query = "delete from orders where odid = %s;"
+        cursor.execute(query, (odid,))
+        self.conn.commit()
+        return odid
