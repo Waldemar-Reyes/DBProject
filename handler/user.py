@@ -13,6 +13,20 @@ class UserHandler:
         result['uid'] = uid
         result['ufirstname'] = ufirstname
         return result
+    
+    def searchUser(self, args):
+        ufirtsname = args.get('ufirtsname')
+        dao = UserDAO()
+       user_list = []
+        if (len(args) == 1) and user:
+            user_list = dao.getUserByUsername(ufirtsname)
+             else:
+            return jsonify(Error="Malformed query string"), 400
+        result_list = []
+        for row in user_list:
+            result = self.build_user_dict(row)
+            result_list.append(result)
+        return jsonify(User=result_list)
 
     def insertUserJson(self, json):
         user = json['ufirstname']
