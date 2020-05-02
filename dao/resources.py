@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class ResourcesDAO:
     def __init__(self):
 
@@ -88,18 +89,20 @@ class ResourcesDAO:
             result.append(row)
         return result
 
+    def getCountByResourcesId(self):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, sum(stock) from resources natural inner join supplier group by sid, susername order by susername;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def insert(self, rname, rprice, ramount, rlocation):
         cursor = self.conn.cursor()
         query = "insert into resources(rname, rprice, ramount, rlocation) values (%s, %s, %s, %s) returning rid;"
         cursor.execute(query, (rname, rprice, ramount, rlocation,))
         rid = cursor.fetchone()[0]
-        self.conn.commit()
-        return rid
-
-    def delete(self, rid):
-        cursor = self.conn.cursor()
-        query = "delete from resources where rid = %s;"
-        cursor.execute(query, (rid,))
         self.conn.commit()
         return rid
 
@@ -110,11 +113,9 @@ class ResourcesDAO:
         self.conn.commit()
         return rid
 
-    def getCountByResourceId(self):
+    def delete(self, rid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, sum(stock) from resources natural inner join supplier group by sid, susername order by susername;"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+        query = "delete from resources where rid = %s;"
+        cursor.execute(query, (rid,))
+        self.conn.commit()
+        return rid

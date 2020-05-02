@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 from config.dbconfig import pg_config
 import psycopg2
+
 
 class SysAdmDAO:
     def __init__(self):
@@ -12,7 +12,7 @@ class SysAdmDAO:
 
     def getAllSysAdm(self):
         cursor = self.conn.cursor()
-        query = "select * from system admin;"
+        query = "select * from sys_adm;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -20,15 +20,15 @@ class SysAdmDAO:
         return result
 
     def getSysAdmById(self, said):
-            cursor = self.conn.cursor()
-            query = "select * from system admin where said = %s;"
-            cursor.execute(query, (said,))
-            result = cursor.fetchone()
-            return result
+        cursor = self.conn.cursor()
+        query = "select * from sys_adm where said = %s;"
+        cursor.execute(query, (said,))
+        result = cursor.fetchone()
+        return result
 
     def getSysAdmnByUsername(self, sausername):
         cursor = self.conn.cursor()
-        query = "select * from system admin where sausername = %s;"
+        query = "select * from sys_adm where sausername = %s;"
         cursor.execute(query, (sausername,))
         result = []
         for row in cursor:
@@ -37,7 +37,7 @@ class SysAdmDAO:
     
     def getUserBySysAdmId(self, said):
         cursor = self.conn.cursor()
-        query = "select uid, ufirstname, ulastname from user natural inner join system admin where said = %s;"
+        query = "select uid, ufirstname, ulastname from users natural inner join sys_adm where said = %s;"
         cursor.execute(query, (said,))
         result = []
         for row in cursor:
@@ -46,8 +46,22 @@ class SysAdmDAO:
 
     def insert(self, sausername):
         cursor = self.conn.cursor()
-        query = "insert into system admin(sausername) values (%s) returning said;"
-        cursor.execute(query, (sausername))
+        query = "insert into sys_adm(sausername) values (%s) returning said;"
+        cursor.execute(query, (sausername,))
         said = cursor.fetchone()[0]
+        self.conn.commit()
+        return said
+
+    def update(self, said, sausername):
+        cursor = self.conn.cursor()
+        query = "update sys_adm set sausername = %s where said = %s;"
+        cursor.execute(query, (sausername, said,))
+        self.conn.commit()
+        return said
+
+    def delete(self, said):
+        cursor = self.conn.cursor()
+        query = "delete from sys_adm where said = %s;"
+        cursor.execute(query, (said,))
         self.conn.commit()
         return said

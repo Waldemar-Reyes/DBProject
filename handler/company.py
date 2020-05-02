@@ -54,7 +54,7 @@ class CompanyHandler:
             company = self.build_company_dict(row)
         return jsonify(Company=company)
 
-    def searchCompanies(self, args):
+    def searchCompany(self, args):
         compname = args.get('compname')
         dao = CompanyDAO()
         company_list = []

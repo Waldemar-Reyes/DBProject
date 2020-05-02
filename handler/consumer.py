@@ -73,11 +73,11 @@ class ConsumerHandler:
             result_list.append(result)
         return jsonify(Consumer=result_list)
 
-    def getOrderByConsumerId(self, consid):
+    def getOrdersByConsumerId(self, consid):
         dao = ConsumerDAO()
         if not dao.getConsumerById(consid):
             return jsonify(Error="Consumer Not Found"), 404
-        order_list = dao.getOrderByConsumerId(consid)
+        order_list = dao.getOrdersByConsumerId(consid)
         result_list = []
         for row in order_list:
             result = self.build_order_dict(row)

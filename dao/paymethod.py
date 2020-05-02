@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class PayMethodDAO:
     def __init__(self):
 
@@ -19,11 +20,11 @@ class PayMethodDAO:
         return result
 
     def getPayMethodById(self, pmid):
-            cursor = self.conn.cursor()
-            query = "select * from pay_method where pmid = %s;"
-            cursor.execute(query, (pmid,))
-            result = cursor.fetchone()
-            return result
+        cursor = self.conn.cursor()
+        query = "select * from pay_method where pmid = %s;"
+        cursor.execute(query, (pmid,))
+        result = cursor.fetchone()
+        return result
 
     def getPayMethodByName(self, pmname):
         cursor = self.conn.cursor()
@@ -33,7 +34,7 @@ class PayMethodDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getConsumerByPayMethodId(self, pmid):
         cursor = self.conn.cursor()
         query = "select consid, consusername from consumer natural inner join pay_method where pmid = %s;"
@@ -73,4 +74,3 @@ class PayMethodDAO:
         cursor.execute(query, (pmid,))
         self.conn.commit()
         return pmid
-    

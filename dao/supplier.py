@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class SupplierDAO:
     def __init__(self):
 
@@ -9,7 +10,7 @@ class SupplierDAO:
                                                             pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    def getAllSuppliers(self):
+    def getAllSupplier(self):
         cursor = self.conn.cursor()
         query = "select * from supplier;"
         cursor.execute(query)
@@ -19,13 +20,13 @@ class SupplierDAO:
         return result
 
     def getSupplierById(self, sid):
-            cursor = self.conn.cursor()
-            query = "select * from supplier where sid = %s;"
-            cursor.execute(query, (sid,))
-            result = cursor.fetchone()
-            return result
+        cursor = self.conn.cursor()
+        query = "select * from supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = cursor.fetchone()
+        return result
     
-    def getSuppliersByUsername(self, username):
+    def getSupplierByUsername(self, username):
         cursor = self.conn.cursor()
         query = "select * from supplier where susername = %s;"
         cursor.execute(query, (username,))
@@ -34,7 +35,7 @@ class SupplierDAO:
             result.append(row)
         return result
 
-    def getSuppliersByCompany(self, company):
+    def getSupplierByCompany(self, company):
         cursor = self.conn.cursor()
         query = "select * from supplier where scompany = %s;"
         cursor.execute(query, (company,))
@@ -64,7 +65,21 @@ class SupplierDAO:
     def insert(self, susername, scompany):
         cursor = self.conn.cursor()
         query = "insert into supplier(susername, scompany) values (%s, %s) returning sid;"
-        cursor.execute(query, (susername, scompany))
+        cursor.execute(query, (susername, scompany,))
         sid = cursor.fetchone()[0]
+        self.conn.commit()
+        return sid
+
+    def update(self, sid, susername, scompany):
+        cursor = self.conn.cursor()
+        query = "update supplier set susername = %s, scompany = %s where sid = %s;"
+        cursor.execute(query, (susername, scompany, sid,))
+        self.conn.commit()
+        return sid
+
+    def delete(self, sid):
+        cursor = self.conn.cursor()
+        query = "delete from supplier where sid = %s;"
+        cursor.execute(query, (sid,))
         self.conn.commit()
         return sid

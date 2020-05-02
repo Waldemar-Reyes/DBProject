@@ -7,34 +7,27 @@ class SupplierHandler:
         result = {}
         result['sid'] = row[0]
         result['susername'] = row[1]
-        result['scity'] = row[2]
-        result['sphone'] = row[3]
+        result['scompany'] = row[2]
         return result
 
-   # def build_part_dict(self, row):
-    #    result = {}
-     #   result['pid'] = row[0]
-     #   result['pname'] = row[1]
-      #  result['pmaterial'] = row[2]
-       # result['pcolor'] = row[3]
-        #result['pprice'] = row[4]
-        #result['quantity'] = row[5]
-        #return result
+    def build_supplier_attributes(self, sid, susername, scompany):
+        result = {}
+        result['sid'] = sid
+        result['susername'] = susername
+        result['scompany'] = scompany
+        return result
 
     def getAllSuppliers(self):
-
         dao = SupplierDAO()
-        suppliers_list = dao.getAllSuppliers()
+        supplier_list = dao.getAllSupplier()
         result_list = []
-        for row in suppliers_list:
+        for row in supplier_list:
             result = self.build_supplier_dict(row)
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
     def getSupplierById(self, sid):
-
         dao = SupplierDAO()
-
         row = dao.getSupplierById(sid)
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
@@ -42,48 +35,73 @@ class SupplierHandler:
             part = self.build_supplier_dict(row)
         return jsonify(Part=part)
 
-    def getPartsBySupplierId(self, sid):
+    def searchSuppliers(self, args):
+        susername = args.get('susername')
+        scompany = args.get('scompany')
+        dao = SupplierDAO()
+        supplier_list = []
+        if (len(args) == 2) and susername and scompany:
+            # TODO Not yet implemented
+            # supplier_list = dao.getSupplierByUsernameandCompany(susername, scompany)
+            print("getSupplierByUsernameandCompany(susername, scompany)")
+        elif (len(args) == 1) and susername:
+            supplier_list = dao.getSupplierByUsername(susername)
+        elif (len(args) == 1) and scompany:
+            supplier_list = dao.getSupplierByCompany(scompany)
+        else:
+            return jsonify(Error="Malformed query string"), 400
+        result_list = []
+        for row in supplier_list:
+            result = self.build_supplier_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
+
+    # TODO Not yet implemented in DAO nor main
+    #
+    # def getPartsBySupplierId(self, sid):
+    #     dao = SupplierDAO()
+    #     if not dao.getSupplierById(sid):
+    #         return jsonify(Error="Supplier Not Found"), 404
+    #     parts_list = dao.getPartsBySupplierId(sid)
+    #     result_list = []
+    #     for row in parts_list:
+    #         result = self.build_part_dict(row)
+    #         result_list.append(result)
+    #     return jsonify(PartsSupply=result_list)
+
+    def insertSupplierJson(self, json):
+        sid = json['sid']
+        susername = json['susername']
+        scompany = json['scompany']
+        if sid and susername and scompany:
+            dao = SupplierDAO()
+            sid = dao.insert(susername, scompany)
+            result = self.build_supplier_attributes(sid, susername, scompany)
+            return jsonify(Supplier=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def updateSupplier(self, sid, form):
         dao = SupplierDAO()
         if not dao.getSupplierById(sid):
-            return jsonify(Error="Supplier Not Found"), 404
-        parts_list = dao.getPartsBySupplierId(sid)
-        result_list = []
-        for row in parts_list:
-            result = self.build_part_dict(row)
-            result_list.append(result)
-        return jsonify(PartsSupply=result_list)
-
-    def searchSuppliers(self, args):
-        if len(args) > 1:
-            return jsonify(Error = "Malformed search string."), 400
+            return jsonify(Error="Supplier not found."), 404
         else:
-            city = args.get("city")
-            if city:
-                dao = SupplierDAO()
-                supplier_list = dao.getSuppliersByCity(city)
-                result_list = []
-                for row in supplier_list:
-                    result = self.build_supplier_dict(row)
-                    result_list.append(row)
-                return jsonify(Suppliers=result_list)
+            if len(form) != 2:
+                return jsonify(Error="Malformed update request"), 400
             else:
-                return jsonify(Error="Malformed search string."), 400
+                susername = form['susername']
+                scompany = form['scompany']
+                if susername and scompany:
+                    dao.update(sid, susername, scompany)
+                    result = self.build_supplier_attributes(sid, susername, scompany)
+                    return jsonify(Supplier=result), 200
+                else:
+                    return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def insertSupplier(self, form):
-        if form and len(form) == 3:
-            susername = form['susername']
-            scity = form['scity']
-            sphone = form['sphone']
-            if susername and scity and sphone:
-                dao = SupplierDAO()
-                sid = dao.insert(susername, scity, sphone)
-                result = {}
-                result["sid"] = sid
-                result["susername"] = susername
-                result["scity"] = scity
-                result["sphone"] = sphone
-                return jsonify(Supplier=result), 201
-            else:
-                return jsonify(Error="Malformed post request")
+    def deleteSupplier(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier not found."), 404
         else:
-            return jsonify(Error="Malformed post request")
+            dao.delete(sid)
+            return jsonify(DeleteStatus="OK"), 200

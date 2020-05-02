@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class CompanyDAO:
     def __init__(self):
 
@@ -19,11 +20,11 @@ class CompanyDAO:
         return result
 
     def getCompanyById(self, compid):
-            cursor = self.conn.cursor()
-            query = "select * from company where compid = %s;"
-            cursor.execute(query, (compid,))
-            result = cursor.fetchone()
-            return result
+        cursor = self.conn.cursor()
+        query = "select * from company where compid = %s;"
+        cursor.execute(query, (compid,))
+        result = cursor.fetchone()
+        return result
 
     def getCompanyByCompname(self, compname):
         cursor = self.conn.cursor()

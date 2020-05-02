@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 from handler.company import CompanyHandler
 from handler.consumer import ConsumerHandler
-from handler.order import OrderHandler
+from handler.orders import OrdersHandler
 from handler.paymethod import PayMethodHandler
-# from handler.reservations import ReservationHandler
+# from handler.reservation import ReservationHandler
 # from handler.resources import ResourceHandler
 # from handler.supplier import SupplierHandler
 # from handler.systemadmin import PartHandler
-# from handler.user import UserHandler
+# from handler.users import UserHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -35,7 +35,7 @@ def getAllCompany():
         if not request.args:
             return CompanyHandler().getAllCompany()
         else:
-            return CompanyHandler().searchCompanies(request.args)
+            return CompanyHandler().searchCompany(request.args)
 
 
 @app.route('/DSRLapp/company/<int:compid>', methods=['GET', 'PUT', 'DELETE'])
@@ -93,7 +93,7 @@ def getCConsumerById(consid):
 
 @app.route('/DSRLapp/consumer/<int:consid>/order')
 def getOrderByConsumerId(consid):
-    return ConsumerHandler().getOrderByConsumerId(consid)
+    return ConsumerHandler().getOrdersByConsumerId(consid)
 
 
 @app.route('/DSRLapp/consumer/<int:consid>/paymethod')
@@ -117,39 +117,39 @@ def getResourcesByConsumerId(consid):
 def getAllOrder():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return OrderHandler().insertOrderJson(request.json)
+        return OrdersHandler().insertOrdersJson(request.json)
     else:
         if not request.args:
-            return OrderHandler().getAllOrder()
+            return OrdersHandler().getAllOrders()
         else:
-            return OrderHandler().searchOrder(request.args)
+            return OrdersHandler().searchOrders(request.args)
 
 
 @app.route('/DSRLapp/order/<int:odid>', methods=['GET', 'PUT', 'DELETE'])
 def getOrderById(odid):
     if request.method == 'GET':
-        return OrderHandler().getOrderById(odid)
+        return OrdersHandler().getOrdersById(odid)
     elif request.method == 'PUT':
-        return OrderHandler().updateOrder(odid, request.form)
+        return OrdersHandler().updateOrders(odid, request.form)
     elif request.method == 'DELETE':
-        return OrderHandler().deleteOrder(odid)
+        return OrdersHandler().deleteOrders(odid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
 
 @app.route('/DSRLapp/order/<int:odid>/consumer')
 def getConsumerByOrderId(odid):
-    return OrderHandler().getConsumerByOrderId(odid)
+    return OrdersHandler().getConsumerByOrdersId(odid)
 
 
 @app.route('/DSRLapp/order/<int:odid>/reservation')
 def getReservationByOrderId(odid):
-    return OrderHandler().getReservationByOrderId(odid)
+    return OrdersHandler().getReservationByOrdersId(odid)
 
 
 @app.route('/DSRLapp/order/<int:odid>/supplier')
 def getSupplierByOrderId(odid):
-    return OrderHandler().getSupplierByOrderId(odid)
+    return OrdersHandler().getSupplierByOrdersId(odid)
 
 
 # Payment

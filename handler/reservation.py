@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.reservation import ReservationDAO
 
+
 class ReservationHandler:
     def build_reservation_dict(self, row):
         result = {}
@@ -8,15 +9,15 @@ class ReservationHandler:
         result['restime'] = row[1]
         return result
       
-     def build_reservation_attributes(self, resid, restime):
+    def build_reservation_attributes(self, resid, restime):
         result = {}
         result['resid'] = resid
         result['restime'] = restime
         return result
 
     def insertReservationJson(self, json):
-        reservation = json['restime']
-        if reservation:
+        restime = json['restime']
+        if restime:
             dao = ReservationDAO()
             resid = dao.insert(restime)
             result = self.build_reservation_attributes(resid, restime)
@@ -26,7 +27,7 @@ class ReservationHandler:
 
     def updateReservation(self, resid, form):
         dao = ReservationDAO()
-        if not dao.getreservationById(resid):
+        if not dao.getReservationById(resid):
             return jsonify(Error="Reservation not found."), 404
         else:
             if len(form) != 1:
@@ -40,7 +41,7 @@ class ReservationHandler:
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def deletereservation(self, resid):
+    def deleteReservation(self, resid):
         dao = ReservationDAO()
         if not dao.getReservationById(resid):
             return jsonify(Error="Reservation not found."), 404

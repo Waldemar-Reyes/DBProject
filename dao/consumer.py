@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class ConsumerDAO:
     def __init__(self):
 
@@ -19,11 +20,11 @@ class ConsumerDAO:
         return result
 
     def getConsumerById(self, consid):
-            cursor = self.conn.cursor()
-            query = "select * from consumer where consid = %s;"
-            cursor.execute(query, (consid,))
-            result = cursor.fetchone()
-            return result
+        cursor = self.conn.cursor()
+        query = "select * from consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = cursor.fetchone()
+        return result
 
     def getConsumerByUsername(self, consusername):
         cursor = self.conn.cursor()
@@ -33,8 +34,8 @@ class ConsumerDAO:
         for row in cursor:
             result.append(row)
         return result
-    
-    def getOrderByConsumerId(self, consid):
+
+    def getOrdersByConsumerId(self, consid):
         cursor = self.conn.cursor()
         query = "select odid, odnumber from orders natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
@@ -42,24 +43,24 @@ class ConsumerDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getPayMethodByConsumerId(self, consid):
-       cursor = self.conn.cursor()
-       query = "select pmid, pmname from pay_method  natural inner join consumer where consid = %s;"
-       cursor.execute(query, (consid,))
-       result = []
-       for row in cursor:
-           result.append(row)
-       return result
-   
+        cursor = self.conn.cursor()
+        query = "select pmid, pmname from pay_method  natural inner join consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def getReservationByConsumerId(self, consid):
-       cursor = self.conn.cursor()
-       query = "select resid, restime from reservation natural inner join consumer where consid = %s;"
-       cursor.execute(query, (consid,))
-       result = []
-       for row in cursor:
-           result.append(row)
-       return result
+        cursor = self.conn.cursor()
+        query = "select resid, restime from reservation natural inner join consumer where consid = %s;"
+        cursor.execute(query, (consid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getResourcesByConsumerId(self, consid):
         cursor = self.conn.cursor()
@@ -91,4 +92,3 @@ class ConsumerDAO:
         cursor.execute(query, (consid,))
         self.conn.commit()
         return consid
-
