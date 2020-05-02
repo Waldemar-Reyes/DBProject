@@ -18,7 +18,7 @@ class ReservationHandler:
         reservation = json['restime']
         if reservation:
             dao = ReservationDAO()
-            redid = dao.insert(restime)
+            resid = dao.insert(restime)
             result = self.build_reservation_attributes(resid, restime)
             return jsonify(Reservation=result), 201
         else:
