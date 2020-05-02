@@ -10,6 +10,39 @@ class SupplierHandler:
         result['scompany'] = row[2]
         return result
 
+    def build_company_dict(self, row):
+        result = {}
+        result['compid'] = row[0]
+        result['compname'] = row[1]
+        return result
+
+    def build_order_dict(self, row):
+        result = {}
+        result['odid'] = row[0]
+        result['odnumber'] = row[1]
+        return result
+
+    def build_payment_dict(self, row):
+        result = {}
+        result['pmid'] = row[0]
+        result['pmname'] = row[1]
+        return result
+
+    def build_reservation_dict(self, row):
+        result = {}
+        result['resid'] = row[0]
+        result['restime'] = row[1]
+        return result
+
+    def build_resource_dict(self, row):
+        result = {}
+        result['rid'] = row[0]
+        result['rname'] = row[1]
+        result['rprice'] = row[2]
+        result['rlocation'] = row[3]
+        result['ramount'] = row[4]
+        return result
+
     def build_supplier_attributes(self, sid, susername, scompany):
         result = {}
         result['sid'] = sid
@@ -17,7 +50,7 @@ class SupplierHandler:
         result['scompany'] = scompany
         return result
 
-    def getAllSuppliers(self):
+    def getAllSupplier(self):
         dao = SupplierDAO()
         supplier_list = dao.getAllSupplier()
         result_list = []
@@ -35,16 +68,12 @@ class SupplierHandler:
             part = self.build_supplier_dict(row)
         return jsonify(Part=part)
 
-    def searchSuppliers(self, args):
+    def searchSupplier(self, args):
         susername = args.get('susername')
         scompany = args.get('scompany')
         dao = SupplierDAO()
         supplier_list = []
-        if (len(args) == 2) and susername and scompany:
-            # TODO Not yet implemented
-            # supplier_list = dao.getSupplierByUsernameandCompany(susername, scompany)
-            print("getSupplierByUsernameandCompany(susername, scompany)")
-        elif (len(args) == 1) and susername:
+        if (len(args) == 1) and susername:
             supplier_list = dao.getSupplierByUsername(susername)
         elif (len(args) == 1) and scompany:
             supplier_list = dao.getSupplierByCompany(scompany)
@@ -56,18 +85,60 @@ class SupplierHandler:
             result_list.append(result)
         return jsonify(Supplier=result_list)
 
-    # TODO Not yet implemented in DAO nor main
-    #
-    # def getPartsBySupplierId(self, sid):
-    #     dao = SupplierDAO()
-    #     if not dao.getSupplierById(sid):
-    #         return jsonify(Error="Supplier Not Found"), 404
-    #     parts_list = dao.getPartsBySupplierId(sid)
-    #     result_list = []
-    #     for row in parts_list:
-    #         result = self.build_part_dict(row)
-    #         result_list.append(result)
-    #     return jsonify(PartsSupply=result_list)
+    def getCompanyBySupplierId(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
+        company_list = dao.getCompanyBySupplierId(sid)
+        result_list = []
+        for row in company_list:
+            result = self.build_company_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
+
+    def getOrdersBySupplierId(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
+        orders_list = dao.getOrdersBySupplierId(sid)
+        result_list = []
+        for row in orders_list:
+            result = self.build_order_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
+
+    def getPayMethodBySupplierId(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
+        payment_list = dao.getPayMethodBySupplierId(sid)
+        result_list = []
+        for row in payment_list:
+            result = self.build_payment_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
+
+    def getReservationBySupplierId(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
+        reservation_list = dao.getReservationBySupplierId(sid)
+        result_list = []
+        for row in reservation_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
+
+    def getResourcesBySupplierId(self, sid):
+        dao = SupplierDAO()
+        if not dao.getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
+        resources_list = dao.getResourcesBySupplierId(sid)
+        result_list = []
+        for row in resources_list:
+            result = self.build_resource_dict(row)
+            result_list.append(result)
+        return jsonify(Supplier=result_list)
 
     def insertSupplierJson(self, json):
         sid = json['sid']

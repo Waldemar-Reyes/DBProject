@@ -44,18 +44,45 @@ class SupplierDAO:
             result.append(row)
         return result
     
-    def getResourcesBySupplierId(self, sid):
+    def getCompanyBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join supplier where sid = %s;"
+        query = "select compid, compname from company natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
             result.append(row)
         return result
-    
-    def getCompanyBySupplierId(self, sid):
+
+    def getOrdersBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select compid, compname from company natural inner join supplier where sid = %s;"
+        query = "select odid, odnumber from orders natural inner join supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getPayMethodBySupplierId(self, sid):
+        cursor = self.conn.cursor()
+        query = "select pmid, pmname from pay_method natural inner join supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getReservationBySupplierId(self, sid):
+        cursor = self.conn.cursor()
+        query = "select resid, restime from reservation natural inner join supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getResourcesBySupplierId(self, sid):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
