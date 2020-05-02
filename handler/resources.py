@@ -11,6 +11,18 @@ class ResourcesHandler:
         result['rlocation'] = row[3]
         result['ramount'] = row[4]
         return result
+
+    def build_company_dict(self, row):
+        result = {}
+        result['compid'] = row[0]
+        result['compname'] = row[1]
+        return result
+
+    def build_consumer_dict(self, row):
+        result = {}
+        result['consid'] = row[0]
+        result['consusername'] = row[1]
+        return result
       
     def build_resource_attributes(self, rid, rname, rprice, rlocation, ramount):
         result = {}
@@ -67,6 +79,17 @@ class ResourcesHandler:
             result_list.append(result)
         return jsonify(Resources=result_list)
 
+    def getCompanyByResourcesId(self, rid):
+        dao = ResourcesDAO()
+        if not dao.getResourcesById(rid):
+            return jsonify(Error="Resource Not Found"), 404
+        company_list = dao.getCompanyByResourcesId(rid)
+        result_list = []
+        for row in company_list:
+            result = self.build_company_dict(row)
+            result_list.append(result)
+        return jsonify(Resources=result_list)
+
     def getConsumerByResourcesId(self, rid):
         dao = ResourcesDAO()
         if not dao.getResourcesById(rid):
@@ -74,18 +97,7 @@ class ResourcesHandler:
         consumer_list = dao.getConsumerByResourcesId(rid)
         result_list = []
         for row in consumer_list:
-            result = self.build_resource_dict(row)
-            result_list.append(result)
-        return jsonify(Resources=result_list)
-
-    def getCompanyByResourcesId(self, rid):
-        dao = ResourcesDAO()
-        if not dao.getResourcesById(rid):
-            return jsonify(Error="Resource Not Found"), 404
-        consumer_list = dao.getCompanyByResourcesId(rid)
-        result_list = []
-        for row in consumer_list:
-            result = self.build_resource_dict(row)
+            result = self.build_consumer_dict(row)
             result_list.append(result)
         return jsonify(Resources=result_list)
 
