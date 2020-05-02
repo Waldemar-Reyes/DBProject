@@ -26,7 +26,7 @@ def greeting():
 
 # Company
 
-@app.route('/PartApp/company', methods=['GET', 'POST'])
+@app.route('/DSRLapp/company', methods=['GET', 'POST'])
 def getAllCompany():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -38,7 +38,7 @@ def getAllCompany():
             return CompanyHandler().searchCompanies(request.args)
 
 
-@app.route('/PartApp/company/<int:compid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/company/<int:compid>', methods=['GET', 'PUT', 'DELETE'])
 def getCompanyById(compid):
     if request.method == 'GET':
         return CompanyHandler().getCompanyById(compid)
@@ -50,24 +50,24 @@ def getCompanyById(compid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/company/<int:compid>/consumer')
+@app.route('/DSRLapp/company/<int:compid>/consumer')
 def getConsumerByCompanyId(compid):
     return CompanyHandler().getConsumerByCompanyId(compid)
 
 
-@app.route('/PartApp/company/<int:compid>/resources')
+@app.route('/PartDSRLappApp/company/<int:compid>/resources')
 def getResourcesByCompanyId(compid):
     return CompanyHandler().getResourcesByCompanyId(compid)
 
 
-@app.route('/PartApp/company/<int:compid>/supplier')
+@app.route('/DSRLapp/company/<int:compid>/supplier')
 def getSupplierByCompanyId(compid):
     return CompanyHandler().getSupplierByCompanyId(compid)
 
 
 # Consumer
 
-@app.route('/PartApp/consumer', methods=['GET', 'POST'])
+@app.route('/DSRLapp/consumer', methods=['GET', 'POST'])
 def getAllConsumer():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -79,7 +79,7 @@ def getAllConsumer():
             return ConsumerHandler().searchConsumer(request.args)
 
 
-@app.route('/PartApp/consumer/<int:consid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/consumer/<int:consid>', methods=['GET', 'PUT', 'DELETE'])
 def getCConsumerById(consid):
     if request.method == 'GET':
         return ConsumerHandler().getConsumerById(consid)
@@ -91,29 +91,29 @@ def getCConsumerById(consid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/consumer/<int:consid>/order')
+@app.route('/DSRLapp/consumer/<int:consid>/order')
 def getOrderByConsumerId(consid):
     return ConsumerHandler().getOrderByConsumerId(consid)
 
 
-@app.route('/PartApp/consumer/<int:consid>/paymethod')
+@app.route('/DSRLapp/consumer/<int:consid>/paymethod')
 def getPayMethodByConsumerId(consid):
     return ConsumerHandler().getPayMethodByConsumerId(consid)
 
 
-@app.route('/PartApp/consumer/<int:consid>/reservation')
+@app.route('/DSRLapp/consumer/<int:consid>/reservation')
 def getReservationByConsumerId(consid):
     return ConsumerHandler().getReservationByConsumerId(consid)
 
 
-@app.route('/PartApp/consumer/<int:consid>/resources')
+@app.route('/DSRLapp/consumer/<int:consid>/resources')
 def getResourcesByConsumerId(consid):
     return ConsumerHandler().getResourcesByConsumerId(consid)
 
 
 # Order
 
-@app.route('/PartApp/order', methods=['GET', 'POST'])
+@app.route('/DSRLapp/order', methods=['GET', 'POST'])
 def getAllOrder():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -125,7 +125,7 @@ def getAllOrder():
             return OrderHandler().searchOrder(request.args)
 
 
-@app.route('/PartApp/order/<int:odid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/order/<int:odid>', methods=['GET', 'PUT', 'DELETE'])
 def getOrderById(odid):
     if request.method == 'GET':
         return OrderHandler().getOrderById(odid)
@@ -137,24 +137,24 @@ def getOrderById(odid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/order/<int:odid>/consumer')
+@app.route('/DSRLapp/order/<int:odid>/consumer')
 def getConsumerByOrderId(odid):
     return OrderHandler().getConsumerByOrderId(odid)
 
 
-@app.route('/PartApp/order/<int:odid>/reservation')
+@app.route('/DSRLapp/order/<int:odid>/reservation')
 def getReservationByOrderId(odid):
     return OrderHandler().getReservationByOrderId(odid)
 
 
-@app.route('/PartApp/order/<int:odid>/supplier')
+@app.route('/DSRLapp/order/<int:odid>/supplier')
 def getSupplierByOrderId(odid):
     return OrderHandler().getSupplierByOrderId(odid)
 
 
 # Payment
 
-@app.route('/PartApp/paymethod', methods=['GET', 'POST'])
+@app.route('/DSRLapp/paymethod', methods=['GET', 'POST'])
 def getAllPayMethod():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -166,7 +166,7 @@ def getAllPayMethod():
             return PayMethodHandler().searchPayMethod(request.args)
 
 
-@app.route('/PartApp/paymethod/<int:pmid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/paymethod/<int:pmid>', methods=['GET', 'PUT', 'DELETE'])
 def getPayMethodById(pmid):
     if request.method == 'GET':
         return PayMethodHandler().getPayMethodById(pmid)
@@ -178,19 +178,19 @@ def getPayMethodById(pmid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/PartApp/paymethod/<int:pmid>/consumer')
+@app.route('/DSRLapp/paymethod/<int:pmid>/consumer')
 def getConsumerByPayMethodId(pmid):
     return PayMethodHandler().getConsumerByPayMethodId(pmid)
 
 
-@app.route('/PartApp/paymethod/<int:pmid>/supplier')
+@app.route('/DSRLapp/paymethod/<int:pmid>/supplier')
 def getSupplierByPayMethodId(pmid):
     return PayMethodHandler().getSupplierByPayMethodId(pmid)
 
 
 # Reservations
 
-@app.route('/PartApp/reservations', methods=['GET', 'POST'])
+@app.route('/DSRLapp/reservations', methods=['GET', 'POST'])
 def getAllReservations():
     if request.method == 'POST':
         # return print("REQUEST: ", request.json)
@@ -202,7 +202,7 @@ def getAllReservations():
             return jsonify('ReservationsHandler().searchReservations(request.args)'), 200
 
 
-@app.route('/PartApp/reservations/<int:resid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/reservations/<int:resid>', methods=['GET', 'PUT', 'DELETE'])
 def getReservationsById(resid):
     if request.method == 'GET':
         return jsonify('ReservationsHandler().getReservationsById(resid)'), 200
@@ -214,14 +214,14 @@ def getReservationsById(resid):
         return jsonify('jsonify(Error="Method not allowed."), 405'), 405
 
 
-@app.route('/PartApp/reservations/<int:resid>/resources')
+@app.route('/DSRLapp/reservations/<int:resid>/resources')
 def getResourcesByReservationId(resid):
     return jsonify('ReservationsHandler().getResourcesByReservationId(resid)'), 200
 
 
 # Resources
 
-@app.route('/PartApp/resources', methods=['GET', 'POST'])
+@app.route('/DSRLapp/resources', methods=['GET', 'POST'])
 def getAllResources():
     if request.method == 'POST':
         # return print("REQUEST: ", request.json)
@@ -233,7 +233,7 @@ def getAllResources():
             return jsonify('ResourcesHandler().searchResources(request.args)'), 200
 
 
-@app.route('/PartApp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
 def getResourcesById(rid):
     if request.method == 'GET':
         return jsonify('ResourcesHandler().getResourcesById(rid)'), 200
@@ -247,7 +247,7 @@ def getResourcesById(rid):
 
 # Supplier
 
-@app.route('/PartApp/supplier', methods=['GET', 'POST'])
+@app.route('/DSRLapp/supplier', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'POST':
         # return print("REQUEST: ", request.json)
@@ -259,7 +259,7 @@ def getAllSuppliers():
             return jsonify('SupplierHandler().searchSupplier(request.args)'), 200
 
 
-@app.route('/PartApp/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
 def getSupplierById(sid):
     if request.method == 'GET':
         return jsonify('SupplierHandler().getSupplierById(sid)'), 200
@@ -271,19 +271,19 @@ def getSupplierById(sid):
         return jsonify('jsonify(Error="Method not allowed."), 405'), 405
 
 
-@app.route('/PartApp/supplier/<int:sid>/company')
+@app.route('/DSRLapp/supplier/<int:sid>/company')
 def getCompanyBySupplierId(sid):
     return jsonify('SupplierHandler().getCompanyBySupplierId(sid)'), 200
 
 
-@app.route('/PartApp/supplier/<int:sid>/resource')
+@app.route('/DSRLapp/supplier/<int:sid>/resource')
 def getResourcesBySupplierId(sid):
     return jsonify('SupplierHandler().getResourcesBySupplierId(sid)'), 200
 
 
 # System Admin
 
-@app.route('/PartApp/systemadmin', methods=['GET', 'POST'])
+@app.route('/DSRLapp/systemadmin', methods=['GET', 'POST'])
 def getAllSysAdm():
     if request.method == 'POST':
         # return print("REQUEST: ", request.json)
@@ -295,7 +295,7 @@ def getAllSysAdm():
             return jsonify('SystemadminHandler().searchSystemadmin(request.args)'), 200
 
 
-@app.route('/PartApp/systemadmin/<int:said>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/systemadmin/<int:said>', methods=['GET', 'PUT', 'DELETE'])
 def getSysAdmById(said):
     if request.method == 'GET':
         return jsonify('SystemadminHandler().getSystemadminById(said)'), 200
@@ -307,14 +307,14 @@ def getSysAdmById(said):
         return jsonify('jsonify(Error="Method not allowed."), 405'), 405
 
 
-@app.route('/PartApp/systemadmin/<int:said>/user')
+@app.route('/DSRLapp/systemadmin/<int:said>/user')
 def getUserBySysAdmId(said):
     return jsonify('SystemadminHandler().getUserBySysAdmId(sid)'), 200
 
 
 # User
 
-@app.route('/PartApp/user', methods=['GET', 'POST'])
+@app.route('/DSRLapp/user', methods=['GET', 'POST'])
 def getAllUser():
     if request.method == 'POST':
         # return print("REQUEST: ", request.json)
@@ -326,7 +326,7 @@ def getAllUser():
             return jsonify('UserHandler().searchUser(request.args)'), 200
 
 
-@app.route('/PartApp/user/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/DSRLapp/user/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
 def getUserById(uid):
     if request.method == 'GET':
         return jsonify('UserHandler().getUserById(uid)'), 200
@@ -338,17 +338,17 @@ def getUserById(uid):
         return jsonify('jsonify(Error="Method not allowed."), 405'), 405
 
 
-@app.route('/PartApp/user/<int:uid>/consumer')
+@app.route('/DSRLapp/user/<int:uid>/consumer')
 def getConsumerByUserId(uid):
     return jsonify('UserHandler().getConsumerByUserId(uid)'), 200
 
 
-@app.route('/PartApp/user/<int:uid>/supplier')
+@app.route('/DSRLapp/user/<int:uid>/supplier')
 def getSupplierByUserId(uid):
     return jsonify('UserHandler().getSupplierByUserId(uid)'), 200
 
 
-@app.route('/PartApp/user/<int:uid>/SysAdm')
+@app.route('/DSRLapp/user/<int:uid>/SysAdm')
 def getSysAdmByUserId(uid):
     return jsonify('UserHandler().getSysAdmByUserId(uid)'), 200
 

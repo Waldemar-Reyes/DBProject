@@ -1,8 +1,7 @@
-  
-#Databse configuration information
+# Database configuration information
 
 pg_config = {
-    'user' : 'manuel',
-    'passwd' : 'icom5016',
-    'dbname' : 'icom5016'
+    'user': 'appusr',
+    'passwd': 'dbp',
+    'dbname': 'appdb'
 }

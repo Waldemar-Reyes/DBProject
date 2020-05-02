@@ -26,12 +26,3 @@ create table sys_adm(said serial primary key, sausername varchar(20));
 
 -- User table
 create table users(uid serial primary key, ufirstname varchar(20), ulastname varchar(20));
-
-
----- Supplies table
---create table supplies(pid integer references Parts(pid), sid integer references
---Supplier(sid), qty integer, primary key(pid, sid));
---
----- PartSales table
---create table partsales(psaleid serial primary key, pid integer references Parts(pid),
---sid integer references Supplier(sid), sqty integer, sprice float, sdate Date);
