@@ -16,7 +16,7 @@ create table pay_method(pmid serial primary key, pmname varchar(20));
 create table reservation(resid serial primary key, restime varchar(20));
 
 -- Resource table
-create table resources(rid serial primary key, rname varchar(20), rprice int, rlocation varchar(20), ramount int);
+create table resources(rid serial primary key, rname varchar(20), rprice double_precision, rlocation varchar(20), ramount int);
 
 -- Supplier table
 create table supplier(sid serial primary key, susername varchar(20), scompany varchar(20));
