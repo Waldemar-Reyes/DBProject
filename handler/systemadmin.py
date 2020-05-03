@@ -2,7 +2,7 @@ from flask import jsonify
 from dao.systemadmin import SysAdmDAO
 
 
-class PartHandler:
+class SysAdmHandler:
     def build_systemadmin_dict(self, row):
         result = {}
         result['said'] = row[0]
