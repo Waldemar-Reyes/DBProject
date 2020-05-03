@@ -33,10 +33,10 @@ def getAllCompany():
         print("REQUEST: ", request.json)
         return CompanyHandler().insertCompanyJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return CompanyHandler().getAllCompany()
         else:
-            return CompanyHandler().searchCompany(request.args)
+            return CompanyHandler().searchCompany(request.json)
 
 
 @app.route('/DSRLapp/company/<int:compid>', methods=['GET', 'PUT', 'DELETE'])
@@ -74,10 +74,10 @@ def getAllConsumer():
         print("REQUEST: ", request.json)
         return ConsumerHandler().insertConsumerJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return ConsumerHandler().getAllConsumer()
         else:
-            return ConsumerHandler().searchConsumer(request.args)
+            return ConsumerHandler().searchConsumer(request.json)
 
 
 @app.route('/DSRLapp/consumer/<int:consid>', methods=['GET', 'PUT', 'DELETE'])
@@ -120,10 +120,10 @@ def getAllOrders():
         print("REQUEST: ", request.json)
         return OrdersHandler().insertOrdersJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return OrdersHandler().getAllOrders()
         else:
-            return OrdersHandler().searchOrders(request.args)
+            return OrdersHandler().searchOrders(request.json)
 
 
 @app.route('/DSRLapp/orders/<int:odid>', methods=['GET', 'PUT', 'DELETE'])
@@ -161,10 +161,10 @@ def getAllPayMethod():
         print("REQUEST: ", request.json)
         return PayMethodHandler().insertPayMethodJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return PayMethodHandler().getAllPayMethod()
         else:
-            return PayMethodHandler().searchPayMethod(request.args)
+            return PayMethodHandler().searchPayMethod(request.json)
 
 
 @app.route('/DSRLapp/paymethod/<int:pmid>', methods=['GET', 'PUT', 'DELETE'])
@@ -200,10 +200,10 @@ def getSupplierByPayMethodId(pmid):
 #         print("REQUEST: ", request.json)
 #         return ReservationHandler().insertReservationJson(request.json)
 #     else:
-#         if not request.args:
+#         if not request.json:
 #             return ReservationHandler().getAllReservation()
 #         else:
-#             return ReservationHandler().searchReservation(request.args)
+#             return ReservationHandler().searchReservation(request.json)
 #
 #
 # @app.route('/DSRLapp/reservations/<int:resid>', methods=['GET', 'PUT', 'DELETE'])
@@ -231,10 +231,10 @@ def getAllResources():
         print("REQUEST: ", request.json)
         return ResourcesHandler().insertResourcesJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return ResourcesHandler().getAllResources()
         else:
-            return ResourcesHandler().searchResources(request.args)
+            return ResourcesHandler().searchResources(request.json)
 
 
 @app.route('/DSRLapp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
@@ -267,10 +267,10 @@ def getAllSuppliers():
         print("REQUEST: ", request.json)
         return SupplierHandler().insertSupplierJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return SupplierHandler().getAllSupplier()
         else:
-            return SupplierHandler().searchSupplier(request.args)
+            return SupplierHandler().searchSupplier(request.json)
 
 
 @app.route('/DSRLapp/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
@@ -318,10 +318,10 @@ def getAllSysAdm():
         print("REQUEST: ", request.json)
         return SysAdmHandler().insertSysAdmJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return SysAdmHandler().getAllSysAdm()
         else:
-            return SysAdmHandler().searchSysAdm(request.args)
+            return SysAdmHandler().searchSysAdm(request.json)
 
 
 @app.route('/DSRLapp/systemadmin/<int:said>', methods=['GET', 'PUT', 'DELETE'])
@@ -364,10 +364,10 @@ def getAllUsers():
         print("REQUEST: ", request.json)
         return UsersHandler().insertUsersJson(request.json)
     else:
-        if not request.args:
+        if not request.json:
             return UsersHandler().getAllUsers()
         else:
-            return UsersHandler().searchUsers(request.args)
+            return UsersHandler().searchUsers(request.json)
 
 
 @app.route('/DSRLapp/users/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
