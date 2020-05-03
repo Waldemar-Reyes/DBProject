@@ -73,7 +73,7 @@ class UsersDAO:
 
     def getSysAdmByUsersId(self, uid):
         cursor = self.conn.cursor()
-        query = "select said, sausername from company natural inner join users where uid = %s;"
+        query = "select said, sausername from sys_adm natural inner join users where uid = %s;"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
