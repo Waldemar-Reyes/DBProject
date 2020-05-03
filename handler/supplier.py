@@ -141,10 +141,9 @@ class SupplierHandler:
         return jsonify(Supplier=result_list)
 
     def insertSupplierJson(self, json):
-        sid = json['sid']
         susername = json['susername']
         scompany = json['scompany']
-        if sid and susername and scompany:
+        if susername and scompany:
             dao = SupplierDAO()
             sid = dao.insert(susername, scompany)
             result = self.build_supplier_attributes(sid, susername, scompany)
