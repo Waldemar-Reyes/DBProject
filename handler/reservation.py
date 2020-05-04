@@ -196,6 +196,8 @@ class ReservationHandler:
             reservation_list = dao.getReservationByAmountandTime(resamount, restime)
         if (len(args) == 2) and reslocation and restime:
             reservation_list = dao.getReservationByLocationandTime(reslocation, restime)
+        if (len(args) == 1) and resname:
+            reservation_list = dao.getReservationByName(resname)
         if (len(args) == 1) and restype:
             reservation_list = dao.getReservationByType(restype)
         if (len(args) == 1) and resprice:
