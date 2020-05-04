@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.consumer import ConsumerDAO
 
+
 class ConsumerHandler:
     def build_consumer_dict(self, row):
         result = {}
@@ -23,7 +24,12 @@ class ConsumerHandler:
     def build_reservation_dict(self, row):
         result = {}
         result['resid'] = row[0]
-        result['restime'] = row[1]
+        result['resname'] = row[1]
+        result['restype'] = row[2]
+        result['resprice'] = row[3]
+        result['resamount'] = row[4]
+        result['reslocation'] = row[5]
+        result['restime'] = row[6]
         return result
 
     def build_resource_dict(self, row):

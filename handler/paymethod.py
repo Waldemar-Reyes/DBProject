@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.paymethod import PayMethodDAO
 
+
 class PayMethodHandler:
     def build_payment_dict(self, row):
         result = {}
@@ -42,8 +43,8 @@ class PayMethodHandler:
         if not row:
             return jsonify(Error="Payment Not Found"), 404
         else:
-            order = self.build_payment_dict(row)
-        return jsonify(PayMethod=order)
+            paymethod = self.build_payment_dict(row)
+        return jsonify(PayMethod=paymethod)
 
     def searchPayMethod(self, args):
         pmname = args.get('pmname')

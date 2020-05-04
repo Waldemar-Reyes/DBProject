@@ -73,7 +73,7 @@ class SupplierDAO:
 
     def getReservationBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select resid, restime from reservation natural inner join supplier where sid = %s;"
+        query = "select resid, restype, resprice, resamount, reslocation, restime from reservation natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:

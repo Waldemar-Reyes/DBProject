@@ -55,7 +55,7 @@ class ConsumerDAO:
 
     def getReservationByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select resid, restime from reservation natural inner join consumer where consid = %s;"
+        query = "select resid, restype, resprice, resamount, reslocation, restime from reservation natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:

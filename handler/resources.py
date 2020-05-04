@@ -50,8 +50,8 @@ class ResourcesHandler:
         if not row:
             return jsonify(Error="Resource Not Found"), 404
         else:
-            order = self.build_resource_dict(row)
-        return jsonify(Resources=order)
+            resources = self.build_resource_dict(row)
+        return jsonify(Resources=resources)
 
     def searchResources(self, args):
         rid = args.get('rid')
@@ -152,13 +152,14 @@ class ResourcesHandler:
 
     def insertResourcesJson(self, json):
         rname = json['rname']
+        rtype = json['rtype']
         rprice = json['rprice']
         rlocation = json['rlocation']
         ramount = json['ramount']
-        if rname and rprice and rlocation and ramount:
+        if rname and rtype and rprice and rlocation and ramount:
             dao = ResourcesDAO()
-            rid = dao.insert(rname, rprice, rlocation, ramount)
-            result = self.build_resource_attributes(rid, rname, rprice, rlocation, ramount)
+            rid = dao.insert(rname, rtype, rprice, rlocation, ramount)
+            result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
             return jsonify(Resoure=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -168,16 +169,17 @@ class ResourcesHandler:
         if not dao.getResourcesById(rid):
             return jsonify(Error="Resource not found."), 404
         else:
-            if len(form) != 4:
+            if len(form) != 5:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']
+                rtype = form['rtype']
                 rprice = form['rprice']
                 rlocation = form['rlocation']
                 ramount = form['ramount']
-                if rname and rprice and rlocation and ramount:
-                    dao.update(rid, rname, rprice, rlocation, ramount)
-                    result = self.build_resource_attributes(rid, rname, rprice, rlocation, ramount)
+                if rname and rtype and rprice and rlocation and ramount:
+                    dao.update(rid, rname, rtype, rprice, rlocation, ramount)
+                    result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

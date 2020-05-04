@@ -51,8 +51,8 @@ class UsersHandler:
         if not row:
             return jsonify(Error="User Not Found"), 404
         else:
-            part = self.build_user_dict(row)
-        return jsonify(Users=part)
+            users = self.build_user_dict(row)
+        return jsonify(Users=users)
 
     def searchUsers(self, args):
         ufirstname = args.get('ufirstname')

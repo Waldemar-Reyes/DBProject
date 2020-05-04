@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.company import CompanyDAO
 
+
 class CompanyHandler:
     def build_company_dict(self, row):
         result = {}
