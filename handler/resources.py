@@ -68,6 +68,8 @@ class ResourcesHandler:
             resources_list = dao.getResourcesByNameandTypeandPriceandAmount(rname, rtype, rprice, ramount)
         if (len(args) == 4) and rname and rtype and rprice and rlocation:
             resources_list = dao.getResourcesByNameandTypeandPriceandLocation(rname, rtype, rprice, rlocation)
+        if (len(args) == 4) and rname and rtype and ramount and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandAmountandLocation(rname, rtype, ramount, rlocation)
         if (len(args) == 4) and rname and rprice and ramount and rlocation:
             resources_list = dao.getResourcesByNameandPriceandAmountandLocation(rname, rprice, ramount, rlocation)
         if (len(args) == 4) and rtype and rprice and ramount and rlocation:
@@ -112,6 +114,8 @@ class ResourcesHandler:
             resources_list = dao.getResourcesByPriceandLocation(rprice, rlocation)
         if (len(args) == 2) and ramount and rlocation:
             resources_list = dao.getResourcesByAmountandLocation(ramount, rlocation)
+        if (len(args) == 1) and rname:
+            resources_list = dao.getResourcesByName(rname)
         if (len(args) == 1) and rtype:
             resources_list = dao.getResourcesByType(rtype)
         if (len(args) == 1) and rprice:
