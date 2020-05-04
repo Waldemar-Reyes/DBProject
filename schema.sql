@@ -52,7 +52,7 @@ create table works(compid integer references company(compid), sid integer refere
 create table supplies(sid integer references supplier(sid), rid integer references resources(rid), primary key (sid, rid));
 
 -- System Admin to Users Table
-create table manages(uid integer references users(uid), said integer references system_admin(said), primary key (uid, said));
+create table manages(uid integer references users(uid), said integer references sys_adm(said), primary key (uid, said));
 
 -- Request to Resources Table
 create table asks(reqid integer references request(reqid), rid integer references resources(rid), primary key (reqid, rid));
