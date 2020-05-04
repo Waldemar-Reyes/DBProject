@@ -30,9 +30,10 @@ class ConsumerHandler:
         result = {}
         result['rid'] = row[0]
         result['rname'] = row[1]
-        result['rprice'] = row[2]
+        result['rtype'] = row[2]
+        result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[4]
+        result['ramount'] = row[5]
         return result
 
     def build_consumer_attributes(self, consid, consusername):

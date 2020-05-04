@@ -64,7 +64,7 @@ class ConsumerDAO:
 
     def getResourcesByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join consumer where consid = %s;"
+        query = "select rid, rname, rtype, rprice, ramount, rlocation from resources natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
