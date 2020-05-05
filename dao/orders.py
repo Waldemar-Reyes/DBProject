@@ -34,6 +34,24 @@ class OrdersDAO:
         for row in cursor:
             result.append(row)
         return result
+    
+    def getOrdersByTime(self, odtime):
+        cursor = self.conn.cursor()
+        query = "select * from orders where odtime = %s;"
+        cursor.execute(query, (odtime,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def getOrdersByNummberandTime(self, odnumber, odtime):
+        cursor = self.conn.cursor()
+        query = "select * from orders where odnumber = %s and odtime = %s;"
+        cursor.execute(query, (odnumber, odtime))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getConsumerByOrdersId(self, odid):
         cursor = self.conn.cursor()
@@ -62,18 +80,18 @@ class OrdersDAO:
             result.append(row)
         return result
 
-    def insert(self, odnumber):
+    def insert(self, odnumber, odtime):
         cursor = self.conn.cursor()
-        query = "insert into orders(odnumber) values (%s) returning odid;"
-        cursor.execute(query, (odnumber,))
+        query = "insert into orders(odnumber, odtime) values (%s %s) returning odid;"
+        cursor.execute(query, (odnumber, odtime,))
         odid = cursor.fetchone()[0]
         self.conn.commit()
         return odid
 
-    def update(self, odid, odnumber):
+    def update(self, odid, odnumber, odtime):
         cursor = self.conn.cursor()
-        query = "update orders set odnumber = %s where odid = %s;"
-        cursor.execute(query, (odnumber, odid,))
+        query = "update orders set odnumber = %s, odtime = %s where odid = %s;"
+        cursor.execute(query, (odnumber, odtime, odid,))
         self.conn.commit()
         return odid
 
