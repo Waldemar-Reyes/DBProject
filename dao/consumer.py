@@ -37,7 +37,7 @@ class ConsumerDAO:
 
     def getOrdersByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber, odid from orders natural inner join consumer where consid = %s;"
+        query = "select odid, odnumber, odtime from orders natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
