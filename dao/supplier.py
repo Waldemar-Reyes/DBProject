@@ -46,7 +46,7 @@ class SupplierDAO:
     
     def getCompanyBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select compid, compname from company natural inner join supplier where sid = %s;"
+        query = "select * from company natural inner join works natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -55,7 +55,7 @@ class SupplierDAO:
 
     def getOrdersBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber, odtime from orders natural inner join supplier where sid = %s;"
+        query = "select * from orders natural inner join belongs natural inner join resources natural inner join supplies natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -64,7 +64,7 @@ class SupplierDAO:
 
     def getPayMethodBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select pmid, pmname from pay_method natural inner join supplier where sid = %s;"
+        query = "select * from pay_method natural inner join pays natural inner join orders natural inner join belongs natural inner join resources natural inner join supplies natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -73,7 +73,7 @@ class SupplierDAO:
 
     def getReservationBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select resid, restype, resprice, resstock, reslocation, restime from reservation natural inner join supplier where sid = %s;"
+        query = "select * from reservation natural inner join asks natural inner join resources natural inner join supplies natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -82,7 +82,7 @@ class SupplierDAO:
 
     def getResourcesBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, rstock, rlocation from resources natural inner join supplier where sid = %s;"
+        query = "select * from resources natural inner join supplies natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:

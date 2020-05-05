@@ -37,7 +37,8 @@ class SysAdmDAO:
     
     def getCompanyBySysAdmId(self, said):
         cursor = self.conn.cursor()
-        query = "select compid, compname from company natural inner join sys_adm where said = %s;"
+        # TODO Check
+        query = "select * from company natural inner join works natural inner join supplier natural inner join sys_adm where said = %s;"
         cursor.execute(query, (said,))
         result = []
         for row in cursor:
@@ -46,7 +47,8 @@ class SysAdmDAO:
 
     def getConsumerBySysAdmId(self, said):
         cursor = self.conn.cursor()
-        query = "select consid, consusername from consumer natural inner join sys_adm where said = %s;"
+        # TODO Check
+        query = "select * from consumer natural inner join sys_adm where said = %s"
         cursor.execute(query, (said,))
         result = []
         for row in cursor:
@@ -55,7 +57,8 @@ class SysAdmDAO:
 
     def getSupplierBySysAdmId(self, said):
         cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join sys_adm where said = %s;"
+        # TODO Check
+        query = "select * from supplier natural inner join sys_adm where said = %s"
         cursor.execute(query, (said,))
         result = []
         for row in cursor:
@@ -64,7 +67,8 @@ class SysAdmDAO:
 
     def getUsersBySysAdmId(self, said):
         cursor = self.conn.cursor()
-        query = "select uid, ufirstname, ulastname from users natural inner join sys_adm where said = %s;"
+        # TODO Check
+        query = "select * from users natural inner join sys_adm where said = %s"
         cursor.execute(query, (said,))
         result = []
         for row in cursor:

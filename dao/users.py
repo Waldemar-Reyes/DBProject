@@ -55,7 +55,8 @@ class UsersDAO:
 
     def getConsumerByUsersId(self, uid):
         cursor = self.conn.cursor()
-        query = "select consid, consusername from consumer natural inner join users where uid = %s;"
+        # TODO Check
+        query = "select * from consumer natural inner join users where uid = %s"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
@@ -64,7 +65,8 @@ class UsersDAO:
 
     def getSupplierByUsersId(self, uid):
         cursor = self.conn.cursor()
-        query = "select sid, susername, scompany from supplier natural inner join users where uid = %s;"
+        # TODO Check
+        query = "select * from supplier natural inner join users where uid = %s"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
@@ -73,7 +75,8 @@ class UsersDAO:
 
     def getSysAdmByUsersId(self, uid):
         cursor = self.conn.cursor()
-        query = "select said, sausername from sys_adm natural inner join users where uid = %s;"
+        # TODO Check
+        query = "select * from sys_adm natural inner join users where uid = %s"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:

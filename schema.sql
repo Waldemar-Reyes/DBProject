@@ -3,26 +3,26 @@
 -- Company table
 create table company(compid serial primary key, compname varchar(20));
 
--- Consumer table
-create table consumer(consid serial primary key, consusername varchar(20));
-
 -- Pay Method table
 create table pay_method(pmid serial primary key, pmname varchar(20));
 
--- Request table
+-- Reservation table
 create table reservation(resid serial primary key, resname varchar(20), restype varchar(20), resprice double precision, reslocation varchar(20), resstock int, restime varchar(20));
 
 -- Resources table
 create table resources(rid serial primary key, rname varchar(20), rtype varchar(20), rprice double precision, rlocation varchar(20), rstock int);
 
--- Supplier table
-create table supplier(sid serial primary key, susername varchar(20), scompany varchar(20));
-
--- System Admin table
-create table sys_adm(said serial primary key, sausername varchar(20));
-
 -- Users table
 create table users(uid serial primary key, ufirstname varchar(20), ulastname varchar(20));
+
+-- Consumer table
+create table consumer(consid serial primary key, uid integer references users(uid), consusername varchar(20));
+
+-- Supplier table
+create table supplier(sid serial primary key, uid integer references users(uid), susername varchar(20), scompany varchar(20));
+
+-- System Admin table
+create table sys_adm(said serial primary key, uid integer references users(uid), sausername varchar(20));
 
 -- Order table
 create table orders(odid serial primary key, resid integer references reservation(resid), odnumber int, odtime int);
