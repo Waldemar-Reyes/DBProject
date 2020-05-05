@@ -593,24 +593,6 @@ class ReservationDAO:
             result.append(row)
         return result
     
-    def getReservationByNameandTypeandStockandLocationandTime(self, name, restype, stock, location, time):
-        cursor = self.conn.cursor()
-        query = "select * from reservation where resname = %s and restype = %s and resstock = %s and reslocation = %s and restime = %s;"
-        cursor.execute(query, (name, restype, stock, location, time))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
-    def getReservationByNameandPriceandStockandLocationandTime(self, name, price, stock, location, time):
-        cursor = self.conn.cursor()
-        query = "select * from reservation where resname = %s and resprice = %s and resstock = %s and reslocation = %s and restime = %s;"
-        cursor.execute(query, (name, price, stock, location, time))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    
     def getConsumerByReservationId(self, resid):
         cursor = self.conn.cursor()
         query = "select consid, consuseresname from consumer natural inner join reservation where resid = %s;"
