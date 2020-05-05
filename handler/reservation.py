@@ -24,6 +24,7 @@ class ReservationHandler:
         result = {}
         result['odid'] = row[0]
         result['odnumber'] = row[1]
+        result['odtime'] = row[2]
         return result
 
     def build_resource_dict(self, row):
@@ -279,7 +280,7 @@ class ReservationHandler:
         if not dao.getReservationById(resid):
             return jsonify(Error="Reservation not found."), 404
         else:
-            if len(form) != 1:
+            if len(form) != 6:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 resname = form['resname']
@@ -288,7 +289,7 @@ class ReservationHandler:
                 resstock = form['resstock']
                 reslocation = form['reslocation']
                 restime = form['restime']
-                if restime:
+                if resname and restype and resprice and resstock and reslocation and restime:
                     dao.update(resid, resname, restype, resprice, resstock, reslocation, restime)
                     result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                     return jsonify(Reservation=result), 200

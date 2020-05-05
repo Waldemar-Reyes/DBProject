@@ -55,7 +55,7 @@ class SupplierDAO:
 
     def getOrdersBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber from orders natural inner join supplier where sid = %s;"
+        query = "select odid, odnumber, odtime from orders natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:

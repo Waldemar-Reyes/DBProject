@@ -20,6 +20,7 @@ class SupplierHandler:
         result = {}
         result['odid'] = row[0]
         result['odnumber'] = row[1]
+        result['odtime'] = row[2]
         return result
 
     def build_payment_dict(self, row):
