@@ -20,6 +20,7 @@ class SupplierHandler:
         result = {}
         result['odid'] = row[0]
         result['odnumber'] = row[1]
+        result['odtime'] = row[2]
         return result
 
     def build_payment_dict(self, row):
@@ -34,7 +35,7 @@ class SupplierHandler:
         result['resname'] = row[1]
         result['restype'] = row[2]
         result['resprice'] = row[3]
-        result['resamount'] = row[4]
+        result['resstock'] = row[4]
         result['reslocation'] = row[5]
         result['restime'] = row[6]
         return result
@@ -46,7 +47,7 @@ class SupplierHandler:
         result['rtype'] = row[2]
         result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[5]
+        result['rstock'] = row[5]
         return result
 
     def build_supplier_attributes(self, sid, susername, scompany):

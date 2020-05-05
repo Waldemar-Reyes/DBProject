@@ -22,7 +22,7 @@ class CompanyHandler:
         result['rtype'] = row[2]
         result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[5]
+        result['rstock'] = row[5]
         return result
 
     def build_supplier_dict(self, row):

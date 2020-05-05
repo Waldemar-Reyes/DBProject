@@ -55,7 +55,7 @@ class SupplierDAO:
 
     def getOrdersBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber from orders natural inner join supplier where sid = %s;"
+        query = "select odid, odnumber, odtime from orders natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -73,7 +73,7 @@ class SupplierDAO:
 
     def getReservationBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select resid, restype, resprice, resamount, reslocation, restime from reservation natural inner join supplier where sid = %s;"
+        query = "select resid, restype, resprice, resstock, reslocation, restime from reservation natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
@@ -82,7 +82,7 @@ class SupplierDAO:
 
     def getResourcesBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, ramount, rlocation from resources natural inner join supplier where sid = %s;"
+        query = "select rid, rname, rtype, rprice, rstock, rlocation from resources natural inner join supplier where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:

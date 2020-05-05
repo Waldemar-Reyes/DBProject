@@ -574,6 +574,24 @@ class ReservationDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getReservationByNameandTypeandStockandLocationandTime(self, name, restype, stock, location, time):
+        cursor = self.conn.cursor()
+        query = "select * from reservation where resname = %s and restype = %s and resstock = %s and reslocation = %s and restime = %s;"
+        cursor.execute(query, (name, restype, stock, location, time))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getReservationByNameandPriceandStockandLocationandTime(self, name, price, stock, location, time):
+        cursor = self.conn.cursor()
+        query = "select * from reservation where resname = %s and resprice = %s and resstock = %s and reslocation = %s and restime = %s;"
+        cursor.execute(query, (name, price, stock, location, time))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
     
     def getReservationByNameandTypeandStockandLocationandTime(self, name, restype, stock, location, time):
         cursor = self.conn.cursor()
@@ -604,7 +622,7 @@ class ReservationDAO:
 
     def getOrdersByReservationId(self, resid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber from orders natural inner join reservation where resid = %s;"
+        query = "select odid, odnumber, odtime from orders natural inner join reservation where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
@@ -629,18 +647,18 @@ class ReservationDAO:
             result.append(row)
         return result
 
-    def insert(self, restime):
+    def insert(self, resname, restype, resprice, resstock, reslocation, restime):
         cursor = self.conn.cursor()
-        query = "insert into reservation(restime) values (%s) returning resid;"
-        cursor.execute(query, (restime,))
+        query = "insert into reservation(resname, restype, resprice, resstock, reslocation, restime) values (%s, %s, %s, %s, %s, %s) returning resid;"
+        cursor.execute(query, (resname, restype, resprice, resstock, reslocation, restime,))
         resid = cursor.fetchone()[0]
         self.conn.commit()
         return resid
 
-    def update(self, resid, restime):
+    def update(self, resid, resname, restype, resprice, resstock, reslocation, restime):
         cursor = self.conn.cursor()
-        query = "update reservation set restime = %s where resid = %s;"
-        cursor.execute(query, (restime, resid,))
+        query = "update reservation set resname = %s, restype = %s, resprice = %s, resstock = %s, reslocation = %s, restime = %s where resid = %s;"
+        cursor.execute(query, (resname, restype, resprice, resstock, reslocation, restime, resid,))
         self.conn.commit()
         return resid
 

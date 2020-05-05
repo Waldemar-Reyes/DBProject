@@ -7,6 +7,7 @@ class OrdersHandler:
         result = {}
         result['odid'] = row[0]
         result['odnumber'] = row[1]
+        result['odtime'] = row[2]
         return result
 
     def build_consumer_dict(self, row):
@@ -21,7 +22,7 @@ class OrdersHandler:
         result['resname'] = row[1]
         result['restype'] = row[2]
         result['resprice'] = row[3]
-        result['resamount'] = row[4]
+        result['resstock'] = row[4]
         result['reslocation'] = row[5]
         result['restime'] = row[6]
         return result
@@ -33,10 +34,11 @@ class OrdersHandler:
         result['sccompany'] = row[2]
         return result
 
-    def build_order_attributes(self, odid, odnumber):
+    def build_order_attributes(self, odid, odnumber, odtime):
         result = {}
         result['odid'] = odid
         result['odnumber'] = odnumber
+        result['odtime'] = odtime
         return result
 
     def getAllOrders(self):
@@ -106,10 +108,11 @@ class OrdersHandler:
 
     def insertOrdersJson(self, json):
         odnumber = json['odnumber']
-        if odnumber:
+        odtime = json['odtime']
+        if odnumber and odtime:
             dao = OrdersDAO()
-            odid = dao.insert(odnumber)
-            result = self.build_order_attributes(odid, odnumber)
+            odid = dao.insert(odnumber, odtime)
+            result = self.build_order_attributes(odid, odnumber, odtime)
             return jsonify(Orders=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -119,13 +122,14 @@ class OrdersHandler:
         if not dao.getOrdersById(odid):
             return jsonify(Error="Orders not found."), 404
         else:
-            if len(form) != 1:
+            if len(form) != 2:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 odnumber = form['odnumber']
-                if odnumber:
-                    dao.update(odid, odnumber)
-                    result = self.build_order_attributes(odid, odnumber)
+                odtime = form['odtime']
+                if odnumber and odtime:
+                    dao.update(odid, odnumber, odtime)
+                    result = self.build_order_attributes(odid, odnumber, odtime)
                     return jsonify(Orders=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
