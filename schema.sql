@@ -50,3 +50,6 @@ create table manages(uid integer references users(uid), said integer references 
 
 -- Reservations to Resources Table
 create table asks(resid integer references reservation(resid), rid integer references resources(rid), primary key (resid, rid), resquantity int);
+
+-- Consumer to Reservations Table
+create table makes(resid integer references reservation(resid), consid integer references consumer(consid), primary key (resid, consid));
