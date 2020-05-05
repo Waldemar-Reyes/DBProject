@@ -21,7 +21,7 @@ class OrdersHandler:
         result['resname'] = row[1]
         result['restype'] = row[2]
         result['resprice'] = row[3]
-        result['resamount'] = row[4]
+        result['resstock'] = row[4]
         result['reslocation'] = row[5]
         result['restime'] = row[6]
         return result

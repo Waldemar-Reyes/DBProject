@@ -10,7 +10,7 @@ class ResourcesHandler:
         result['rtype'] = row[2]
         result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[5]
+        result['rstock'] = row[5]
         return result
 
     def build_company_dict(self, row):
@@ -24,15 +24,15 @@ class ResourcesHandler:
         result['consid'] = row[0]
         result['consusername'] = row[1]
         return result
-      
-    def build_resource_attributes(self, rid, rname, rtype, rprice, rlocation, ramount):
+
+    def build_resource_attributes(self, rid, rname, rtype, rprice, rlocation, rstock):
         result = {}
         result['rid'] = rid
         result['rname'] = rname
         result['rtype'] = rtype
         result['rprice'] = rprice
         result['rlocation'] = rlocation
-        result['ramount'] = ramount
+        result['rstock'] = rstock
         return result
 
     def getAllResources(self):
@@ -59,69 +59,69 @@ class ResourcesHandler:
         rtype = args.get('rtype')
         rprice = args.get('rprice')
         rlocation = args.get('rlocation')
-        ramount = args.get('ramount')
+        rstock = args.get('rstock')
         dao = ResourcesDAO()
         resources_list = []
-        if (len(args) == 5) and rname and rtype and rprice and ramount and rlocation:
-            resources_list = dao.getResourcesByNameandTypeandPriceandAmountandLocation(rname, rtype, rprice, ramount, rlocation)
-        if (len(args) == 4) and rname and rtype and rprice and ramount:
-            resources_list = dao.getResourcesByNameandTypeandPriceandAmount(rname, rtype, rprice, ramount)
+        if (len(args) == 5) and rname and rtype and rprice and rstock and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandPriceandStockandLocation(rname, rtype, rprice, rstock, rlocation)
+        if (len(args) == 4) and rname and rtype and rprice and rstock:
+            resources_list = dao.getResourcesByNameandTypeandPriceandStock(rname, rtype, rprice, rstock)
         if (len(args) == 4) and rname and rtype and rprice and rlocation:
             resources_list = dao.getResourcesByNameandTypeandPriceandLocation(rname, rtype, rprice, rlocation)
-        if (len(args) == 4) and rname and rtype and ramount and rlocation:
-            resources_list = dao.getResourcesByNameandTypeandAmountandLocation(rname, rtype, ramount, rlocation)
-        if (len(args) == 4) and rname and rprice and ramount and rlocation:
-            resources_list = dao.getResourcesByNameandPriceandAmountandLocation(rname, rprice, ramount, rlocation)
-        if (len(args) == 4) and rtype and rprice and ramount and rlocation:
-            resources_list = dao.getResourcesTypeandPriceandAmountandLocation(rtype, rprice, ramount, rlocation)
+        if (len(args) == 4) and rname and rtype and rstock and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandStockandLocation(rname, rtype, rstock, rlocation)
+        if (len(args) == 4) and rname and rprice and rstock and rlocation:
+            resources_list = dao.getResourcesByNameandPriceandStockandLocation(rname, rprice, rstock, rlocation)
+        if (len(args) == 4) and rtype and rprice and rstock and rlocation:
+            resources_list = dao.getResourcesByTypeandPriceandStockandLocation(rtype, rprice, rstock, rlocation)
         if (len(args) == 3) and rname and rtype and rprice:
             resources_list = dao.getResourcesByNameandTypeandPrice(rname, rtype, rprice)
-        if (len(args) == 3) and rname and rtype and ramount:
-            resources_list = dao.getResourcesByNameandTypeandAmount(rname, rtype, ramount)
+        if (len(args) == 3) and rname and rtype and rstock:
+            resources_list = dao.getResourcesByNameandTypeandStock(rname, rtype, rstock)
         if (len(args) == 3) and rname and rtype and rlocation:
             resources_list = dao.getResourcesByNameandTypeandLocation(rname, rtype, rlocation)
-        if (len(args) == 3) and rname and rprice and ramount:
-            resources_list = dao.getResourcesByNameandPriceandAmountand(rname, rprice, ramount)
+        if (len(args) == 3) and rname and rprice and rstock:
+            resources_list = dao.getResourcesByNameandPriceandStock(rname, rprice, rstock)
         if (len(args) == 3) and rname and rprice and rlocation:
             resources_list = dao.getResourcesByNameandPriceandLocation(rname, rprice, rlocation)
-        if (len(args) == 3) and rname and ramount and rlocation:
-            resources_list = dao.getResourcesByNameandAmountandLocation(rname, ramount, rlocation)
-        if (len(args) == 3) and rtype and rprice and ramount:
-            resources_list = dao.getResourcesTypeandPriceandAmountand(rtype, rprice, ramount)
+        if (len(args) == 3) and rname and rstock and rlocation:
+            resources_list = dao.getResourcesByNameandStockandLocation(rname, rstock, rlocation)
+        if (len(args) == 3) and rtype and rprice and rstock:
+            resources_list = dao.getResourcesByTypeandPriceandStock(rtype, rprice, rstock)
         if (len(args) == 3) and rtype and rprice and rlocation:
             resources_list = dao.getResourcesByTypeandPriceandLocation(rtype, rprice, rlocation)
-        if (len(args) == 3) and rtype and ramount and rlocation:
-            resources_list = dao.getResourcesByTypeandAmountandLocation(rtype, ramount, rlocation)
-        if (len(args) == 3) and rprice and ramount and rlocation:
-            resources_list = dao.getResourcesByPriceandAmountandLocation(rprice, ramount, rlocation)
+        if (len(args) == 3) and rtype and rstock and rlocation:
+            resources_list = dao.getResourcesByTypeandStockandLocation(rtype, rstock, rlocation)
+        if (len(args) == 3) and rprice and rstock and rlocation:
+            resources_list = dao.getResourcesByPriceandStockandLocation(rprice, rstock, rlocation)
         if (len(args) == 2) and rname and rtype:
             resources_list = dao.getResourcesByNameandType(rname, rtype)
         if (len(args) == 2) and rname and rprice:
             resources_list = dao.getResourcesByNameandPrice(rname, rprice)
-        if (len(args) == 2) and rname and ramount:
-            resources_list = dao.getResourcesByNameandAmount(rname, ramount)
+        if (len(args) == 2) and rname and rstock:
+            resources_list = dao.getResourcesByNameandStock(rname, rstock)
         if (len(args) == 2) and rname and rlocation:
             resources_list = dao.getResourcesByNameandLocation(rname, rlocation)
         if (len(args) == 2) and rtype and rprice:
-            resources_list = dao.getResourcesTypeandPrice(rtype, rprice)
-        if (len(args) == 2) and rtype and ramount:
-            resources_list = dao.getResourcesTypeandAmount(rtype, ramount)
+            resources_list = dao.getResourcesByTypeandPrice(rtype, rprice)
+        if (len(args) == 2) and rtype and rstock:
+            resources_list = dao.getResourcesByTypeandStock(rtype, rstock)
         if (len(args) == 2) and rtype and rlocation:
-            resources_list = dao.getResourcesTypeandLocation(rtype, rlocation)
-        if (len(args) == 2) and rprice and ramount:
-            resources_list = dao.getResourcesByPriceandAmount(rprice, ramount)
+            resources_list = dao.getResourcesByTypeandLocation(rtype, rlocation)
+        if (len(args) == 2) and rprice and rstock:
+            resources_list = dao.getResourcesByPriceandStock(rprice, rstock)
         if (len(args) == 2) and rprice and rlocation:
             resources_list = dao.getResourcesByPriceandLocation(rprice, rlocation)
-        if (len(args) == 2) and ramount and rlocation:
-            resources_list = dao.getResourcesByAmountandLocation(ramount, rlocation)
+        if (len(args) == 2) and rstock and rlocation:
+            resources_list = dao.getResourcesByStockandLocation(rstock, rlocation)
         if (len(args) == 1) and rname:
             resources_list = dao.getResourcesByName(rname)
         if (len(args) == 1) and rtype:
             resources_list = dao.getResourcesByType(rtype)
         if (len(args) == 1) and rprice:
             resources_list = dao.getResourcesByPrice(rprice)
-        if (len(args) == 1) and ramount:
-            resources_list = dao.getResourcesByAmount(ramount)
+        if (len(args) == 1) and rstock:
+            resources_list = dao.getResourcesByStock(rstock)
         if (len(args) == 1) and rlocation:
             resources_list = dao.getResourcesByLocation(rlocation)
         else:
@@ -159,11 +159,11 @@ class ResourcesHandler:
         rtype = json['rtype']
         rprice = json['rprice']
         rlocation = json['rlocation']
-        ramount = json['ramount']
-        if rname and rtype and rprice and rlocation and ramount:
+        rstock = json['rstock']
+        if rname and rtype and rprice and rlocation and rstock:
             dao = ResourcesDAO()
-            rid = dao.insert(rname, rtype, rprice, rlocation, ramount)
-            result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
+            rid = dao.insert(rname, rtype, rprice, rlocation, rstock)
+            result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, rstock)
             return jsonify(Resoure=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -180,10 +180,10 @@ class ResourcesHandler:
                 rtype = form['rtype']
                 rprice = form['rprice']
                 rlocation = form['rlocation']
-                ramount = form['ramount']
-                if rname and rtype and rprice and rlocation and ramount:
-                    dao.update(rid, rname, rtype, rprice, rlocation, ramount)
-                    result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
+                rstock = form['rstock']
+                if rname and rtype and rprice and rlocation and rstock:
+                    dao.update(rid, rname, rtype, rprice, rlocation, rstock)
+                    result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, rstock)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

@@ -27,7 +27,7 @@ class ConsumerHandler:
         result['resname'] = row[1]
         result['restype'] = row[2]
         result['resprice'] = row[3]
-        result['resamount'] = row[4]
+        result['resstock'] = row[4]
         result['reslocation'] = row[5]
         result['restime'] = row[6]
         return result
@@ -39,7 +39,7 @@ class ConsumerHandler:
         result['rtype'] = row[2]
         result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[5]
+        result['rstock'] = row[5]
         return result
 
     def build_consumer_attributes(self, consid, consusername):

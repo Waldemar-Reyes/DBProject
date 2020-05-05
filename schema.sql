@@ -13,10 +13,10 @@ create table orders(odid serial primary key, resid integer references reservatio
 create table pay_method(pmid serial primary key, pmname varchar(20));
 
 -- Request table
-create table reservation(resid serial primary key, resname varchar(20), restype varchar(20), resprice double_precision, reslocation varchar(20), resamount int, restime varchar(20));
+create table reservation(resid serial primary key, resname varchar(20), restype varchar(20), resprice double_precision, reslocation varchar(20), resstock int, restime varchar(20));
 
 -- Resources table
-create table resources(rid serial primary key, rname varchar(20), rtype varchar(20), rprice double_precision, rlocation varchar(20), ramount int);
+create table resources(rid serial primary key, rname varchar(20), rtype varchar(20), rprice double_precision, rlocation varchar(20), rstock int);
 
 -- Supplier table
 create table supplier(sid serial primary key, susername varchar(20), scompany varchar(20));

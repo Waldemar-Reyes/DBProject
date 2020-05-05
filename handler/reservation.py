@@ -9,7 +9,7 @@ class ReservationHandler:
         result['resname'] = row[1]
         result['restype'] = row[2]
         result['resprice'] = row[3]
-        result['resamount'] = row[4]
+        result['resstock'] = row[4]
         result['reslocation'] = row[5]
         result['restime'] = row[6]
         return result
@@ -33,23 +33,22 @@ class ReservationHandler:
         result['rtype'] = row[2]
         result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[5]
+        result['rstock'] = row[5]
         return result
-
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
         result['susername'] = row[1]
         result['scompany'] = row[2]
         return result
-      
-    def build_reservation_attributes(self, resid, resname, restype, resprice, resamount, reslocation, restime):
+
+    def build_reservation_attributes(self, resid, resname, restype, resprice, resstock, reslocation, restime):
         result = {}
         result['resid'] = resid
         result['resname'] = resname
         result['restype'] = restype
         result['resprice'] = resprice
-        result['resamount'] = resamount
+        result['resstock'] = resstock
         result['reslocation'] = reslocation
         result['restime'] = restime
         return result
@@ -77,123 +76,123 @@ class ReservationHandler:
         resname = args.get('resname')
         restype = args.get('restype')
         resprice = args.get('resprice')
-        resamount = args.get('resamount')
+        resstock = args.get('resstock')
         reslocation = args.get('reslocation')
         restime = args.get('restime')
         dao = ReservationDAO()
         reservation_list = []
-        if (len(args) == 6) and resname and restype and resprice and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByNameandTypeandPriceandAmountandLocationandTime(resname, restype, resprice, resamount, reslocation, restime)
-        if (len(args) == 5) and resname and restype and resprice and resamount and reslocation:
-            reservation_list = dao.getReservationByNameandTypeandPriceandAmountandLocation(resname, restype, resprice, resamount, reslocation)
-        if (len(args) == 5) and resname and restype and resprice and resamount and restime:
-            reservation_list = dao.getReservationByNameandTypeandPriceandAmountandTime(resname, restype, resprice, resamount, restime)
+        if (len(args) == 6) and resname and restype and resprice and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByNameandTypeandPriceandStockandLocationandTime(resname, restype, resprice, resstock, reslocation, restime)
+        if (len(args) == 5) and resname and restype and resprice and resstock and reslocation:
+            reservation_list = dao.getReservationByNameandTypeandPriceandStockandLocation(resname, restype, resprice, resstock, reslocation)
+        if (len(args) == 5) and resname and restype and resprice and resstock and restime:
+            reservation_list = dao.getReservationByNameandTypeandPriceandStockandTime(resname, restype, resprice, resstock, restime)
         if (len(args) == 5) and resname and restype and resprice and reslocation and restime:
             reservation_list = dao.getReservationByNameandTypeandPriceandLocationandTime(resname, restype, resprice, reslocation, restime)
-        if (len(args) == 5) and resname and restype and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByNameandTypeandAmountandLocationandTime(resname, restype, resamount, reslocation, restime)
-        if (len(args) == 5) and resname and resprice and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByNameandPriceandAmountandLocationandTime(resname, resprice, resamount, reslocation, restime)
-        if (len(args) == 5) and restype and resprice and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByTypeandPriceandAmountandLocationandTime(restype, resprice, resamount, reslocation, restime)
-        if (len(args) == 4) and resname and restype and resprice and resamount:
-            reservation_list = dao.getReservationByNameandTypeandPriceandAmount(resname, restype, resprice, resamount)
+        if (len(args) == 5) and resname and restype and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByNameandTypeandStockandLocationandTime(resname, restype, resstock, reslocation, restime)
+        if (len(args) == 5) and resname and resprice and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByNameandPriceandStockandLocationandTime(resname, resprice, resstock, reslocation, restime)
+        if (len(args) == 5) and restype and resprice and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByTypeandPriceandStockandLocationandTime(restype, resprice, resstock, reslocation, restime)
+        if (len(args) == 4) and resname and restype and resprice and resstock:
+            reservation_list = dao.getReservationByNameandTypeandPriceandStock(resname, restype, resprice, resstock)
         if (len(args) == 4) and resname and restype and resprice and reslocation:
             reservation_list = dao.getReservationByNameandTypeandPriceandLocation(resname, restype, resprice, reslocation)
         if (len(args) == 4) and resname and restype and resprice and restime:
             reservation_list = dao.getReservationByNameandTypeandPriceandTime(resname, restype, resprice, restime)
-        if (len(args) == 4) and resname and restype and resamount and reslocation:
-            reservation_list = dao.getReservationByNameandTypeandAmountandLocation(resname, restype, resamount, reslocation)
-        if (len(args) == 4) and resname and restype and resamount and restime:
-            reservation_list = dao.getReservationByNameandTypeandAmountandTime(resname, restype, resamount, restime)
+        if (len(args) == 4) and resname and restype and resstock and reslocation:
+            reservation_list = dao.getReservationByNameandTypeandStockandLocation(resname, restype, resstock, reslocation)
+        if (len(args) == 4) and resname and restype and resstock and restime:
+            reservation_list = dao.getReservationByNameandTypeandStockandTime(resname, restype, resstock, restime)
         if (len(args) == 4) and resname and restype and reslocation and restime:
             reservation_list = dao.getReservationByNameandTypeandLocationandTime(resname, restype, reslocation, restime)
-        if (len(args) == 4) and resname and resprice and resamount and reslocation:
-            reservation_list = dao.getReservationByNameandPriceandAmountandLocation(resname, resprice, resamount, reslocation)
-        if (len(args) == 4) and resname and resprice and resamount and restime:
-            reservation_list = dao.getReservationByNameandPriceandAmountandTime(resname, resprice, resamount, restime)
+        if (len(args) == 4) and resname and resprice and resstock and reslocation:
+            reservation_list = dao.getReservationByNameandPriceandStockandLocation(resname, resprice, resstock, reslocation)
+        if (len(args) == 4) and resname and resprice and resstock and restime:
+            reservation_list = dao.getReservationByNameandPriceandStockandTime(resname, resprice, resstock, restime)
         if (len(args) == 4) and resname and resprice and reslocation and restime:
             reservation_list = dao.getReservationByNameandPriceandLocationandTime(resname, resprice, reslocation, restime)
-        if (len(args) == 4) and resname and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByNameandAmountandLocationandTime(resname, resamount, reslocation, restime)
-        if (len(args) == 4) and restype and resprice and resamount and reslocation:
-            reservation_list = dao.getReservationByTypeandPriceandAmountandLocation(restype, resprice, resamount, reslocation)
-        if (len(args) == 4) and restype and resprice and resamount and restime:
-            reservation_list = dao.getReservationByTypeandPriceandAmountandTime(restype, resprice, resamount, restime)
+        if (len(args) == 4) and resname and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByNameandStockandLocationandTime(resname, resstock, reslocation, restime)
+        if (len(args) == 4) and restype and resprice and resstock and reslocation:
+            reservation_list = dao.getReservationByTypeandPriceandStockandLocation(restype, resprice, resstock, reslocation)
+        if (len(args) == 4) and restype and resprice and resstock and restime:
+            reservation_list = dao.getReservationByTypeandPriceandStockandTime(restype, resprice, resstock, restime)
         if (len(args) == 4) and restype and resprice and reslocation and restime:
             reservation_list = dao.getReservationByTypeandPriceandLocationandTime(restype, resprice, reslocation, restime)
-        if (len(args) == 4) and restype and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByTypeandAmountandLocationandTime(restype, resamount, reslocation, restime)
-        if (len(args) == 4) and resprice and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByPriceandAmountandLocationandTime(resprice, resamount, reslocation, restime)
+        if (len(args) == 4) and restype and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByTypeandStockandLocationandTime(restype, resstock, reslocation, restime)
+        if (len(args) == 4) and resprice and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByPriceandStockandLocationandTime(resprice, resstock, reslocation, restime)
         if (len(args) == 3) and resname and restype and resprice:
             reservation_list = dao.getReservationByNameandTypeandPrice(resname, restype, resprice)
-        if (len(args) == 3) and resname and restype and resamount:
-            reservation_list = dao.getReservationByNameandTypeandAmount(resname, restype, resamount)
+        if (len(args) == 3) and resname and restype and resstock:
+            reservation_list = dao.getReservationByNameandTypeandStock(resname, restype, resstock)
         if (len(args) == 3) and resname and restype and reslocation:
             reservation_list = dao.getReservationByNameandTypeandLocation(resname, restype, reslocation)
         if (len(args) == 3) and resname and restype and restime:
             reservation_list = dao.getReservationByNameandTypeandTime(resname, restype, restime)
-        if (len(args) == 3) and resname and resprice and resamount:
-            reservation_list = dao.getReservationByNameandPriceandAmountand(resname, resprice, resamount)
+        if (len(args) == 3) and resname and resprice and resstock:
+            reservation_list = dao.getReservationByNameandPriceandStock(resname, resprice, resstock)
         if (len(args) == 3) and resname and resprice and reslocation:
             reservation_list = dao.getReservationByNameandPriceandLocation(resname, resprice, reslocation)
         if (len(args) == 3) and resname and resprice and restime:
             reservation_list = dao.getReservationByNameandPriceandTime(resname, resprice, restime)
-        if (len(args) == 3) and resname and resamount and reslocation:
-            reservation_list = dao.getReservationByNameandAmountandLocation(resname, resamount, reslocation)
-        if (len(args) == 3) and resname and resamount and restime:
-            reservation_list = dao.getReservationByNameandAmountandTime(resname, resamount, restime)
+        if (len(args) == 3) and resname and resstock and reslocation:
+            reservation_list = dao.getReservationByNameandStockandLocation(resname, resstock, reslocation)
+        if (len(args) == 3) and resname and resstock and restime:
+            reservation_list = dao.getReservationByNameandStockandTime(resname, resstock, restime)
         if (len(args) == 3) and resname and reslocation and restime:
             reservation_list = dao.getReservationByNameandLocationandTime(resname, reslocation, restime)
-        if (len(args) == 3) and restype and resprice and resamount:
-            reservation_list = dao.getReservationTypeandPriceandAmountand(restype, resprice, resamount)
+        if (len(args) == 3) and restype and resprice and resstock:
+            reservation_list = dao.getReservationByTypeandPriceandStock(restype, resprice, resstock)
         if (len(args) == 3) and restype and resprice and reslocation:
             reservation_list = dao.getReservationByTypeandPriceandLocation(restype, resprice, reslocation)
         if (len(args) == 3) and restype and resprice and restime:
             reservation_list = dao.getReservationByTypeandPriceandTime(restype, resprice, restime)
-        if (len(args) == 3) and restype and resamount and reslocation:
-            reservation_list = dao.getReservationByTypeandAmountandLocation(restype, resamount, reslocation)
-        if (len(args) == 3) and restype and resamount and restime:
-            reservation_list = dao.getReservationByTypeandAmountandTime(restype, resamount, restime)
+        if (len(args) == 3) and restype and resstock and reslocation:
+            reservation_list = dao.getReservationByTypeandStockandLocation(restype, resstock, reslocation)
+        if (len(args) == 3) and restype and resstock and restime:
+            reservation_list = dao.getReservationByTypeandStockandTime(restype, resstock, restime)
         if (len(args) == 3) and restype and reslocation and restime:
             reservation_list = dao.getReservationByTypeandLocationandTime(restype, reslocation, restime)
-        if (len(args) == 3) and resprice and resamount and reslocation:
-            reservation_list = dao.getReservationByPriceandAmountandLocation(resprice, resamount, reslocation)
-        if (len(args) == 3) and resprice and resamount and restime:
-            reservation_list = dao.getReservationByPriceandAmountandTime(resprice, resamount, restime)
+        if (len(args) == 3) and resprice and resstock and reslocation:
+            reservation_list = dao.getReservationByPriceandStockandLocation(resprice, resstock, reslocation)
+        if (len(args) == 3) and resprice and resstock and restime:
+            reservation_list = dao.getReservationByPriceandStockandTime(resprice, resstock, restime)
         if (len(args) == 3) and resprice and reslocation and restime:
             reservation_list = dao.getReservationByPriceandLocationandTime(resprice, reslocation, restime)
-        if (len(args) == 3) and resamount and reslocation and restime:
-            reservation_list = dao.getReservationByAmountandLocationandTime(resamount, reslocation, restime)
+        if (len(args) == 3) and resstock and reslocation and restime:
+            reservation_list = dao.getReservationByStockandLocationandTime(resstock, reslocation, restime)
         if (len(args) == 2) and resname and restype:
             reservation_list = dao.getReservationByNameandType(resname, restype)
         if (len(args) == 2) and resname and resprice:
             reservation_list = dao.getReservationByNameandPrice(resname, resprice)
-        if (len(args) == 2) and resname and resamount:
-            reservation_list = dao.getReservationByNameandAmount(resname, resamount)
+        if (len(args) == 2) and resname and resstock:
+            reservation_list = dao.getReservationByNameandStock(resname, resstock)
         if (len(args) == 2) and resname and reslocation:
             reservation_list = dao.getReservationByNameandLocation(resname, reslocation)
         if (len(args) == 2) and resname and restime:
             reservation_list = dao.getReservationByNameandTime(resname, restime)
         if (len(args) == 2) and restype and resprice:
-            reservation_list = dao.getReservationTypeandPrice(restype, resprice)
-        if (len(args) == 2) and restype and resamount:
-            reservation_list = dao.getReservationTypeandAmount(restype, resamount)
+            reservation_list = dao.getReservationByTypeandPrice(restype, resprice)
+        if (len(args) == 2) and restype and resstock:
+            reservation_list = dao.getReservationByTypeandStock(restype, resstock)
         if (len(args) == 2) and restype and reslocation:
-            reservation_list = dao.getReservationTypeandLocation(restype, reslocation)
+            reservation_list = dao.getReservationByTypeandLocation(restype, reslocation)
         if (len(args) == 2) and restype and restime:
-            reservation_list = dao.getReservationTypeandTime(restype, restime)
-        if (len(args) == 2) and resprice and resamount:
-            reservation_list = dao.getReservationByPriceandAmount(resprice, resamount)
+            reservation_list = dao.getReservationByTypeandTime(restype, restime)
+        if (len(args) == 2) and resprice and resstock:
+            reservation_list = dao.getReservationByPriceandStock(resprice, resstock)
         if (len(args) == 2) and resprice and reslocation:
             reservation_list = dao.getReservationByPriceandLocation(resprice, reslocation)
         if (len(args) == 2) and resprice and restime:
             reservation_list = dao.getReservationByPriceandTime(resprice, restime)
-        if (len(args) == 2) and resamount and reslocation:
-            reservation_list = dao.getReservationByAmountandLocation(resamount, reslocation)
-        if (len(args) == 2) and resamount and restime:
-            reservation_list = dao.getReservationByAmountandTime(resamount, restime)
+        if (len(args) == 2) and resstock and reslocation:
+            reservation_list = dao.getReservationByStockandLocation(resstock, reslocation)
+        if (len(args) == 2) and resstock and restime:
+            reservation_list = dao.getReservationByStockandTime(resstock, restime)
         if (len(args) == 2) and reslocation and restime:
             reservation_list = dao.getReservationByLocationandTime(reslocation, restime)
         if (len(args) == 1) and resname:
@@ -202,8 +201,8 @@ class ReservationHandler:
             reservation_list = dao.getReservationByType(restype)
         if (len(args) == 1) and resprice:
             reservation_list = dao.getReservationByPrice(resprice)
-        if (len(args) == 1) and resamount:
-            reservation_list = dao.getReservationByAmount(resamount)
+        if (len(args) == 1) and resstock:
+            reservation_list = dao.getReservationByStock(resstock)
         if (len(args) == 1) and reslocation:
             reservation_list = dao.getReservationByLocation(reslocation)
         if (len(args) == 1) and restime:
@@ -264,13 +263,13 @@ class ReservationHandler:
         resname = json['resname']
         restype = json['restype']
         resprice = json['resprice']
-        resamount = json['resamount']
+        resstock = json['resstock']
         reslocation = json['reslocation']
         restime = json['restime']
-        if resname and restype and resprice and resamount and reslocation and restime:
+        if resname and restype and resprice and resstock and reslocation and restime:
             dao = ReservationDAO()
-            resid = dao.insert(resname, restype, resprice, resamount, reslocation, restime)
-            result = self.build_reservation_attributes(resid, resname, restype, resprice, resamount, reslocation, restime)
+            resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
+            result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
             return jsonify(Reservation=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -286,12 +285,12 @@ class ReservationHandler:
                 resname = form['resname']
                 restype = form['restype']
                 resprice = form['resprice']
-                resamount = form['resamount']
+                resstock = form['resstock']
                 reslocation = form['reslocation']
                 restime = form['restime']
                 if restime:
-                    dao.update(resid, resname, restype, resprice, resamount, reslocation, restime)
-                    result = self.build_reservation_attributes(resid, resname, restype, resprice, resamount, reslocation, restime)
+                    dao.update(resid, resname, restype, resprice, resstock, reslocation, restime)
+                    result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                     return jsonify(Reservation=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
