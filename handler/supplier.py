@@ -31,16 +31,22 @@ class SupplierHandler:
     def build_reservation_dict(self, row):
         result = {}
         result['resid'] = row[0]
-        result['restime'] = row[1]
+        result['resname'] = row[1]
+        result['restype'] = row[2]
+        result['resprice'] = row[3]
+        result['resamount'] = row[4]
+        result['reslocation'] = row[5]
+        result['restime'] = row[6]
         return result
 
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
         result['rname'] = row[1]
-        result['rprice'] = row[2]
+        result['rtype'] = row[2]
+        result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[4]
+        result['ramount'] = row[5]
         return result
 
     def build_supplier_attributes(self, sid, susername, scompany):
@@ -65,8 +71,8 @@ class SupplierHandler:
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:
-            part = self.build_supplier_dict(row)
-        return jsonify(Part=part)
+            suppliers = self.build_supplier_dict(row)
+        return jsonify(Suppliers=suppliers)
 
     def searchSupplier(self, args):
         susername = args.get('susername')

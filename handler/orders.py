@@ -18,7 +18,12 @@ class OrdersHandler:
     def build_reservation_dict(self, row):
         result = {}
         result['resid'] = row[0]
-        result['restime'] = row[1]
+        result['resname'] = row[1]
+        result['restype'] = row[2]
+        result['resprice'] = row[3]
+        result['resamount'] = row[4]
+        result['reslocation'] = row[5]
+        result['restime'] = row[6]
         return result
 
     def build_supplier_dict(self, row):
@@ -41,16 +46,16 @@ class OrdersHandler:
         for row in order_list:
             result = self.build_order_dict(row)
             result_list.append(result)
-        return jsonify(Order=result_list)
+        return jsonify(Orders=result_list)
 
     def getOrdersById(self, odid):
         dao = OrdersDAO()
         row = dao.getOrdersById(odid)
         if not row:
-            return jsonify(Error="Order Not Found"), 404
+            return jsonify(Error="Orders Not Found"), 404
         else:
-            order = self.build_order_dict(row)
-        return jsonify(Order=order)
+            orders = self.build_order_dict(row)
+        return jsonify(Orders=orders)
 
     def searchOrders(self, args):
         odnumber = args.get('odnumber')
@@ -64,40 +69,40 @@ class OrdersHandler:
         for row in order_list:
             result = self.build_order_dict(row)
             result_list.append(result)
-        return jsonify(Order=result_list)
+        return jsonify(Orders=result_list)
 
     def getConsumerByOrdersId(self, odid):
         dao = OrdersDAO()
         if not dao.getOrdersById(odid):
-            return jsonify(Error="Order Not Found"), 404
+            return jsonify(Error="Orders Not Found"), 404
         consumer_list = dao.getConsumerByOrdersId(odid)
         result_list = []
         for row in consumer_list:
             result = self.build_consumer_dict(row)
             result_list.append(result)
-        return jsonify(Order=result_list)
+        return jsonify(Orders=result_list)
 
     def getReservationByOrdersId(self, odid):
         dao = OrdersDAO()
         if not dao.getOrdersById(odid):
-            return jsonify(Error="Order Not Found"), 404
+            return jsonify(Error="Orders Not Found"), 404
         reservation_list = dao.getReservationByOrdersId(odid)
         result_list = []
         for row in reservation_list:
             result = self.build_reservation_dict(row)
             result_list.append(result)
-        return jsonify(Order=result_list)
+        return jsonify(Orders=result_list)
 
     def getSupplierByOrdersId(self, odid):
         dao = OrdersDAO()
         if not dao.getOrdersById(odid):
-            return jsonify(Error="Order Not Found"), 404
+            return jsonify(Error="Orders Not Found"), 404
         supplier_list = dao.getSupplierByOrdersId(odid)
         result_list = []
         for row in supplier_list:
             result = self.build_supplier_dict(row)
             result_list.append(result)
-        return jsonify(Order=result_list)
+        return jsonify(Orders=result_list)
 
     def insertOrdersJson(self, json):
         odnumber = json['odnumber']
@@ -105,14 +110,14 @@ class OrdersHandler:
             dao = OrdersDAO()
             odid = dao.insert(odnumber)
             result = self.build_order_attributes(odid, odnumber)
-            return jsonify(Order=result), 201
+            return jsonify(Orders=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
     def updateOrders(self, odid, form):
         dao = OrdersDAO()
         if not dao.getOrdersById(odid):
-            return jsonify(Error="Order not found."), 404
+            return jsonify(Error="Orders not found."), 404
         else:
             if len(form) != 1:
                 return jsonify(Error="Malformed update request"), 400
@@ -121,14 +126,14 @@ class OrdersHandler:
                 if odnumber:
                     dao.update(odid, odnumber)
                     result = self.build_order_attributes(odid, odnumber)
-                    return jsonify(Order=result), 200
+                    return jsonify(Orders=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
     def deleteOrders(self, odid):
         dao = OrdersDAO()
         if not dao.getOrdersById(odid):
-            return jsonify(Error="Order not found."), 404
+            return jsonify(Error="Orders not found."), 404
         else:
             dao.delete(odid)
             return jsonify(DeleteStatus="OK"), 200

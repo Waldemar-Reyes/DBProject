@@ -8,7 +8,7 @@ from handler.company import CompanyHandler
 from handler.consumer import ConsumerHandler
 from handler.orders import OrdersHandler
 from handler.paymethod import PayMethodHandler
-# from handler.reservation import ReservationHandler
+from handler.reservation import ReservationHandler
 from handler.resources import ResourcesHandler
 from handler.supplier import SupplierHandler
 from handler.systemadmin import SysAdmHandler
@@ -189,38 +189,50 @@ def getSupplierByPayMethodId(pmid):
     return PayMethodHandler().getSupplierByPayMethodId(pmid)
 
 
-# TODO May be deleted in near future
-# Was not completely implemented for this test
-#
 # Reservation
-#
-# @app.route('/DSRLapp/reservations', methods=['GET', 'POST'])
-# def getAllReservations():
-#     if request.method == 'POST':
-#         print("REQUEST: ", request.json)
-#         return ReservationHandler().insertReservationJson(request.json)
-#     else:
-#         if not request.json:
-#             return ReservationHandler().getAllReservation()
-#         else:
-#             return ReservationHandler().searchReservation(request.json)
-#
-#
-# @app.route('/DSRLapp/reservations/<int:resid>', methods=['GET', 'PUT', 'DELETE'])
-# def getReservationsById(resid):
-#     if request.method == 'GET':
-#         return ReservationHandler().getReservationById(resid)
-#     elif request.method == 'PUT':
-#         return ReservationHandler().updateReservation(resid, request.form)
-#     elif request.method == 'DELETE':
-#         return ReservationHandler().deleteReservation(resid)
-#     else:
-#         return jsonify(Error="Method not allowed."), 405
-#
-#
-# @app.route('/DSRLapp/reservations/<int:resid>/resources')
-# def getResourcesByReservationId(resid):
-#     return ReservationHandler.getResourcesByReservationId(resid)
+
+@app.route('/DSRLapp/reservation', methods=['GET', 'POST'])
+def getAllReservations():
+    if request.method == 'POST':
+        print("REQUEST: ", request.json)
+        return ReservationHandler().insertReservationJson(request.json)
+    else:
+        if not request.json:
+            return ReservationHandler().getAllReservation()
+        else:
+            return ReservationHandler().searchReservation(request.json)
+
+
+@app.route('/DSRLapp/reservation/<int:resid>', methods=['GET', 'PUT', 'DELETE'])
+def getReservationsById(resid):
+    if request.method == 'GET':
+        return ReservationHandler().getReservationById(resid)
+    elif request.method == 'PUT':
+        return ReservationHandler().updateReservation(resid, request.form)
+    elif request.method == 'DELETE':
+        return ReservationHandler().deleteReservation(resid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/DSRLapp/reservation/<int:resid>/consumer')
+def getConsumerByReservationId(resid):
+    return ReservationHandler().getConsumerByReservationId(resid)
+
+
+@app.route('/DSRLapp/reservation/<int:resid>/orders')
+def getOrdersByReservationId(resid):
+    return ReservationHandler().getOrdersByReservationId(resid)
+
+
+@app.route('/DSRLapp/reservation/<int:resid>/resources')
+def getResourcesByReservationId(resid):
+    return ReservationHandler().getResourcesByReservationId(resid)
+
+
+@app.route('/DSRLapp/reservation/<int:resid>/supplier')
+def getSupplierByReservationId(resid):
+    return ReservationHandler().getSupplierByReservationId(resid)
 
 
 # Resources

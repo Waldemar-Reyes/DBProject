@@ -7,9 +7,10 @@ class ResourcesHandler:
         result = {}
         result['rid'] = row[0]
         result['rname'] = row[1]
-        result['rprice'] = row[2]
+        result['rtype'] = row[2]
+        result['rprice'] = row[3]
         result['rlocation'] = row[3]
-        result['ramount'] = row[4]
+        result['ramount'] = row[5]
         return result
 
     def build_company_dict(self, row):
@@ -24,10 +25,11 @@ class ResourcesHandler:
         result['consusername'] = row[1]
         return result
       
-    def build_resource_attributes(self, rid, rname, rprice, rlocation, ramount):
+    def build_resource_attributes(self, rid, rname, rtype, rprice, rlocation, ramount):
         result = {}
         result['rid'] = rid
         result['rname'] = rname
+        result['rtype'] = rtype
         result['rprice'] = rprice
         result['rlocation'] = rlocation
         result['ramount'] = ramount
@@ -48,23 +50,74 @@ class ResourcesHandler:
         if not row:
             return jsonify(Error="Resource Not Found"), 404
         else:
-            order = self.build_resource_dict(row)
-        return jsonify(Resources=order)
+            resources = self.build_resource_dict(row)
+        return jsonify(Resources=resources)
 
     def searchResources(self, args):
         rid = args.get('rid')
         rname = args.get('rname')
+        rtype = args.get('rtype')
         rprice = args.get('rprice')
         rlocation = args.get('rlocation')
         ramount = args.get('ramount')
         dao = ResourcesDAO()
         resources_list = []
+        if (len(args) == 5) and rname and rtype and rprice and ramount and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandPriceandAmountandLocation(rname, rtype, rprice, ramount, rlocation)
+        if (len(args) == 4) and rname and rtype and rprice and ramount:
+            resources_list = dao.getResourcesByNameandTypeandPriceandAmount(rname, rtype, rprice, ramount)
+        if (len(args) == 4) and rname and rtype and rprice and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandPriceandLocation(rname, rtype, rprice, rlocation)
+        if (len(args) == 4) and rname and rtype and ramount and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandAmountandLocation(rname, rtype, ramount, rlocation)
+        if (len(args) == 4) and rname and rprice and ramount and rlocation:
+            resources_list = dao.getResourcesByNameandPriceandAmountandLocation(rname, rprice, ramount, rlocation)
+        if (len(args) == 4) and rtype and rprice and ramount and rlocation:
+            resources_list = dao.getResourcesTypeandPriceandAmountandLocation(rtype, rprice, ramount, rlocation)
+        if (len(args) == 3) and rname and rtype and rprice:
+            resources_list = dao.getResourcesByNameandTypeandPrice(rname, rtype, rprice)
+        if (len(args) == 3) and rname and rtype and ramount:
+            resources_list = dao.getResourcesByNameandTypeandAmount(rname, rtype, ramount)
+        if (len(args) == 3) and rname and rtype and rlocation:
+            resources_list = dao.getResourcesByNameandTypeandLocation(rname, rtype, rlocation)
+        if (len(args) == 3) and rname and rprice and ramount:
+            resources_list = dao.getResourcesByNameandPriceandAmountand(rname, rprice, ramount)
+        if (len(args) == 3) and rname and rprice and rlocation:
+            resources_list = dao.getResourcesByNameandPriceandLocation(rname, rprice, rlocation)
+        if (len(args) == 3) and rname and ramount and rlocation:
+            resources_list = dao.getResourcesByNameandAmountandLocation(rname, ramount, rlocation)
+        if (len(args) == 3) and rtype and rprice and ramount:
+            resources_list = dao.getResourcesTypeandPriceandAmountand(rtype, rprice, ramount)
+        if (len(args) == 3) and rtype and rprice and rlocation:
+            resources_list = dao.getResourcesByTypeandPriceandLocation(rtype, rprice, rlocation)
+        if (len(args) == 3) and rtype and ramount and rlocation:
+            resources_list = dao.getResourcesByTypeandAmountandLocation(rtype, ramount, rlocation)
         if (len(args) == 3) and rprice and ramount and rlocation:
             resources_list = dao.getResourcesByPriceandAmountandLocation(rprice, ramount, rlocation)
+        if (len(args) == 2) and rname and rtype:
+            resources_list = dao.getResourcesByNameandType(rname, rtype)
+        if (len(args) == 2) and rname and rprice:
+            resources_list = dao.getResourcesByNameandPrice(rname, rprice)
+        if (len(args) == 2) and rname and ramount:
+            resources_list = dao.getResourcesByNameandAmount(rname, ramount)
+        if (len(args) == 2) and rname and rlocation:
+            resources_list = dao.getResourcesByNameandLocation(rname, rlocation)
+        if (len(args) == 2) and rtype and rprice:
+            resources_list = dao.getResourcesTypeandPrice(rtype, rprice)
+        if (len(args) == 2) and rtype and ramount:
+            resources_list = dao.getResourcesTypeandAmount(rtype, ramount)
+        if (len(args) == 2) and rtype and rlocation:
+            resources_list = dao.getResourcesTypeandLocation(rtype, rlocation)
+        if (len(args) == 2) and rprice and ramount:
+            resources_list = dao.getResourcesByPriceandAmount(rprice, ramount)
+        if (len(args) == 2) and rprice and rlocation:
+            resources_list = dao.getResourcesByPriceandLocation(rprice, rlocation)
         if (len(args) == 2) and ramount and rlocation:
             resources_list = dao.getResourcesByAmountandLocation(ramount, rlocation)
-        if (len(args) == 2) and rlocation and rprice:
-            resources_list = dao.getResourcesByPriceandLocation(rprice, rlocation)
+        if (len(args) == 1) and rname:
+            resources_list = dao.getResourcesByName(rname)
+        if (len(args) == 1) and rtype:
+            resources_list = dao.getResourcesByType(rtype)
         if (len(args) == 1) and rprice:
             resources_list = dao.getResourcesByPrice(rprice)
         if (len(args) == 1) and ramount:
@@ -103,13 +156,14 @@ class ResourcesHandler:
 
     def insertResourcesJson(self, json):
         rname = json['rname']
+        rtype = json['rtype']
         rprice = json['rprice']
         rlocation = json['rlocation']
         ramount = json['ramount']
-        if rname and rprice and rlocation and ramount:
+        if rname and rtype and rprice and rlocation and ramount:
             dao = ResourcesDAO()
-            rid = dao.insert(rname, rprice, rlocation, ramount)
-            result = self.build_resource_attributes(rid, rname, rprice, rlocation, ramount)
+            rid = dao.insert(rname, rtype, rprice, rlocation, ramount)
+            result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
             return jsonify(Resoure=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -119,16 +173,17 @@ class ResourcesHandler:
         if not dao.getResourcesById(rid):
             return jsonify(Error="Resource not found."), 404
         else:
-            if len(form) != 4:
+            if len(form) != 5:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']
+                rtype = form['rtype']
                 rprice = form['rprice']
                 rlocation = form['rlocation']
                 ramount = form['ramount']
-                if rname and rprice and rlocation and ramount:
-                    dao.update(rid, rname, rprice, rlocation, ramount)
-                    result = self.build_resource_attributes(rid, rname, rprice, rlocation, ramount)
+                if rname and rtype and rprice and rlocation and ramount:
+                    dao.update(rid, rname, rtype, rprice, rlocation, ramount)
+                    result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, ramount)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

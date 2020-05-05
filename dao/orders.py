@@ -64,7 +64,7 @@ class OrdersDAO:
 
     def getReservationByOrdersId(self, odid):
         cursor = self.conn.cursor()
-        query = "select resid, restime from reservation natural inner join orders where odid = %s;"
+        query = "select resid, restype, resprice, resamount, reslocation, restime from reservation natural inner join orders where odid = %s;"
         cursor.execute(query, (odid,))
         result = []
         for row in cursor:

@@ -56,8 +56,8 @@ class SysAdmHandler:
         if not row:
             return jsonify(Error="System Admin Not Found"), 404
         else:
-            part = self.build_supplier_dict(row)
-        return jsonify(SysAdm=part)
+            sysadm = self.build_supplier_dict(row)
+        return jsonify(SysAdm=sysadm)
 
     def searchSysAdm(self, args):
         sausername = args.get('sausername')

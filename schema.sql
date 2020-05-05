@@ -7,16 +7,16 @@ create table company(compid serial primary key, compname varchar(20));
 create table consumer(consid serial primary key, consusername varchar(20));
 
 -- Order table
-create table orders(odid serial primary key, reqid integer references request(reqid), odnumber int, odtime int);
+create table orders(odid serial primary key, resid integer references reservation(resid), odnumber int, odtime int);
 
 -- Pay Method table
 create table pay_method(pmid serial primary key, pmname varchar(20));
 
 -- Request table
-create table reservation(resid serial primary key, resname varchar(20), restype varchar(20), resprice int, reslocation varchar(20), resamount int, restime varchar(20));
+create table reservation(resid serial primary key, resname varchar(20), restype varchar(20), resprice double_precision, reslocation varchar(20), resamount int, restime varchar(20));
 
--- Resource table
-create table resources(rid serial primary key, rname varchar(20), rtype varchar(20), rprice int, rlocation varchar(20), ramount int);
+-- Resources table
+create table resources(rid serial primary key, rname varchar(20), rtype varchar(20), rprice double_precision, rlocation varchar(20), ramount int);
 
 -- Supplier table
 create table supplier(sid serial primary key, susername varchar(20), scompany varchar(20));
@@ -24,7 +24,7 @@ create table supplier(sid serial primary key, susername varchar(20), scompany va
 -- System Admin table
 create table sys_adm(said serial primary key, sausername varchar(20));
 
--- User table
+-- Users table
 create table users(uid serial primary key, ufirstname varchar(20), ulastname varchar(20));
 
 -- Consumer to Pay Method Table
@@ -32,9 +32,6 @@ create table owns(pmid integer references pay_method(pmid), consid integer refer
 
 -- Consumer to Orders Table
 create table makes(odid integer references orders(odid), consid integer references consumer(consid), primary key (odid, consid));
-
--- Consumer to Request Table
-create table requests(resid integer references reservation(resid), consid integer references consumer(consid), primary key (resid, consid));
 
 -- Order to Resources Table
 create table belongs(rid integer references resources(rid), odid integer references orders(odid), primary key (rid, odid), odquantity int);
@@ -48,8 +45,8 @@ create table works(compid integer references company(compid), sid integer refere
 -- Supplier to Resources Table
 create table supplies(sid integer references supplier(sid), rid integer references resources(rid), primary key (sid, rid));
 
--- System Admin to User Table
-create table manages(uid integer references users(uid), said integer references system_admin(said), primary key (uid, said));
+-- System Admin to Users Table
+create table manages(uid integer references users(uid), said integer references sys_adm(said), primary key (uid, said));
 
--- Request to Resources Table
+-- Reservations to Resources Table
 create table asks(resid integer references reservation(resid), rid integer references resources(rid), primary key (resid, rid), resquantity int);

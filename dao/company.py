@@ -46,7 +46,7 @@ class CompanyDAO:
     
     def getResourcesByCompanyId(self, compid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rprice, ramount, rlocation from resources natural inner join company where compid = %s;"
+        query = "select rid, rname, rtype, rprice, ramount, rlocation from resources natural inner join company where compid = %s;"
         cursor.execute(query, (compid,))
         result = []
         for row in cursor:
