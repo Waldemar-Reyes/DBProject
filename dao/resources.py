@@ -304,6 +304,15 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
+    
+    def getStockByResourceNameandType(self, name, rtype):
+        cursor = self.conn.cursor()
+        query = "select sum(rstock) from resources where rname = %s and rtype = %s;"
+        cursor.execute(query, (name, rtype))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getConsumerByResourcesId(self, rid):
         cursor = self.conn.cursor()
@@ -325,7 +334,7 @@ class ResourcesDAO:
 
     def getCountByResourcesId(self):
         cursor = self.conn.cursor()
-        query = "select rid, rname, sum(stock) from resources natural inner join supplier group by sid, susername order by susername;"
+        query = "select rid, rname, sum(rstock) from resources natural inner join supplier group by sid, susername order by susername;"
         cursor.execute(query)
         result = []
         for row in cursor:
