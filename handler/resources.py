@@ -160,6 +160,7 @@ class ResourcesHandler:
         rprice = json['rprice']
         rlocation = json['rlocation']
         rstock = json['rstock']
+        rlocation = "https://maps.google.com/?q=" + rlocation
         if rname and rtype and rprice and rlocation and rstock:
             dao = ResourcesDAO()
             rid = dao.insert(rname, rtype, rprice, rlocation, rstock)

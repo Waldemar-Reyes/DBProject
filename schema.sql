@@ -13,10 +13,10 @@ create table consumer(consid serial primary key not null, uid integer references
 create table pay_method(pmid serial primary key not null, pmname varchar(20) not null);
 
 -- Request table
-create table reservation(resid serial primary key not null, resname varchar(20) not null, restype varchar(20) not null, resprice double precision not null, reslocation varchar(20), resstock int not null, restime varchar(20) not null);
+create table reservation(resid serial primary key not null, resname varchar(20) not null, restype varchar(20) not null, resprice double precision not null, reslocation varchar(255), resstock int not null, restime varchar(255) not null);
 
 -- Resources table
-create table resources(rid serial primary key not null, rname varchar(20) not null, rtype varchar(20) not null, rprice double precision not null, rlocation varchar(20), rstock int not null);
+create table resources(rid serial primary key not null, rname varchar(20) not null, rtype varchar(20) not null, rprice double precision not null, rlocation varchar(255), rstock int not null);
 
 -- Supplier table
 create table supplier(sid serial primary key not null, uid integer references users(uid), susername varchar(20) not null, scompany varchar(20) not null);
@@ -25,7 +25,7 @@ create table supplier(sid serial primary key not null, uid integer references us
 create table sys_adm(said serial primary key not null, uid integer references users(uid), sausername varchar(20) not null);
 
 -- Order table
-create table orders(odid serial primary key not null, resid integer references reservation(resid), odnumber int not null, odtime int not null);
+create table orders(odid serial primary key not null, resid integer references reservation(resid), odnumber int not null, odtime varchar(255) not null);
 
 -- Consumer to Pay Method Table
 create table owns(pmid integer references pay_method(pmid), consid integer references consumer(consid), primary key (pmid, consid) not null );

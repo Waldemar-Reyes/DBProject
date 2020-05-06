@@ -1,5 +1,8 @@
+import datetime
 from flask import jsonify
 from dao.reservation import ReservationDAO
+from dao.resources import ResourcesDAO
+from dao.orders import OrdersDAO
 
 
 class ReservationHandler:
@@ -268,12 +271,29 @@ class ReservationHandler:
         reslocation = json['reslocation']
         restime = json['restime']
         if resname and restype and resprice and resstock and reslocation and restime:
-            dao = ReservationDAO()
-            resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
-            result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
-            return jsonify(Reservation=result), 201
+            reslocation = "https://maps.google.com/?q=" + reslocation
+            if restime == "default":
+                restime = datetime.datetime.now()
+            restime = restime.strftime("%Y-%m-%d %H:%M:%S")
+            availableStock = ResourcesDAO().getStockByResourceNameandType(resname, restype, resstock)
+            neededStock = resstock
+            differenceStock = availableStock-neededStock
+            if (differenceStock>0):
+                dao = ReservationDAO()
+                resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
+                result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
+                OrdersDAO().insert(resid, restime)
+                updateid = ResourcesDAO().getToUpdateId(resname, restype, resstock)
+                ResourcesDAO().updateStockAfterReservation(updateid, differenceStock)
+                return jsonify(Reservation=result), 201
+            else:
+                dao = ReservationDAO()
+                resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
+                result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
+                return jsonify(Reservation=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
 
     def updateReservation(self, resid, form):
         dao = ReservationDAO()

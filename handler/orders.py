@@ -1,3 +1,4 @@
+import datetime
 from flask import jsonify
 from dao.orders import OrdersDAO
 
@@ -109,6 +110,9 @@ class OrdersHandler:
     def insertOrdersJson(self, json):
         odnumber = json['odnumber']
         odtime = json['odtime']
+        if odtime == "default":
+            odtime = datetime.datetime.now()
+        odtime = odtime.strftime("%Y-%m-%d %H:%M:%S")
         if odnumber and odtime:
             dao = OrdersDAO()
             odid = dao.insert(odnumber, odtime)

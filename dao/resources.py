@@ -25,7 +25,7 @@ class ResourcesDAO:
         cursor.execute(query, (rid,))
         result = cursor.fetchone()
         return result
-    
+
     def getResourcesByName(self, rname):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s;"
@@ -34,7 +34,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByType(self, rtype):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s;"
@@ -61,7 +61,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByLocation(self, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rlocation = %s;"
@@ -79,7 +79,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByPriceandLocation(self, price, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rprice = %s and rlocation = %s;"
@@ -88,7 +88,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByStockandLocation(self, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rstock = %s and rlocation = %s;"
@@ -97,7 +97,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByPriceandStockandLocation(self, price, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rprice = %s and rstock = %s and rlocation = %s;"
@@ -106,7 +106,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandPrice(self, name, price):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rprice = %s;"
@@ -115,7 +115,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandStock(self, name, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rstock = %s;"
@@ -124,7 +124,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandLocation(self, name, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rlocation = %s;"
@@ -133,7 +133,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandPriceandStock(self, name, price, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rprice = %s and rstock = %s;"
@@ -142,7 +142,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandPriceandLocation(self, name, price, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rprice = %s and rlocation = %s;"
@@ -151,7 +151,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandStockandLocation(self, name, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rstock = %s and rlocation = %s;"
@@ -160,7 +160,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandPriceandStockandLocation(self, name, price, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rprice = %s and rstock = %s and rlocation = %s;"
@@ -169,7 +169,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandType(self, name, rtype):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s;"
@@ -178,7 +178,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandPrice(self, rtype, price):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rprice = %s;"
@@ -187,7 +187,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandStock(self, rtype, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rstock = %s;"
@@ -196,7 +196,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandLocation(self, rtype, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rlocation = %s;"
@@ -205,7 +205,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandPriceandStock(self, rtype, price, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rprice = %s and rstock = %s;"
@@ -214,7 +214,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandPriceandLocation(self, rtype, price, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rprice = %s and rlocation = %s;"
@@ -223,7 +223,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandStockandLocation(self, rtype, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rstock = %s and rlocation = %s;"
@@ -232,7 +232,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandPrice(self, name, rtype, price):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rprice = %s;"
@@ -241,7 +241,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandStock(self, name, rtype, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rstock = %s;"
@@ -250,7 +250,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandLocation(self, name, rtype, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rlocation = %s;"
@@ -259,7 +259,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandPriceandStock(self, name, rtype, price, stock):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rprice = %s and rstock = %s;"
@@ -268,7 +268,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandPriceandLocation(self, name, rtype, price, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rprice = %s and rlocation = %s;"
@@ -277,7 +277,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByTypeandPriceandStockandLocation(self, rtype, price, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rtype = %s and rprice = %s and rstock = %s and rlocation = %s;"
@@ -286,7 +286,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandPriceandStockandLocation(self, name, rtype, price, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rprice = %s and rstock = %s and rlocation = %s;"
@@ -295,7 +295,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getResourcesByNameandTypeandStockandLocation(self, name, rtype, stock, location):
         cursor = self.conn.cursor()
         query = "select * from resources where rname = %s and rtype = %s and rstock = %s and rlocation = %s;"
@@ -323,13 +323,26 @@ class ResourcesDAO:
             result.append(row)
         return result
 
-    def getCountByResourcesId(self):
+    def getStockByResourceNameandType(self, rname, rtype, rstock):
+        # TODO Code that search for whole rstock
+        # cursor = self.conn.cursor()
+        # query = "set @fstock = (select sum(rstock) from resources where rname = %s and rtype =%s)"
+        # result = cursor.execute(query, (rname, rtype,))
         cursor = self.conn.cursor()
-        query = "select rid, rname, sum(stock) from resources natural inner join supplier group by sid, susername order by susername;"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
+        query = "set @fstock = (select rstock from resources where rname = %rname and rtype = %rtype and rstock > %rstock order by rstock asc limit 1)"
+        result = cursor.execute(query, (rname, rtype, rstock,))
+        return result
+
+    def getToUpdateId(self, rname, rtype, rstock):
+        cursor = self.conn.cursor()
+        query = "set @fstock = (select rid from resources where rname = %rname and rtype = %rtype and rstock > %rstock order by rstock asc limit 1)"
+        result = cursor.execute(query, (rname, rtype, rstock,))
+        return result
+
+    def updateStockAfterReservation(self, rid, rstock):
+        cursor = self.conn.cursor()
+        query = "update resources set rstock = %s where rid =%s;"
+        result = cursor.execute(query, (rstock, rid))
         return result
 
     def insert(self, rname, rtype, rprice, rstock, rlocation):
