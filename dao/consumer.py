@@ -37,7 +37,7 @@ class ConsumerDAO:
 
     def getOrdersByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select odid, odnumber, odtime from orders natural inner join consumer where consid = %s;"
+        query = "select * from orders natural inner join makes natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
@@ -46,7 +46,7 @@ class ConsumerDAO:
 
     def getPayMethodByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select pmid, pmname from pay_method  natural inner join consumer where consid = %s;"
+        query = "select * from pay_method natural inner join owns natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
@@ -55,7 +55,7 @@ class ConsumerDAO:
 
     def getReservationByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select resid, restype, resprice, resstock, reslocation, restime from reservation natural inner join consumer where consid = %s;"
+        query = "select * from reservation natural inner join requests natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:
@@ -64,7 +64,7 @@ class ConsumerDAO:
 
     def getResourcesByConsumerId(self, consid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, rstock, rlocation from resources natural inner join consumer where consid = %s;"
+        query = "select * from resources natural inner join asks natural inner join reservation natural inner join requests natural inner join consumer where consid = %s;"
         cursor.execute(query, (consid,))
         result = []
         for row in cursor:

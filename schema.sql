@@ -3,8 +3,11 @@
 -- Company table
 create table company(compid serial primary key not null, compname varchar(20) not null);
 
+-- Users table
+create table users(uid serial primary key not null, ufirstname varchar(20) not null, ulastname varchar(20) not null);
+
 -- Consumer table
-create table consumer(consid serial primary key not null, consusername varchar(20) not null);
+create table consumer(consid serial primary key not null, uid integer references users(uid), consusername varchar(20) not null);
 
 -- Pay Method table
 create table pay_method(pmid serial primary key not null, pmname varchar(20) not null);
@@ -16,13 +19,10 @@ create table reservation(resid serial primary key not null, resname varchar(20) 
 create table resources(rid serial primary key not null, rname varchar(20) not null, rtype varchar(20) not null, rprice double precision not null, rlocation varchar(20), rstock int not null);
 
 -- Supplier table
-create table supplier(sid serial primary key not null, susername varchar(20) not null, scompany varchar(20) not null);
+create table supplier(sid serial primary key not null, uid integer references users(uid), susername varchar(20) not null, scompany varchar(20) not null);
 
 -- System Admin table
-create table sys_adm(said serial primary key not null, sausername varchar(20) not null);
-
--- Users table
-create table users(uid serial primary key not null, ufirstname varchar(20) not null, ulastname varchar(20) not null);
+create table sys_adm(said serial primary key not null, uid integer references users(uid), sausername varchar(20) not null);
 
 -- Order table
 create table orders(odid serial primary key not null, resid integer references reservation(resid), odnumber int not null, odtime int not null);
