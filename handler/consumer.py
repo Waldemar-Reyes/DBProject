@@ -1,12 +1,14 @@
 from flask import jsonify
 from dao.consumer import ConsumerDAO
+from dao.users import UsersDAO
 
 
 class ConsumerHandler:
     def build_consumer_dict(self, row):
         result = {}
         result['consid'] = row[0]
-        result['consusername'] = row[1]
+        result['uid'] = row[1]
+        result['consusername'] = row[2]
         return result
 
     def build_order_dict(self, row):
@@ -43,9 +45,17 @@ class ConsumerHandler:
         result['rstock'] = row[5]
         return result
 
-    def build_consumer_attributes(self, consid, consusername):
+    def build_user_attributes(self, uid, ufirstname, ulastname):
+        result = {}
+        result['uid'] = uid
+        result['ufirstname'] = ufirstname
+        result['ulastname'] = ulastname
+        return result
+
+    def build_consumer_attributes(self, consid, uid, consusername):
         result = {}
         result['consid'] = consid
+        result['uid'] = uid
         result['consusername'] = consusername
         return result
 
@@ -127,10 +137,18 @@ class ConsumerHandler:
 
     def insertConsumerJson(self, json):
         consusername = json['consusername']
-        if consusername:
-            dao = ConsumerDAO()
-            consid = dao.insert(consusername)
-            result = self.build_consumer_attributes(consid, consusername)
+        ufirstname = json['ufirstname']
+        ulastname = json['ulastname']
+        if consusername and ufirstname and ulastname:
+            uid = UsersDAO().insert(ufirstname, ulastname)
+            consid = ConsumerDAO().insertConsumerAsNewUsers(uid, consusername)
+            self.build_user_attributes(uid, ufirstname, ulastname)
+            result = self.build_consumer_attributes(consid, uid, consusername)
+            return jsonify(Consumer=result), 201
+        elif consusername:
+            uid = ""
+            consid = ConsumerDAO().insert(consusername)
+            result = self.build_consumer_attributes(consid, uid, consusername)
             return jsonify(Consumer=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -140,13 +158,14 @@ class ConsumerHandler:
         if not dao.getConsumerById(consid):
             return jsonify(Error="Consumer not found."), 404
         else:
-            if len(form) != 1:
+            if len(form) != 2:
                 return jsonify(Error="Malformed update request"), 400
             else:
+                uid = form['uid']
                 consusername = form['consusername']
-                if consusername:
-                    dao.update(consid, consusername)
-                    result = self.build_consumer_attributes(consid, consusername)
+                if consusername and uid:
+                    dao.update(consid, uid, consusername)
+                    result = self.build_consumer_attributes(consid, uid, consusername)
                     return jsonify(Consumer=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

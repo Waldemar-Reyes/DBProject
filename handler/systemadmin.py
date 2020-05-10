@@ -1,12 +1,14 @@
 from flask import jsonify
 from dao.systemadmin import SysAdmDAO
+from dao.users import UsersDAO
 
 
 class SysAdmHandler:
     def build_systemadmin_dict(self, row):
         result = {}
         result['said'] = row[0]
-        result['sausername'] = row[1]
+        result['uid'] = row[1]
+        result['sausername'] = row[2]
         return result
 
     def build_company_dict(self, row):
@@ -35,9 +37,17 @@ class SysAdmHandler:
         result['ulastname'] = row[2]
         return result
 
-    def build_systemadmin_attributes(self, said, sausername):
+    def build_user_attributes(self, uid, ufirstname, ulastname):
+        result = {}
+        result['uid'] = uid
+        result['ufirstname'] = ufirstname
+        result['ulastname'] = ulastname
+        return result
+
+    def build_systemadmin_attributes(self, said, uid, sausername):
         result = {}
         result['said'] = said
+        result['uid'] = uid
         result['sausername'] = sausername
         return result
 
@@ -119,10 +129,18 @@ class SysAdmHandler:
 
     def insertSysAdmJson(self, json):
         sausername = json['sausername']
-        if sausername:
-            dao = SysAdmDAO()
-            said = dao.insert(sausername)
-            result = self.build_systemadmin_attributes(said, sausername)
+        ufirstname = json['ufirstname']
+        ulastname = json['ulastname']
+        if sausername and ufirstname and ulastname:
+            uid = UsersDAO().insert(ufirstname, ulastname)
+            said = SysAdmDAO().insertSysAdmAsNewUsers(uid, sausername)
+            self.build_user_attributes(uid, ufirstname, ulastname)
+            result = self.build_systemadmin_attributes(uid, said, sausername)
+            return jsonify(SysAdm=result), 201
+        elif sausername:
+            uid = ""
+            said = SysAdmDAO().insert(sausername)
+            result = self.build_systemadmin_attributes(said, uid, sausername)
             return jsonify(SysAdm=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -132,13 +150,14 @@ class SysAdmHandler:
         if not dao.getSysAdmById(said):
             return jsonify(Error="System Admin not found."), 404
         else:
-            if len(form) != 1:
+            if len(form) != 2:
                 return jsonify(Error="Malformed update request"), 400
             else:
+                uid = form['uid']
                 sausername = form['sausername']
-                if sausername:
-                    dao.update(said, sausername)
-                    result = self.build_systemadmin_attributes(said, sausername)
+                if sausername and uid:
+                    dao.update(said, uid, sausername)
+                    result = self.build_systemadmin_attributes(said, uid, sausername)
                     return jsonify(SysAdm=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

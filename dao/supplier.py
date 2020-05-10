@@ -97,10 +97,18 @@ class SupplierDAO:
         self.conn.commit()
         return sid
 
-    def update(self, sid, susername, scompany):
+    def insertSupplierAsNewUsers(self, uid, susername, scompany):
         cursor = self.conn.cursor()
-        query = "update supplier set susername = %s, scompany = %s where sid = %s;"
-        cursor.execute(query, (susername, scompany, sid,))
+        query = "insert into supplier(uid, susername, scompany) values (%s, %s, %s) returning sid;"
+        cursor.execute(query, (uid, susername, scompany,))
+        sid = cursor.fetchone()[0]
+        self.conn.commit()
+        return sid
+
+    def update(self, sid, uid, susername, scompany):
+        cursor = self.conn.cursor()
+        query = "update supplier set uid = %s, susername = %s, scompany = %s where sid = %s;"
+        cursor.execute(query, (uid, susername, scompany, sid,))
         self.conn.commit()
         return sid
 

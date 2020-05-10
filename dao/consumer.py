@@ -79,10 +79,18 @@ class ConsumerDAO:
         self.conn.commit()
         return consid
 
-    def update(self, consid, consusername):
+    def insertConsumerAsNewUsers(self, uid, consusername):
         cursor = self.conn.cursor()
-        query = "update consumer set consusername = %s where consid = %s;"
-        cursor.execute(query, (consusername, consid,))
+        query = "insert into consumer(uid, consusername) values (%s, %s) returning consid;"
+        cursor.execute(query, (uid, consusername,))
+        consid = cursor.fetchone()[0]
+        self.conn.commit()
+        return consid
+
+    def update(self, consid, uid, consusername):
+        cursor = self.conn.cursor()
+        query = "update consumer set uid = %s, consusername = %s where consid = %s;"
+        cursor.execute(query, (uid, consusername, consid,))
         self.conn.commit()
         return consid
 

@@ -83,10 +83,18 @@ class SysAdmDAO:
         self.conn.commit()
         return said
 
-    def update(self, said, sausername):
+    def insertSysAdmAsNewUsers(self, uid, sausername):
         cursor = self.conn.cursor()
-        query = "update sys_adm set sausername = %s where said = %s;"
-        cursor.execute(query, (sausername, said,))
+        query = "insert into sys_adm(uid, sausername) values (%s, %s) returning said;"
+        cursor.execute(query, (uid, sausername,))
+        said = cursor.fetchone()[0]
+        self.conn.commit()
+        return said
+
+    def update(self, said, uid, sausername):
+        cursor = self.conn.cursor()
+        query = "update sys_adm set uid = %s, sausername = %s where said = %s;"
+        cursor.execute(query, (uid, sausername, said,))
         self.conn.commit()
         return said
 

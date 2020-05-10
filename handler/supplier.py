@@ -1,13 +1,15 @@
 from flask import jsonify
 from dao.supplier import SupplierDAO
+from dao.users import UsersDAO
 
 
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['susername'] = row[1]
-        result['scompany'] = row[2]
+        result['uid'] = row[1]
+        result['susername'] = row[2]
+        result['scompany'] = row[3]
         return result
 
     def build_company_dict(self, row):
@@ -50,9 +52,17 @@ class SupplierHandler:
         result['rstock'] = row[5]
         return result
 
-    def build_supplier_attributes(self, sid, susername, scompany):
+    def build_user_attributes(self, uid, ufirstname, ulastname):
+        result = {}
+        result['uid'] = uid
+        result['ufirstname'] = ufirstname
+        result['ulastname'] = ulastname
+        return result
+
+    def build_supplier_attributes(self, sid, uid, susername, scompany):
         result = {}
         result['sid'] = sid
+        result['uid'] = uid
         result['susername'] = susername
         result['scompany'] = scompany
         return result
@@ -150,10 +160,18 @@ class SupplierHandler:
     def insertSupplierJson(self, json):
         susername = json['susername']
         scompany = json['scompany']
-        if susername and scompany:
-            dao = SupplierDAO()
-            sid = dao.insert(susername, scompany)
-            result = self.build_supplier_attributes(sid, susername, scompany)
+        ufirstname = json['ufirstname']
+        ulastname = json['ulastname']
+        if susername and scompany and ufirstname and ulastname:
+            uid = UsersDAO().insert(ufirstname, ulastname)
+            sid = SupplierDAO().insertSupplierAsNewUsers(uid, susername, scompany)
+            self.build_user_attributes(uid, ufirstname, ulastname)
+            result = self.build_supplier_attributes(sid, uid, susername, scompany)
+            return jsonify(Supplier=result), 201
+        elif susername and scompany:
+            uid = ""
+            sid = SupplierDAO().insert(susername, scompany)
+            result = self.build_supplier_attributes(sid, uid, susername, scompany)
             return jsonify(Supplier=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -163,14 +181,15 @@ class SupplierHandler:
         if not dao.getSupplierById(sid):
             return jsonify(Error="Supplier not found."), 404
         else:
-            if len(form) != 2:
+            if len(form) != 3:
                 return jsonify(Error="Malformed update request"), 400
             else:
+                uid = form['uid']
                 susername = form['susername']
                 scompany = form['scompany']
-                if susername and scompany:
-                    dao.update(sid, susername, scompany)
-                    result = self.build_supplier_attributes(sid, susername, scompany)
+                if susername and scompany and uid:
+                    dao.update(sid, uid, susername, scompany)
+                    result = self.build_supplier_attributes(sid, uid, susername, scompany)
                     return jsonify(Supplier=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
