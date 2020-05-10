@@ -14,7 +14,8 @@ class OrdersHandler:
     def build_consumer_dict(self, row):
         result = {}
         result['consid'] = row[0]
-        result['consusername'] = row[1]
+        result['uid'] = row[1]
+        result['consusername'] = row[2]
         return result
 
     def build_reservation_dict(self, row):
@@ -31,8 +32,9 @@ class OrdersHandler:
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['susername'] = row[1]
-        result['sccompany'] = row[2]
+        result['uid'] = row[1]
+        result['susername'] = row[2]
+        result['scompany'] = row[3]
         return result
 
     def build_order_attributes(self, odid, odnumber, odtime):

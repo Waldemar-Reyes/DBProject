@@ -85,7 +85,7 @@ def getCConsumerById(consid):
     if request.method == 'GET':
         return ConsumerHandler().getConsumerById(consid)
     elif request.method == 'PUT':
-        return ConsumerHandler().updateConsumer(consid, request.form)
+        return ConsumerHandler().updateConsumer(consid, request.json)
     elif request.method == 'DELETE':
         return ConsumerHandler().deleteConsumer(consid)
     else:
@@ -131,7 +131,7 @@ def getOrdersById(odid):
     if request.method == 'GET':
         return OrdersHandler().getOrdersById(odid)
     elif request.method == 'PUT':
-        return OrdersHandler().updateOrders(odid, request.form)
+        return OrdersHandler().updateOrders(odid, request.json)
     elif request.method == 'DELETE':
         return OrdersHandler().deleteOrders(odid)
     else:
@@ -172,7 +172,7 @@ def getPayMethodById(pmid):
     if request.method == 'GET':
         return PayMethodHandler().getPayMethodById(pmid)
     elif request.method == 'PUT':
-        return PayMethodHandler().updatePayMethod(pmid, request.form)
+        return PayMethodHandler().updatePayMethod(pmid, request.json)
     elif request.method == 'DELETE':
         return PayMethodHandler().deletePayMethod(pmid)
     else:
@@ -208,7 +208,7 @@ def getReservationsById(resid):
     if request.method == 'GET':
         return ReservationHandler().getReservationById(resid)
     elif request.method == 'PUT':
-        return ReservationHandler().updateReservation(resid, request.form)
+        return ReservationHandler().updateReservation(resid, request.json)
     elif request.method == 'DELETE':
         return ReservationHandler().deleteReservation(resid)
     else:
@@ -254,7 +254,7 @@ def getResourcesById(rid):
     if request.method == 'GET':
         return ResourcesHandler().getResourcesById(rid)
     elif request.method == 'PUT':
-        return ResourcesHandler().updateResources(rid, request.form)
+        return ResourcesHandler().updateResources(rid, request.json)
     elif request.method == 'DELETE':
         return ResourcesHandler().deleteResources(rid)
     else:
@@ -290,7 +290,7 @@ def getSupplierById(sid):
     if request.method == 'GET':
         return SupplierHandler().getSupplierById(sid)
     elif request.method == 'PUT':
-        return SupplierHandler().updateSupplier(sid, request.form)
+        return SupplierHandler().updateSupplier(sid, request.json)
     elif request.method == 'DELETE':
         return SupplierHandler().deleteSupplier(sid)
     else:
@@ -341,7 +341,7 @@ def getSysAdmById(said):
     if request.method == 'GET':
         return SysAdmHandler().getSysAdmById(said)
     elif request.method == 'PUT':
-        return SysAdmHandler().updateSysAdm(said, request.form)
+        return SysAdmHandler().updateSysAdm(said, request.json)
     elif request.method == 'DELETE':
         return SysAdmHandler().deleteSysAdm(said)
     else:
@@ -387,7 +387,7 @@ def getUsersById(uid):
     if request.method == 'GET':
         return UsersHandler().getUsersById(uid)
     elif request.method == 'PUT':
-        return UsersHandler().updateUsers(uid, request.form)
+        return UsersHandler().updateUsers(uid, request.json)
     elif request.method == 'DELETE':
         return UsersHandler().deleteUsers(uid)
     else:

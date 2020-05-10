@@ -22,7 +22,8 @@ class ResourcesHandler:
     def build_consumer_dict(self, row):
         result = {}
         result['consid'] = row[0]
-        result['consusername'] = row[1]
+        result['uid'] = row[1]
+        result['consusername'] = row[2]
         return result
 
     def build_resource_attributes(self, rid, rname, rtype, rprice, rlocation, rstock):

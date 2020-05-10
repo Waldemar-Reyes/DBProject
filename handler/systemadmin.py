@@ -20,14 +20,16 @@ class SysAdmHandler:
     def build_consumer_dict(self, row):
         result = {}
         result['consid'] = row[0]
-        result['consusername'] = row[1]
+        result['uid'] = row[1]
+        result['consusername'] = row[2]
         return result
 
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['susername'] = row[1]
-        result['scompany'] = row[2]
+        result['uid'] = row[1]
+        result['susername'] = row[2]
+        result['scompany'] = row[3]
         return result
 
     def build_user_dict(self, row):
