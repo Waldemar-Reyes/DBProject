@@ -23,7 +23,7 @@ A ```resource``` can be added by specifying the resource's name, type, price, lo
 
   * For 'location' to generate a Google Maps link, it will require the following format: latitude,longitude . (Example: " 18.46542,-66.1172515 ") This will allow creating a link with the exact location of the resource. It is also possible to specify the town (Example: " San Juan "), our internal system will provide the corresponding coordinates for you (this library will be updated in the future, so far it only works with busiest cities). Lastly, any other string may be used in location, but it WILL NOT provide a Google Maps link.
     
-A ```reservation``` can be added by specifying the needed resource name, type, price, location, stock, and reservation time. A valid ```consumer``` needs to be specified for a reservation to be valid.
+A ```reservation``` can be added by specifying the needed resource name, type, price, location, amount, and reservation time. A valid ```consumer``` needs to be specified for a reservation to be valid.
  
   * Name, type, and price needs to match resource parameters
   * If the price is 0.00, it means that it was not purchased, it was reserved.
