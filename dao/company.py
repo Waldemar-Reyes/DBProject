@@ -62,6 +62,13 @@ class CompanyDAO:
             result.append(row)
         return result
 
+    def supplierWorksForCompany(self, compid, sid):
+        cursor = self.conn.cursor()
+        query = "insert into works(compid, sid) values (%s, %s);"
+        cursor.execute(query, (compid, sid,))
+        self.conn.commit()
+        return compid
+
     def insert(self, compname):
         cursor = self.conn.cursor()
         query = "insert into company(compname) values (%s) returning compid;"

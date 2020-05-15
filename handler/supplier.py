@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.supplier import SupplierDAO
 from dao.users import UsersDAO
+from dao.company import CompanyDAO
 
 
 class SupplierHandler:
@@ -162,10 +163,29 @@ class SupplierHandler:
         scompany = json['scompany']
         ufirstname = json['ufirstname']
         ulastname = json['ulastname']
-        if susername and scompany and ufirstname and ulastname:
+        compid = json['compid']
+        sid = -1
+        if susername and scompany and ufirstname and ulastname and compid:
+            if not CompanyDAO().getCompanyById(compid):
+                return jsonify(Error="Company Not Found"), 404
+            uid = UsersDAO().insert(ufirstname, ulastname)
+            sid = SupplierDAO().insertSupplierAsNewUsers(uid, susername, scompany)
+            CompanyDAO().supplierWorksForCompany(compid, sid)
+            self.build_user_attributes(uid, ufirstname, ulastname)
+            result = self.build_supplier_attributes(sid, uid, susername, scompany)
+            return jsonify(Supplier=result), 201
+        elif susername and scompany and ufirstname and ulastname:
             uid = UsersDAO().insert(ufirstname, ulastname)
             sid = SupplierDAO().insertSupplierAsNewUsers(uid, susername, scompany)
             self.build_user_attributes(uid, ufirstname, ulastname)
+            result = self.build_supplier_attributes(sid, uid, susername, scompany)
+            return jsonify(Supplier=result), 201
+        elif susername and scompany and compid:
+            if not CompanyDAO().getCompanyById(compid):
+                return jsonify(Error="Company Not Found"), 404
+            uid = ""
+            sid = SupplierDAO().insert(susername, scompany)
+            CompanyDAO().supplierWorksForCompany(compid, sid)
             result = self.build_supplier_attributes(sid, uid, susername, scompany)
             return jsonify(Supplier=result), 201
         elif susername and scompany:
@@ -181,9 +201,7 @@ class SupplierHandler:
         if not dao.getSupplierById(sid):
             return jsonify(Error="Supplier not found."), 404
         else:
-            if len(form) != 3:
-                return jsonify(Error="Malformed update request"), 400
-            else:
+            if len(form) == 3:
                 uid = form['uid']
                 susername = form['susername']
                 scompany = form['scompany']
@@ -193,6 +211,21 @@ class SupplierHandler:
                     return jsonify(Supplier=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
+            elif len(form) == 4:
+                uid = form['uid']
+                susername = form['susername']
+                scompany = form['scompany']
+                compid = form['compid']
+                if susername and scompany and uid and compid:
+                    if not CompanyDAO().getCompanyById(compid):
+                        return jsonify(Error="Company Not Found"), 404
+                    dao.updateSupplierWithCompany(sid, uid, susername, scompany, compid)
+                    result = self.build_supplier_attributes(sid, uid, susername, scompany)
+                    return jsonify(Supplier=result), 200
+                else:
+                    return jsonify(Error="Unexpected attributes in update request"), 400
+            else:
+                return jsonify(Error="Malformed update request"), 400
 
     def deleteSupplier(self, sid):
         dao = SupplierDAO()

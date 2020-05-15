@@ -112,6 +112,40 @@ class SupplierDAO:
         self.conn.commit()
         return sid
 
+    def updateSupplierWithCompany(self, sid, uid, susername, scompany, compid):
+        cursor = self.conn.cursor()
+        query = "update supplier set uid = %s, susername = %s, scompany = %s where sid = %s;"
+        cursor.execute(query, (uid, susername, scompany, sid,))
+        self.conn.commit()
+        if not self.getWorksPair(compid, sid):
+            query = "insert into works(compid, sid) values (%s, %s);"
+            cursor.execute(query, (compid, sid,))
+            self.conn.commit()
+        else:
+            oldcompid = self.getOldCompid(compid, sid)
+            query = "update works set compid = %s, sid = %s where compid = %s and sid = %s;"
+            cursor.execute(query, (compid, sid, oldcompid[0][0], sid,))
+            self.conn.commit()
+        return sid
+
+    def getWorksPair(self, compid, sid):
+        cursor = self.conn.cursor()
+        query = "select * from works where compid = %s and sid = %s;"
+        cursor.execute(query, (compid, sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getOldCompid(self, compid, sid):
+        cursor = self.conn.cursor()
+        query = "select compid from works where compid = %s and sid = %s;"
+        cursor.execute(query, (compid, sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def delete(self, sid):
         cursor = self.conn.cursor()
         query = "delete from supplier where sid = %s;"
