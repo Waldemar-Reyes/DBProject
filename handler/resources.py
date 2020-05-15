@@ -161,7 +161,14 @@ class ResourcesHandler:
         rprice = json['rprice']
         rlocation = json['rlocation']
         rstock = json['rstock']
-        rlocation = "https://maps.google.com/?q=" + rlocation
+        if rlocation == 'Ponce':
+            rlocation = '18.0107279,-66.6141375'
+        elif rlocation == 'Mayaguez':
+            rlocation = '18.201108,-67.1401665'
+        elif rlocation == 'San Juan':
+            rlocation = '18.46542,-66.1172515'
+        if ',' in rlocation and len(rlocation) != 1:
+            rlocation = "https://maps.google.com/?q=" + rlocation
         if rname and rtype and rprice and rlocation and rstock:
             dao = ResourcesDAO()
             rid = dao.insert(rname, rtype, rprice, rlocation, rstock)

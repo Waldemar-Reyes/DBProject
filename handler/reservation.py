@@ -273,15 +273,22 @@ class ReservationHandler:
         resstock = json['resstock']
         reslocation = json['reslocation']
         restime = json['restime']
-        if resname and restype and resprice and resstock and reslocation and restime:
+        if reslocation == 'Ponce':
+            reslocation = '18.0107279,-66.6141375'
+        elif reslocation == 'Mayaguez':
+            reslocation = '18.201108,-67.1401665'
+        elif reslocation == 'San Juan':
+            reslocation = '18.46542,-66.1172515'
+        if ',' in reslocation and len(reslocation) != 1:
             reslocation = "https://maps.google.com/?q=" + reslocation
+        if resname and restype and resprice and resstock and reslocation and restime:
             if restime == "default":
                 restime = datetime.datetime.now()
             restime = restime.strftime("%Y-%m-%d %H:%M:%S")
-            availableStock = ResourcesDAO().getStockByResourceNameandType(resname, restype, resstock)
-            neededStock = resstock
+            availableStock = ResourcesDAO().getAvailableStockByResourceNameandType(resname, restype, resstock)
+            neededStock = int(resstock)
             differenceStock = availableStock-neededStock
-            if (differenceStock>0):
+            if differenceStock>0:
                 dao = ReservationDAO()
                 resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
                 result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)

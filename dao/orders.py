@@ -81,18 +81,18 @@ class OrdersDAO:
             result.append(row)
         return result
 
-    def insert(self, odnumber, odtime):
+    def insert(self, resid, odnumber, odtime):
         cursor = self.conn.cursor()
-        query = "insert into orders(odnumber, odtime) values (%s %s) returning odid;"
+        query = "insert into orders(resid, odnumber, odtime) values (%s, %s, %s) returning odid;"
         cursor.execute(query, (odnumber, odtime,))
         odid = cursor.fetchone()[0]
         self.conn.commit()
         return odid
 
-    def update(self, odid, odnumber, odtime):
+    def update(self, odid, resid, odnumber, odtime):
         cursor = self.conn.cursor()
-        query = "update orders set odnumber = %s, odtime = %s where odid = %s;"
-        cursor.execute(query, (odnumber, odtime, odid,))
+        query = "update orders set resid = %s, odnumber = %s, odtime = %s where odid = %s;"
+        cursor.execute(query, (resid, odnumber, odtime, odid,))
         self.conn.commit()
         return odid
 

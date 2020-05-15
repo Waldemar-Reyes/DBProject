@@ -304,7 +304,7 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
-    
+
     def getStockByResourceNameandType(self, name, rtype):
         cursor = self.conn.cursor()
         query = "select sum(rstock) from resources where rname = %s and rtype = %s;"
@@ -332,40 +332,46 @@ class ResourcesDAO:
             result.append(row)
         return result
 
-    def getStockByResourceNameandType(self, rname, rtype, rstock):
+    def getAvailableStockByResourceNameandType(self, rname, rtype, rstock):
         # TODO Code that search for whole rstock
         # cursor = self.conn.cursor()
         # query = "set @fstock = (select sum(rstock) from resources where rname = %s and rtype =%s)"
         # result = cursor.execute(query, (rname, rtype,))
         cursor = self.conn.cursor()
-        query = "set @fstock = (select rstock from resources where rname = %rname and rtype = %rtype and rstock > %rstock order by rstock asc limit 1)"
+        query = "select rstock from resources where rname = %s and rtype = %s and rstock > %s order by rstock asc limit 1"
         result = cursor.execute(query, (rname, rtype, rstock,))
+        if cursor.fetchone() is None:
+            result = 0
+        else:
+            result = cursor.fetchone()[0]
         return result
 
     def getToUpdateId(self, rname, rtype, rstock):
         cursor = self.conn.cursor()
-        query = "set @fstock = (select rid from resources where rname = %rname and rtype = %rtype and rstock > %rstock order by rstock asc limit 1)"
+        query = "select rid from resources where rname = %s and rtype = %s and rstock > %s order by rstock asc limit 1"
         result = cursor.execute(query, (rname, rtype, rstock,))
+        result = cursor.fetchone()[0]
         return result
 
     def updateStockAfterReservation(self, rid, rstock):
         cursor = self.conn.cursor()
         query = "update resources set rstock = %s where rid =%s;"
         result = cursor.execute(query, (rstock, rid))
+        self.conn.commit()
         return result
 
-    def insert(self, rname, rtype, rprice, rstock, rlocation):
+    def insert(self, rname, rtype, rprice, rlocation, rstock):
         cursor = self.conn.cursor()
-        query = "insert into resources(rname, rtype, rprice, rstock, rlocation) values (%s, %s, %s, %s, %s) returning rid;"
-        cursor.execute(query, (rname, rtype, rprice, rstock, rlocation,))
+        query = "insert into resources(rname, rtype, rprice, rlocation, rstock) values (%s, %s, %s, %s, %s) returning rid;"
+        cursor.execute(query, (rname, rtype, rprice, rlocation, rstock,))
         rid = cursor.fetchone()[0]
         self.conn.commit()
         return rid
 
-    def update(self, rid, rname, rtype, rprice, rstock, rlocation):
+    def update(self, rid, rname, rtype, rprice, rlocation, rstock):
         cursor = self.conn.cursor()
-        query = "update resources set rname = %s, rtype = %s, rprice = %s, rstock = %s, rlocation = %s where rid = %s;"
-        cursor.execute(query, (rname, rtype, rprice, rstock, rlocation, rid,))
+        query = "update resources set rname = %s, rtype = %s, rprice = %s, rlocation = %s, rstock = %s where rid = %s;"
+        cursor.execute(query, (rname, rtype, rprice, rlocation, rstock, rid,))
         self.conn.commit()
         return rid
 
