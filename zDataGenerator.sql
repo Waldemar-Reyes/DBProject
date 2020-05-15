@@ -98,3 +98,51 @@ INSERT INTO supplies VALUES
 (8,15),(8,16),(8,17),
 (9,5),(9,6),(9,7),(9,18),(9,19),(9,29),
 (10,5),(10,6),(10,7),(10,18),(10,19),(10,28);
+
+-- Populate pay_method table
+INSERT INTO pay_method (pmname) VALUES ('Free'),('Cash'),('VISA'),('MasterCard'),('Chase'),('citi'),('BankofAmerica'),('Ameircan Express'),('CapitalOne'),('Discover'),('Synchrony'),('Wells Fargo'),('Check'),('Barclays'),('US bank'),('USAA'),('CreditOne'),('PNC Core');
+
+-- Populate orders table
+INSERT INTO orders (odnumber, odtime) VALUES 
+('1891', '6:45'), ('1892', '6:59'), ('1893', '7:35'),
+('1894', '7:45'), ('1895', '8:15'), ('1896', '8:45'),
+('1897', '8:55'), ('1898', '9:27'), ('1899', '9:34'),
+('1900', '9:53'), ('1901', '10:11'), ('1902', '10:43'),
+('1903', '11:23'), ('1904', '11:56'), ('1905', '12:36'),
+('1905', '12:58'), ('1906', '13:24'), ('1907', '13:45'),
+('1908', '14:25'), ('1909', '14:47'), ('1910', '15:07');
+
+-- Populate reservation table
+INSERT INTO reservation (resname, restype, resprice, reslocation, resstock, restime) VALUES
+('Duracell','Baterias','1.09','','180','8:30'),
+('Energizer','Baterias','1.19','','123','8:46'),
+('Kingdom Water','Agua 5 Galones','2.50','','60','9:23'),
+('Panadol','Medicamentos','1.50','','200','10:03'),
+('Claritin','Medicamentos','2.00','','50','10:17'),
+('Tums','Medicamentos','1.10','','20','10:49'),
+('Gerber','Comida De Bebes','0.69','','300','11:56'),
+('Tuna','Comida Enlatada','0.59','','140','12:02'),
+('Pollo','Comida Enlatada','0.79','','130','12:16'),
+('Chef Boyardee','Comida Enlatada','1.10','','60','12:34'),
+('Arroz','Comida Seca','1.25','','170','13:45'),
+('Galletas','Comida Seca','1.50','','42','13:48'),
+('Hielera Ponce Tropical','Hielo','1.50','','85','13:56'),
+('Regular','Gasolina Galon','2.10','','1050','14:17'),
+('Diesel','Gasolina Galon','1.57','','1025','14:28'),
+('Propano','Gas Galon','1.90','','1050','14:45'),
+('Desfibrilador','Equipo Medico','359.99','','10','14:50'),
+('Camilla','Equipo Medico','199.99','','35','15:02'),
+('Bulldozer','Maquinaria Pesada','54.99','','10','15:12'),
+('Excavadora','Maquinaria Pesada','59.99','','7','15:16'),
+('Sierra','Herramientas','7.89','','25','15:20'),
+('Taladro','Herramientas','4.89','','30','15:46'),
+('Tshirt','Ropa','7.99','','120','16:22'),
+('Mahones','Ropa','9.99','','90','16:56'),
+('Honda','Generador','1200','','25','17:20'),
+('Generac','Generador','2400','','10','17:30');
+
+--Link relations between reservations requested by consumers - request(resid, consid)
+INSERT INTO requests VALUES
+(1,1), (1,2), (1,3), (1,4), (1,5),
+(2,1), (2,2), (2,3), (2,4), (2,5),
+(3,1), (3,2), (3,3), (3,4), (3,5);
