@@ -3,6 +3,7 @@ from flask import jsonify
 from dao.reservation import ReservationDAO
 from dao.resources import ResourcesDAO
 from dao.orders import OrdersDAO
+from dao.consumer import ConsumerDAO
 
 
 class ReservationHandler:
@@ -273,6 +274,9 @@ class ReservationHandler:
         resstock = json['resstock']
         reslocation = json['reslocation']
         restime = json['restime']
+        consid = json['consid']
+        if not ConsumerDAO().getConsumerById(consid):
+            return jsonify(Error="Consumer Not Found"), 404
         if reslocation == 'Ponce':
             reslocation = '18.0107279,-66.6141375'
         elif reslocation == 'Mayaguez':
@@ -282,7 +286,7 @@ class ReservationHandler:
         if ',' in reslocation and len(reslocation) != 1:
             reslocation = "https://maps.google.com/?q=" + reslocation
         if resname and restype and resprice and resstock and reslocation and restime:
-            if restime == "default":
+            if restime.lower() == "default":
                 restime = datetime.datetime.now()
             restime = restime.strftime("%Y-%m-%d %H:%M:%S")
             availableStock = ResourcesDAO().getAvailableStockByResourceNameandType(resname, restype, resstock)
@@ -291,14 +295,16 @@ class ReservationHandler:
             if differenceStock>0:
                 dao = ReservationDAO()
                 resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
-                result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                 OrdersDAO().insert(resid, resid, restime)
                 updateid = ResourcesDAO().getToUpdateId(resname, restype, resstock)
                 ResourcesDAO().updateStockAfterReservation(updateid, differenceStock)
+                dao.insertConsumerOfReservation(resid, consid)
+                result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                 return jsonify(Reservation=result), 201
             else:
                 dao = ReservationDAO()
                 resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
+                dao.insertConsumerOfReservation(resid, consid)
                 result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                 return jsonify(Reservation=result), 201
         else:

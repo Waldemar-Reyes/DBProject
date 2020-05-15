@@ -1,5 +1,6 @@
 from flask import jsonify
 from dao.resources import ResourcesDAO
+from dao.supplier import SupplierDAO
 
 
 class ResourcesHandler:
@@ -161,6 +162,9 @@ class ResourcesHandler:
         rprice = json['rprice']
         rlocation = json['rlocation']
         rstock = json['rstock']
+        sid = json['sid']
+        if not SupplierDAO().getSupplierById(sid):
+            return jsonify(Error="Supplier Not Found"), 404
         if rlocation == 'Ponce':
             rlocation = '18.0107279,-66.6141375'
         elif rlocation == 'Mayaguez':
@@ -169,9 +173,10 @@ class ResourcesHandler:
             rlocation = '18.46542,-66.1172515'
         if ',' in rlocation and len(rlocation) != 1:
             rlocation = "https://maps.google.com/?q=" + rlocation
-        if rname and rtype and rprice and rlocation and rstock:
+        if rname and rtype and rprice and rlocation and rstock and sid:
             dao = ResourcesDAO()
             rid = dao.insert(rname, rtype, rprice, rlocation, rstock)
+            dao.insertSupplierOfResource(sid, rid)
             result = self.build_resource_attributes(rid, rname, rtype, rprice, rlocation, rstock)
             return jsonify(Resoure=result), 201
         else:

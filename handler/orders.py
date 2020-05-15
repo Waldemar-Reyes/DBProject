@@ -115,7 +115,7 @@ class OrdersHandler:
         resid = json['resid']
         odnumber = json['odnumber']
         odtime = json['odtime']
-        if odtime == "default":
+        if odtime.lower() == "default":
             odtime = datetime.datetime.now()
         odtime = odtime.strftime("%Y-%m-%d %H:%M:%S")
         if resid and odnumber and odtime:

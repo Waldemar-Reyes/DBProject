@@ -333,17 +333,14 @@ class ResourcesDAO:
         return result
 
     def getAvailableStockByResourceNameandType(self, rname, rtype, rstock):
-        # TODO Code that search for whole rstock
-        # cursor = self.conn.cursor()
-        # query = "set @fstock = (select sum(rstock) from resources where rname = %s and rtype =%s)"
-        # result = cursor.execute(query, (rname, rtype,))
         cursor = self.conn.cursor()
         query = "select rstock from resources where rname = %s and rtype = %s and rstock > %s order by rstock asc limit 1"
         result = cursor.execute(query, (rname, rtype, rstock,))
-        if cursor.fetchone() is None:
+        result = cursor.fetchone()
+        if result is None:
             result = 0
         else:
-            result = cursor.fetchone()[0]
+            result = result[0]
         return result
 
     def getToUpdateId(self, rname, rtype, rstock):
@@ -359,6 +356,14 @@ class ResourcesDAO:
         result = cursor.execute(query, (rstock, rid))
         self.conn.commit()
         return result
+
+    def insertSupplierOfResource(self, sid, rid):
+        cursor = self.conn.cursor()
+        query = "insert into supplies(sid, rid) values (%s, %s) returning sid;"
+        cursor.execute(query, (sid, rid,))
+        sid = cursor.fetchone()[0]
+        self.conn.commit()
+        return sid
 
     def insert(self, rname, rtype, rprice, rlocation, rstock):
         cursor = self.conn.cursor()
