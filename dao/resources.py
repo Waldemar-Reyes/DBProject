@@ -12,7 +12,7 @@ class ResourcesDAO:
 
     def getAllResources(self):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, rstock, rlocation from resources;"
+        query = "select * from resources;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -21,7 +21,7 @@ class ResourcesDAO:
 
     def getResourcesById(self, rid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, rstock, rlocation from resources where rid = %s;"
+        query = "select * from resources where rid = %s;"
         cursor.execute(query, (rid,))
         result = cursor.fetchone()
         return result

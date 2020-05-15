@@ -9,7 +9,7 @@ class ResourcesHandler:
         result['rname'] = row[1]
         result['rtype'] = row[2]
         result['rprice'] = row[3]
-        result['rlocation'] = row[3]
+        result['rlocation'] = row[4]
         result['rstock'] = row[5]
         return result
 
