@@ -292,7 +292,7 @@ class ReservationHandler:
                 dao = ReservationDAO()
                 resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
                 result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
-                OrdersDAO().insert(resid, restime)
+                OrdersDAO().insert(resid, resid, restime)
                 updateid = ResourcesDAO().getToUpdateId(resname, restype, resstock)
                 ResourcesDAO().updateStockAfterReservation(updateid, differenceStock)
                 return jsonify(Reservation=result), 201

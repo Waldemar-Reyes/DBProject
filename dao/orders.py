@@ -84,7 +84,7 @@ class OrdersDAO:
     def insert(self, resid, odnumber, odtime):
         cursor = self.conn.cursor()
         query = "insert into orders(resid, odnumber, odtime) values (%s, %s, %s) returning odid;"
-        cursor.execute(query, (odnumber, odtime,))
+        cursor.execute(query, (resid, odnumber, odtime,))
         odid = cursor.fetchone()[0]
         self.conn.commit()
         return odid
