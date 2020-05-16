@@ -100,7 +100,9 @@ INSERT INTO supplies VALUES
 (10,5),(10,6),(10,7),(10,18),(10,19),(10,28);
 
 -- Populate pay_method table
-INSERT INTO pay_method (pmname) VALUES ('Free'),('Cash'),('VISA'),('MasterCard'),('Chase'),('citi'),('BankofAmerica'),('Ameircan Express'),('CapitalOne'),('Discover'),('Synchrony'),('Wells Fargo'),('Check'),('Barclays'),('US bank'),('USAA'),('CreditOne'),('PNC Core');
+INSERT INTO pay_method (pmname) VALUES
+('free'),('cash'),('visa'),('master card'),('chase'),('citi'),('bank of america'),('ameircan express'),('capital one'),('discover'),
+('synchrony'),('wells fargo'),('check'),('barclays'),('us bank'),('usaa'),('credit one'),('pnc core');
 
 -- Populate orders table
 INSERT INTO orders (odnumber, odtime) VALUES 

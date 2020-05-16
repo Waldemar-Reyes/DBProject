@@ -159,12 +159,20 @@ class SupplierHandler:
         return jsonify(Supplier=result_list)
 
     def insertSupplierJson(self, json):
+        ufirstname = None
+        ulastname = None
+        compid = None
         susername = json['susername']
         scompany = json['scompany']
-        ufirstname = json['ufirstname']
-        ulastname = json['ulastname']
-        compid = json['compid']
-        sid = -1
+        if len(json) == 3:
+            compid = json['compid']
+        elif len(json) == 4:
+            ufirstname = json['ufirstname']
+            ulastname = json['ulastname']
+        elif len(json) == 5:
+            ufirstname = json['ufirstname']
+            ulastname = json['ulastname']
+            compid = json['compid']
         if susername and scompany and ufirstname and ulastname and compid:
             if not CompanyDAO().getCompanyById(compid):
                 return jsonify(Error="Company Not Found"), 404

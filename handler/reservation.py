@@ -4,6 +4,7 @@ from dao.reservation import ReservationDAO
 from dao.resources import ResourcesDAO
 from dao.orders import OrdersDAO
 from dao.consumer import ConsumerDAO
+from dao.paymethod import PayMethodDAO
 
 
 class ReservationHandler:
@@ -275,8 +276,11 @@ class ReservationHandler:
         reslocation = json['reslocation']
         restime = json['restime']
         consid = json['consid']
+        pmid = json['pmid']
         if not ConsumerDAO().getConsumerById(consid):
             return jsonify(Error="Consumer Not Found"), 404
+        if not PayMethodDAO().getPayMethodById(pmid):
+            return jsonify(Error="Payment Not Found"), 404
         if reslocation == 'Ponce':
             reslocation = '18.0107279,-66.6141375'
         elif reslocation == 'Mayaguez':
@@ -285,17 +289,18 @@ class ReservationHandler:
             reslocation = '18.46542,-66.1172515'
         if ',' in reslocation and len(reslocation) != 1:
             reslocation = "https://maps.google.com/?q=" + reslocation
-        if resname and restype and resprice and resstock and reslocation and restime:
+        if resname and restype and resprice and resstock and reslocation and restime and consid and pmid:
             if restime.lower() == "default":
                 restime = datetime.datetime.now()
             restime = restime.strftime("%Y-%m-%d %H:%M:%S")
             availableStock = ResourcesDAO().getAvailableStockByResourceNameandType(resname, restype, resstock)
             neededStock = int(resstock)
             differenceStock = availableStock-neededStock
-            if differenceStock>0:
+            if differenceStock > 0:
                 dao = ReservationDAO()
                 resid = dao.insert(resname, restype, resprice, resstock, reslocation, restime)
-                OrdersDAO().insert(resid, resid, restime)
+                odid = OrdersDAO().insert(resid, resid, restime)
+                OrdersDAO().insertPayMethodIntoOrder(odid, pmid)
                 updateid = ResourcesDAO().getToUpdateId(resname, restype, resstock)
                 ResourcesDAO().updateStockAfterReservation(updateid, differenceStock)
                 dao.insertConsumerOfReservation(resid, consid)

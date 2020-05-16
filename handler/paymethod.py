@@ -1,5 +1,6 @@
 from flask import jsonify
 from dao.paymethod import PayMethodDAO
+from dao.consumer import ConsumerDAO
 
 
 class PayMethodHandler:
@@ -86,9 +87,13 @@ class PayMethodHandler:
 
     def insertPayMethodJson(self, json):
         pmname = json['pmname']
-        if pmname:
+        consid = json['consid']
+        if not ConsumerDAO().getConsumerById(consid):
+            return jsonify(Error="Consumer Not Found"), 404
+        if pmname and consid:
             dao = PayMethodDAO()
-            pmid = dao.insert(pmname)
+            pmid = dao.insert(pmname.lower())
+            dao.insertPayMethodOfConsumer(pmid, consid)
             result = self.build_payment_attributes(pmid, pmname)
             return jsonify(PayMethod=result), 201
         else:

@@ -53,6 +53,24 @@ class PayMethodDAO:
             result.append(row)
         return result
 
+    def insertPayMethodOfConsumer(self, pmid, consid):
+        cursor = self.conn.cursor()
+        query = "insert into owns(pmid, consid) values (%s, %s) returning pmid;"
+        cursor.execute(query, (pmid, consid,))
+        pmid = cursor.fetchone()[0]
+        self.conn.commit()
+        return pmid
+
+    def insertNewConsumerandPayMethod(self, consid):
+        cursor = self.conn.cursor()
+        query = "insert into pay_method(pmname) values ('free') returning pmid;"
+        cursor.execute(query)
+        pmid = cursor.fetchone()[0]
+        query = "insert into owns(pmid, consid) values (%s, %s) returning pmid;"
+        cursor.execute(query, (pmid, consid,))
+        self.conn.commit()
+        return pmid
+
     def insert(self, pmname):
         cursor = self.conn.cursor()
         query = "insert into pay_method(pmname) values (%s) returning pmid;"

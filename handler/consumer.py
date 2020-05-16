@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.consumer import ConsumerDAO
 from dao.users import UsersDAO
+from dao.paymethod import PayMethodDAO
 
 
 class ConsumerHandler:
@@ -142,6 +143,7 @@ class ConsumerHandler:
         if consusername and ufirstname and ulastname:
             uid = UsersDAO().insert(ufirstname, ulastname)
             consid = ConsumerDAO().insertConsumerAsNewUsers(uid, consusername)
+            PayMethodDAO().insertNewConsumerandPayMethod(consid)
             self.build_user_attributes(uid, ufirstname, ulastname)
             result = self.build_consumer_attributes(consid, uid, consusername)
             return jsonify(Consumer=result), 201

@@ -81,6 +81,14 @@ class OrdersDAO:
             result.append(row)
         return result
 
+    def insertPayMethodIntoOrder(self, odid, pmid):
+        cursor = self.conn.cursor()
+        query = "insert into pays(odid, pmid) values (%s, %s) returning odid;"
+        cursor.execute(query, (odid, pmid,))
+        odid = cursor.fetchone()[0]
+        self.conn.commit()
+        return odid
+
     def insert(self, resid, odnumber, odtime):
         cursor = self.conn.cursor()
         query = "insert into orders(resid, odnumber, odtime) values (%s, %s, %s) returning odid;"
