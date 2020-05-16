@@ -71,6 +71,14 @@ class ConsumerDAO:
             result.append(row)
         return result
 
+    def populateMakes(self, odid, consid):
+        cursor = self.conn.cursor()
+        query = "insert into makes(odid, consid) values (%s, %s) returning odid;"
+        cursor.execute(query, (odid, consid,))
+        odid = cursor.fetchone()[0]
+        self.conn.commit()
+        return odid
+
     def insert(self, consusername):
         cursor = self.conn.cursor()
         query = "insert into consumer(consusername) values (%s) returning consid;"

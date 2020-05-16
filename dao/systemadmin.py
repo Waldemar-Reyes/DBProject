@@ -75,6 +75,14 @@ class SysAdmDAO:
             result.append(row)
         return result
 
+    def populateManages(self, said, manages):
+        cursor = self.conn.cursor()
+        query = "insert into manages(uid, said) values (%s, %s) returning uid;"
+        cursor.execute(query, (manages, said,))
+        uid = cursor.fetchone()[0]
+        self.conn.commit()
+        return uid
+
     def insert(self, sausername):
         cursor = self.conn.cursor()
         query = "insert into sys_adm(sausername) values (%s) returning said;"

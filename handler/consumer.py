@@ -137,9 +137,12 @@ class ConsumerHandler:
         return jsonify(Consumer=result_list)
 
     def insertConsumerJson(self, json):
+        ufirstname = None
+        ulastname = None
         consusername = json['consusername']
-        ufirstname = json['ufirstname']
-        ulastname = json['ulastname']
+        if len(json) == 3:
+            ufirstname = json['ufirstname']
+            ulastname = json['ulastname']
         if consusername and ufirstname and ulastname:
             uid = UsersDAO().insert(ufirstname, ulastname)
             consid = ConsumerDAO().insertConsumerAsNewUsers(uid, consusername)

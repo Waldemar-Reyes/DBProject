@@ -308,6 +308,7 @@ class ReservationHandler:
                 dao.insertConsumerOfReservation(resid, consid)
                 # rid = updateid, odid = odid, resquantity = resstock
                 OrdersDAO().populateBelongs(updateid, odid, resstock)
+                ConsumerDAO().populateMakes(odid, consid)
                 result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                 return jsonify(Reservation=result), 201
             else:

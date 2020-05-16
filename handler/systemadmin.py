@@ -68,7 +68,7 @@ class SysAdmHandler:
         if not row:
             return jsonify(Error="System Admin Not Found"), 404
         else:
-            sysadm = self.build_supplier_dict(row)
+            sysadm = self.build_systemadmin_dict(row)
         return jsonify(SysAdm=sysadm)
 
     def searchSysAdm(self, args):
@@ -130,9 +130,12 @@ class SysAdmHandler:
         return jsonify(SysAdm=result_list)
 
     def insertSysAdmJson(self, json):
+        ufirstname = None
+        ulastname = None
         sausername = json['sausername']
-        ufirstname = json['ufirstname']
-        ulastname = json['ulastname']
+        if len(json) == 3:
+            ufirstname = json['ufirstname']
+            ulastname = json['ulastname']
         if sausername and ufirstname and ulastname:
             uid = UsersDAO().insert(ufirstname, ulastname)
             said = SysAdmDAO().insertSysAdmAsNewUsers(uid, sausername)
@@ -152,17 +155,27 @@ class SysAdmHandler:
         if not dao.getSysAdmById(said):
             return jsonify(Error="System Admin not found."), 404
         else:
-            if len(form) != 2:
-                return jsonify(Error="Malformed update request"), 400
-            else:
+            if len(form) == 2:
                 uid = form['uid']
                 sausername = form['sausername']
                 if sausername and uid:
                     dao.update(said, uid, sausername)
                     result = self.build_systemadmin_attributes(said, uid, sausername)
                     return jsonify(SysAdm=result), 200
-                else:
-                    return jsonify(Error="Unexpected attributes in update request"), 400
+            if len(form) == 3:
+                uid = form['uid']
+                sausername = form['sausername']
+                manages = form['manages']
+                if not UsersDAO().getUsersById(manages):
+                    return jsonify(Error="User To Manage Not Found"), 404
+                if uid and sausername and manages:
+                    try:
+                        dao.populateManages(said, manages)
+                    except:
+                        return jsonify('Admin ' + str(said) + ' already manages user ' + str(manages)), 400
+                    return jsonify('Admin ' + str(said) + ' manages user ' + str(manages)), 200
+            else:
+                return jsonify(Error="Malformed update request"), 400
 
     def deleteSysAdm(self, said):
         dao = SysAdmDAO()
