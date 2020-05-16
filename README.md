@@ -37,7 +37,7 @@ An ```order``` is only added once a reservation is successfully completed. See `
     * The preferred format for order time is: '```YYYY-MM-DD hh:mm:ss```' ; typing '```default```' will return current time at that moment.
     * Receives order number and time, and reference to an existing valid reservation.
 
-A paying method (```pay_method```) can be added by specifying a payment method name. A valid ```consumer``` needs to be specified to have a valid payment method.
+A paying method (```pay_method```) can be added by specifying a payment method name and ```consumer``` ID. A valid ```consumer``` needs to be specified to have a valid payment method; a paying method cannot exist if the ```consumer``` does not exist.
 
 
 
