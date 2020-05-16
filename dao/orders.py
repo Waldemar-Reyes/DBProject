@@ -89,6 +89,14 @@ class OrdersDAO:
         self.conn.commit()
         return odid
 
+    def populateBelongs(self, rid, odid, odquantity):
+        cursor = self.conn.cursor()
+        query = "insert into belongs(rid, odid, odquantity) values (%s, %s, %s) returning rid;"
+        cursor.execute(query, (rid, odid, odquantity,))
+        rid = cursor.fetchone()[0]
+        self.conn.commit()
+        return rid
+
     def insert(self, resid, odnumber, odtime):
         cursor = self.conn.cursor()
         query = "insert into orders(resid, odnumber, odtime) values (%s, %s, %s) returning odid;"

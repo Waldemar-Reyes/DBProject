@@ -630,6 +630,14 @@ class ReservationDAO:
             result.append(row)
         return result
 
+    def populateAsks(self, resid, rid, resstock):
+        cursor = self.conn.cursor()
+        query = "insert into asks(resid, rid, resquantity) values (%s, %s, %s) returning resid;"
+        cursor.execute(query, (resid, rid, resstock,))
+        resid = cursor.fetchone()[0]
+        self.conn.commit()
+        return resid
+
     def insertConsumerOfReservation(self, resid, consid):
         cursor = self.conn.cursor()
         query = "insert into requests(resid, consid) values (%s, %s) returning resid;"

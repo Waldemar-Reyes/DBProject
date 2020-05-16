@@ -302,8 +302,12 @@ class ReservationHandler:
                 odid = OrdersDAO().insert(resid, resid, restime)
                 OrdersDAO().insertPayMethodIntoOrder(odid, pmid)
                 updateid = ResourcesDAO().getToUpdateId(resname, restype, resstock)
+                # resid = resid, rid = updateid, resquantity = resstock
+                dao.populateAsks(resid, updateid, resstock)
                 ResourcesDAO().updateStockAfterReservation(updateid, differenceStock)
                 dao.insertConsumerOfReservation(resid, consid)
+                # rid = updateid, odid = odid, resquantity = resstock
+                OrdersDAO().populateBelongs(updateid, odid, resstock)
                 result = self.build_reservation_attributes(resid, resname, restype, resprice, resstock, reslocation, restime)
                 return jsonify(Reservation=result), 201
             else:
