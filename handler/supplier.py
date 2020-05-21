@@ -95,6 +95,8 @@ class SupplierHandler:
             supplier_list = dao.getSupplierByUsername(susername)
         elif (len(args) == 1) and scompany:
             supplier_list = dao.getSupplierByCompany(scompany)
+        elif (len(args) == 2) and susername and scompany:
+            supplier_list = dao.getSupplierByUsernameandCompany(susername, scompany)
         else:
             return jsonify(Error="Malformed query string"), 400
         result_list = []

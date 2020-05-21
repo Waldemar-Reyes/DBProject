@@ -55,7 +55,7 @@ class OrdersDAO:
 
     def getConsumerByOrdersId(self, odid):
         cursor = self.conn.cursor()
-        query = "select * from consumer natural inner join makes natural inner join orders where odid = %s;"
+        query = "select odid, odnumber, odtime, consid, consusername from consumer natural inner join makes natural inner join orders where odid = %s;"
         cursor.execute(query, (odid,))
         result = []
         for row in cursor:
@@ -65,7 +65,7 @@ class OrdersDAO:
     def getReservationByOrdersId(self, odid):
         cursor = self.conn.cursor()
         # TODO Check and fix if needed
-        query = "select * from reservation natural inner join orders where odid = %s"
+        query = "select odid, odnumber, odtime, odquantity, resid, resname, restype, resprice, resstock, reslocation, restime from reservation natural inner join orders where odid = %s"
         cursor.execute(query, (odid,))
         result = []
         for row in cursor:
@@ -74,7 +74,7 @@ class OrdersDAO:
 
     def getSupplierByOrdersId(self, odid):
         cursor = self.conn.cursor()
-        query = "select * from supplier natural inner join supplies natural inner join resources natural inner join belongs natural inner join orders where odid = %s;"
+        query = "select odid, odnumber, odtime, sid, susername, scompany from supplier natural inner join supplies natural inner join resources natural inner join belongs natural inner join orders where odid = %s;"
         cursor.execute(query, (odid,))
         result = []
         for row in cursor:

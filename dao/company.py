@@ -37,7 +37,7 @@ class CompanyDAO:
     
     def getConsumerByCompanyId(self, compid):
         cursor = self.conn.cursor()
-        query = "select * from consumer natural inner join makes natural inner join orders natural inner join belongs natural inner join resources natural inner join supplies natural inner join supplier natural inner join works natural inner join company where compid = %s;"
+        query = "select compid, compname, consid, consusername from consumer natural inner join makes natural inner join orders natural inner join belongs natural inner join resources natural inner join supplies natural inner join supplier natural inner join works natural inner join company where compid = %s;"
         cursor.execute(query, (compid,))
         result = []
         for row in cursor:
@@ -46,7 +46,7 @@ class CompanyDAO:
     
     def getResourcesByCompanyId(self, compid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rprice, rlocation, rstock, compname from resources natural inner join supplies natural inner join supplier natural inner join works natural inner join company where compid = %s;"
+        query = "select compid, compname, rid, rname, rtype, rprice, rstock, rlocation from resources natural inner join supplies natural inner join supplier natural inner join works natural inner join company where compid = %s;"
         cursor.execute(query, (compid,))
         result = []
         for row in cursor:
@@ -55,7 +55,7 @@ class CompanyDAO:
 
     def getSupplierByCompanyId(self, compid):
         cursor = self.conn.cursor()
-        query = "select sid, susername, scompany, compname from supplier natural inner join works natural inner join company where compid = %s"
+        query = "select compid, compname, sid, susername, scompany from supplier natural inner join works natural inner join company where compid = %s"
         cursor.execute(query, (compid,))
         result = []
         for row in cursor:

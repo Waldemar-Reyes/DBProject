@@ -37,7 +37,7 @@ class PayMethodDAO:
 
     def getConsumerByPayMethodId(self, pmid):
         cursor = self.conn.cursor()
-        query = "select * from consumer natural inner join owns natural inner join pay_method where pmid = %s;"
+        query = "select pmid, pmname, consid, consusername from consumer natural inner join owns natural inner join pay_method where pmid = %s;"
         cursor.execute(query, (pmid,))
         result = []
         for row in cursor:
@@ -46,7 +46,7 @@ class PayMethodDAO:
 
     def getSupplierByPayMethodId(self, pmid):
         cursor = self.conn.cursor()
-        query = "select * from supplier natural inner join supplies natural inner join resources natural inner join belongs natural inner join orders natural inner join pays natural inner join pay_method where pmid = %s;"
+        query = "select pmid, pmname, sid, susername, scompany from supplier natural inner join supplies natural inner join resources natural inner join belongs natural inner join orders natural inner join pays natural inner join pay_method where pmid = %s;"
         cursor.execute(query, (pmid,))
         result = []
         for row in cursor:

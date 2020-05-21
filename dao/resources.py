@@ -316,7 +316,7 @@ class ResourcesDAO:
 
     def getConsumerByResourcesId(self, rid):
         cursor = self.conn.cursor()
-        query = "select * from consumer natural inner join requests natural inner join reservation natural inner join asks natural inner join resources where rid = %s;"
+        query = "select rid, rname, rtype, rprice, rstock, rlocation, consid, consusername from consumer natural inner join requests natural inner join reservation natural inner join asks natural inner join resources where rid = %s;"
         cursor.execute(query, (rid,))
         result = []
         for row in cursor:
@@ -325,7 +325,7 @@ class ResourcesDAO:
 
     def getCompanyByResourcesId(self, rid):
         cursor = self.conn.cursor()
-        query = "select * from company natural inner join works natural inner join supplier natural inner join supplies natural inner join resources where rid = %s;"
+        query = "select rid, rname, rtype, rprice, rstock, rlocation, compid, compname from company natural inner join works natural inner join supplier natural inner join supplies natural inner join resources where rid = %s;"
         cursor.execute(query, (rid,))
         result = []
         for row in cursor:

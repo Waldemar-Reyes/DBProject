@@ -595,7 +595,7 @@ class ReservationDAO:
     
     def getConsumerByReservationId(self, resid):
         cursor = self.conn.cursor()
-        query = "select * from consumer natural inner join requests natural inner join reservation where resid = %s;"
+        query = "select resid, resname, restype, resprice, resstock, reslocation, restime, consid, consusername from consumer natural inner join requests natural inner join reservation where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
@@ -605,7 +605,7 @@ class ReservationDAO:
     def getOrdersByReservationId(self, resid):
         cursor = self.conn.cursor()
         # TODO Check and fix if needed
-        query = "select * from orders natural inner join reservation where resid = %s;"
+        query = "select resid, resname, restype, resprice, resstock, reslocation, restime, odid, odnumber, odtime from orders natural inner join reservation where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
@@ -614,7 +614,7 @@ class ReservationDAO:
 
     def getResourcesByReservationId(self, resid):
         cursor = self.conn.cursor()
-        query = "select * from resources natural inner join asks natural inner join reservation where resid = %s;"
+        query = "select resid, resname, restype, resprice, resstock, reslocation, restime, resquantity, rid, rname, rtype, rprice, rstock, rlocation from resources natural inner join asks natural inner join reservation where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
@@ -623,7 +623,7 @@ class ReservationDAO:
 
     def getSupplierByReservationId(self, resid):
         cursor = self.conn.cursor()
-        query = "select * from supplier natural inner join supplies natural inner join resources natural inner join asks natural inner join reservation where resid = %s;"
+        query = "select resid, resname, restype, resprice, resstock, reslocation, restime, sid, susername, scompany from supplier natural inner join supplies natural inner join resources natural inner join asks natural inner join reservation where resid = %s;"
         cursor.execute(query, (resid,))
         result = []
         for row in cursor:
